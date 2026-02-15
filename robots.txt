@@ -1,1 +1,1 @@
-Sitemap: https://andrewheiss.github.io/interactive-dags/sitemap.xml
+Sitemap: https://dags.andrewheiss.com/sitemap.xml

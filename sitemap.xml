@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://andrewheiss.github.io/interactive-dags/mediators.html</loc>
+    <loc>https://dags.andrewheiss.com/mediators.html</loc>
     <lastmod>2026-02-15T08:11:43.206Z</lastmod>
   </url>
   <url>
-    <loc>https://andrewheiss.github.io/interactive-dags/confounders.html</loc>
+    <loc>https://dags.andrewheiss.com/confounders.html</loc>
     <lastmod>2026-02-15T08:11:47.490Z</lastmod>
   </url>
   <url>
-    <loc>https://andrewheiss.github.io/interactive-dags/colliders.html</loc>
+    <loc>https://dags.andrewheiss.com/colliders.html</loc>
     <lastmod>2026-02-15T08:11:52.826Z</lastmod>
   </url>
   <url>
-    <loc>https://andrewheiss.github.io/interactive-dags/index.html</loc>
+    <loc>https://dags.andrewheiss.com/index.html</loc>
     <lastmod>2026-02-15T05:26:55.708Z</lastmod>
   </url>
 </urlset>
