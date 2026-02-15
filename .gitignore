@@ -1,0 +1,18 @@
+# R stuff
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# Quarto stuff
+/_site/
+/.quarto/
+/_freeze/
+
+**/*.quarto_ipynb
+
+/.luarc.json
+
+# Claude stuff
+.claude/*
+CLAUDE.md
