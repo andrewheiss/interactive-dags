@@ -7,6 +7,7 @@ export const colorY = "#262d42";
 export const colorZ = "#d39a2d";
 export const colorZ0 = "#6b7c3f";
 export const apparentLine = "#b64f32";
+export const blockedLine = "#ff4136";
 
 // Add some padding around the lines between nodes
 export function shortenLine(x1, y1, x2, y2, padStart, padEnd) {
@@ -113,7 +114,7 @@ export function drawEdge(svg, edge, nodeRadius) {
       .attr("y1", midY - py * barLen)
       .attr("x2", midX + px * barLen)
       .attr("y2", midY + py * barLen)
-      .attr("stroke", "#E74C3C")
+      .attr("stroke", blockedLine)
       .attr("stroke-width", 3.5)
       .attr("stroke-linecap", "round");
   }

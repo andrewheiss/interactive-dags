@@ -9,6 +9,11 @@
 /.quarto/
 /_freeze/
 
+# tikz stuff
+tikz*.log
+tikz*.tex
+tikz*.aux
+
 **/*.quarto_ipynb
 
 /.luarc.json

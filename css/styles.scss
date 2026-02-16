@@ -43,6 +43,11 @@ form:has(input[type="checkbox"]) {
   }
 }
 
+.theorem.definition {
+  @extend .alert;
+  @extend .alert-info;
+}
+
 // Box explaining general status
 .status-readout {
   margin-top: 1.5em;
