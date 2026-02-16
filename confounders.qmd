@@ -514,7 +514,7 @@ $$
 and modify it by
 
 - switching the "outcome" variable to $Z$, so $y$ becomes $z$, and
-- using an empty conditioning set, so there's no $z$ term
+- using an empty conditioning set, so the "$z$" in $P(y \mid \operatorname{do}(x), z)$ disappears
 
 …resulting in
 
