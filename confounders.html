@@ -77,9 +77,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-ca3e0d98aa3ff7574722934b112991f9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-e82fb54dab00d064c82105ffd708accc.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-ca3e0d98aa3ff7574722934b112991f9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a13b538a274a5dfe9437c2e7d01ba139.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-a45c4b29ea472742be9412999252abb4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-a13b538a274a5dfe9437c2e7d01ba139.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -110,10 +110,39 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script type="module" src="site_libs/quarto-ojs/quarto-ojs-runtime.js"></script>
 <link href="site_libs/quarto-ojs/quarto-ojs.css" rel="stylesheet">
 
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -150,12 +179,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     
 <!-- main -->
-<main class="content column-page" id="quarto-document-content">
+<main class="content page-columns page-full" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
@@ -164,7 +193,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 
-<div class="quarto-title-meta column-page">
+<div class="quarto-title-meta">
 
     
   
@@ -177,8 +206,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="9" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 8;"><span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>d3 <span class="op">=</span> <span class="pp">require</span>(<span class="st">"d3@7"</span>)</span>
-<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>dag <span class="op">=</span> <span class="im">import</span>(<span class="kw">new</span> <span class="fu">URL</span>(<span class="st">"js/dag-utils.js"</span><span class="op">,</span> <span class="bu">document</span><span class="op">.</span><span class="at">baseURI</span>)<span class="op">.</span><span class="at">href</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb1" data-startfrom="35" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 34;"><span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>d3 <span class="op">=</span> <span class="pp">require</span>(<span class="st">"d3@7"</span>)</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>dag <span class="op">=</span> <span class="im">import</span>(<span class="kw">new</span> <span class="fu">URL</span>(<span class="st">"js/dag-utils.js"</span><span class="op">,</span> <span class="bu">document</span><span class="op">.</span><span class="at">baseURI</span>)<span class="op">.</span><span class="at">href</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-1-1" data-nodetype="declaration">
@@ -194,28 +223,29 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+<div class="column-screen-inset">
 <div class="grid interactive">
 <div class="g-col-12 g-col-md-4">
 <section id="relationships-between-nodes" class="level6">
 <h6 class="anchored" data-anchor-id="relationships-between-nodes">Relationships between nodes</h6>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="22" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 21;"><span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>viewof strength_zx <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> </span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> </span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-z"&gt;Z&lt;/span&gt; → &lt;span class="node node-x"&gt;X&lt;/span&gt; strength`</span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>viewof strength_zy <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> </span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> </span>
-<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-z"&gt;Z&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; strength`</span></span>
-<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>})</span>
-<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>viewof strength_xy <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
-<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.7</span><span class="op">,</span> </span>
-<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> </span>
-<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-x"&gt;X&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; strength`</span></span>
-<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb2" data-startfrom="50" data-source-offset="-1"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 49;"><span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>viewof strength_zx <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> </span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> </span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-z"&gt;Z&lt;/span&gt; → &lt;span class="node node-x"&gt;X&lt;/span&gt; strength`</span></span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>viewof strength_zy <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.5</span><span class="op">,</span> </span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> </span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-z"&gt;Z&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; strength`</span></span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>})</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>viewof strength_xy <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">range</span>([<span class="dv">0</span><span class="op">,</span> <span class="dv">1</span>]<span class="op">,</span> {</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="dt">value</span><span class="op">:</span> <span class="fl">0.7</span><span class="op">,</span> </span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="dt">step</span><span class="op">:</span> <span class="fl">0.05</span><span class="op">,</span> </span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-x"&gt;X&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; strength`</span></span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-2-1" data-nodetype="declaration">
@@ -242,9 +272,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="adjustments" class="level6">
 <h6 class="anchored" data-anchor-id="adjustments">Adjustments</h6>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="44" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 43;"><span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a>viewof adjust_z <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">toggle</span>({</span>
-<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-z"&gt;Adjust for Z&lt;/span&gt; (&lt;em&gt;block backdoor path&lt;/em&gt;)`</span></span>
-<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb3" data-startfrom="72" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 71;"><span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a>viewof adjust_z <span class="op">=</span> Inputs<span class="op">.</span><span class="fu">toggle</span>({</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a>  <span class="dt">label</span><span class="op">:</span> <span class="fu">html</span><span class="vs">`&lt;span class="node node-z"&gt;Adjust for Z&lt;/span&gt; (&lt;em&gt;block backdoor path&lt;/em&gt;)`</span></span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-3" data-nodetype="declaration">
 
@@ -252,69 +282,69 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="52" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 51;"><span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a><span class="co">// ----------------</span></span>
-<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a><span class="co">// Status readout</span></span>
-<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a><span class="co">// ----------------</span></span>
-<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctPure <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(y_pure_x <span class="op">/</span> yMax <span class="op">*</span> <span class="dv">100</span>)<span class="op">;</span></span>
-<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctConf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(y_confounded <span class="op">/</span> yMax <span class="op">*</span> <span class="dv">100</span>)<span class="op">;</span></span>
-<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctZ <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(y_direct_z <span class="op">/</span> yMax <span class="op">*</span> <span class="dv">100</span>)<span class="op">;</span></span>
-<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctOwn <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">100</span> <span class="op">-</span> pctPure <span class="op">-</span> pctConf <span class="op">-</span> pctZ)<span class="op">;</span></span>
-<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div class="alert alert-secondary status-readout"&gt;</span></span>
-<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;h5 class="alert-heading"&gt;What Y contains&lt;/h5&gt;</span></span>
-<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;table&gt;</span></span>
-<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
-<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;&lt;/td&gt;</span></span>
-<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-x"&gt;X&lt;/span&gt;'s direct influence on &lt;span class="node node-y"&gt;Y&lt;/span&gt;&lt;/td&gt;</span></span>
-<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctPure<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
-<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
-<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
-<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;</span></span>
-<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;defs&gt;</span></span>
-<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;pattern id="legend-hatch-conf" patternUnits="userSpaceOnUse"</span></span>
-<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a><span class="vs">              width="6" height="6" patternTransform="rotate(45)"&gt;</span></span>
-<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;rect width="6" height="6" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorZ</span><span class="sc">}</span><span class="vs">"/&gt;</span></span>
-<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;line x1="0" y1="0" x2="0" y2="6"</span></span>
-<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a><span class="vs">                stroke="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">" stroke-width="2.5"/&gt;</span></span>
-<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;/pattern&gt;</span></span>
-<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;/defs&gt;</span></span>
-<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;rect width="12" height="12" fill="url(#legend-hatch-conf)"/&gt;</span></span>
-<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/svg&gt;&lt;/td&gt;</span></span>
-<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-z"&gt;Z&lt;/span&gt;'s influence on &lt;span class="node node-y"&gt;Y&lt;/span&gt; via &lt;span class="node node-x"&gt;X&lt;/span&gt;&lt;/td&gt;</span></span>
-<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctConf<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
-<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
-<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
-<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorZ</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;&lt;/td&gt;</span></span>
-<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-z"&gt;Z&lt;/span&gt;'s direct influence on &lt;span class="node node-y"&gt;Y&lt;/span&gt;&lt;/td&gt;</span></span>
-<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctZ<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
-<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
-<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
-<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorY</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;&lt;/td&gt;</span></span>
-<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-y"&gt;Y&lt;/span&gt;'s own variation&lt;/td&gt;</span></span>
-<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctOwn<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
-<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
-<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr class="summary </span><span class="sc">${</span>adjust_z <span class="op">?</span> <span class="st">'dimmed'</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span><span class="vs">"&gt;</span></span>
-<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span></span>
-<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;</span></span>
-<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="vs">          +</span></span>
-<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;svg width="12" height="12"&gt;</span></span>
-<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;rect width="12" height="12" fill="url(#legend-hatch-conf)"/&gt;</span></span>
-<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;/svg&gt;</span></span>
-<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/td&gt;</span></span>
-<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;Apparent &lt;span class="node node-x"&gt;X&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; effect&lt;/td&gt;</span></span>
-<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctPure <span class="op">+</span> pctConf<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
-<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
-<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr class="summary </span><span class="sc">${</span>adjust_z <span class="op">?</span> <span class="st">''</span> <span class="op">:</span> <span class="st">'dimmed'</span><span class="sc">}</span><span class="vs">"&gt;</span></span>
-<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span></span>
-<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;</span></span>
-<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/td&gt;</span></span>
-<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;Unconfounded &lt;span class="node node-x"&gt;X&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; effect&lt;/td&gt;</span></span>
-<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctPure<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb4" data-startfrom="80" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 79;"><span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a><span class="co">// ----------------</span></span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a><span class="co">// Status readout</span></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a><span class="co">// ----------------</span></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctPure <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(y_pure_x <span class="op">/</span> yMax <span class="op">*</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctConf <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(y_confounded <span class="op">/</span> yMax <span class="op">*</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctZ <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">round</span>(y_direct_z <span class="op">/</span> yMax <span class="op">*</span> <span class="dv">100</span>)<span class="op">;</span></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> pctOwn <span class="op">=</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">max</span>(<span class="dv">0</span><span class="op">,</span> <span class="dv">100</span> <span class="op">-</span> pctPure <span class="op">-</span> pctConf <span class="op">-</span> pctZ)<span class="op">;</span></span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> <span class="fu">html</span><span class="vs">`&lt;div class="alert alert-secondary status-readout"&gt;</span></span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;h5 class="alert-heading"&gt;What Y contains&lt;/h5&gt;</span></span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;table&gt;</span></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;&lt;/td&gt;</span></span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-x"&gt;X&lt;/span&gt;'s direct influence on &lt;span class="node node-y"&gt;Y&lt;/span&gt;&lt;/td&gt;</span></span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctPure<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;</span></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;defs&gt;</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;pattern id="legend-hatch-conf" patternUnits="userSpaceOnUse"</span></span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a><span class="vs">              width="6" height="6" patternTransform="rotate(45)"&gt;</span></span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;rect width="6" height="6" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorZ</span><span class="sc">}</span><span class="vs">"/&gt;</span></span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a><span class="vs">              &lt;line x1="0" y1="0" x2="0" y2="6"</span></span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a><span class="vs">                stroke="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">" stroke-width="2.5"/&gt;</span></span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;/pattern&gt;</span></span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;/defs&gt;</span></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;rect width="12" height="12" fill="url(#legend-hatch-conf)"/&gt;</span></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/svg&gt;&lt;/td&gt;</span></span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-z"&gt;Z&lt;/span&gt;'s influence on &lt;span class="node node-y"&gt;Y&lt;/span&gt; via &lt;span class="node node-x"&gt;X&lt;/span&gt;&lt;/td&gt;</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctConf<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
 <span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
-<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/table&gt;</span></span>
-<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
-<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorZ</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;&lt;/td&gt;</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-z"&gt;Z&lt;/span&gt;'s direct influence on &lt;span class="node node-y"&gt;Y&lt;/span&gt;&lt;/td&gt;</span></span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctZ<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr&gt;</span></span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorY</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;&lt;/td&gt;</span></span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;&lt;span class="node node-y"&gt;Y&lt;/span&gt;'s own variation&lt;/td&gt;</span></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctOwn<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr class="summary </span><span class="sc">${</span>adjust_z <span class="op">?</span> <span class="st">'dimmed'</span> <span class="op">:</span> <span class="st">''</span><span class="sc">}</span><span class="vs">"&gt;</span></span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;</span></span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a><span class="vs">          +</span></span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;svg width="12" height="12"&gt;</span></span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a><span class="vs">            &lt;rect width="12" height="12" fill="url(#legend-hatch-conf)"/&gt;</span></span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;/svg&gt;</span></span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/td&gt;</span></span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;Apparent &lt;span class="node node-x"&gt;X&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; effect&lt;/td&gt;</span></span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctPure <span class="op">+</span> pctConf<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;tr class="summary </span><span class="sc">${</span>adjust_z <span class="op">?</span> <span class="st">''</span> <span class="op">:</span> <span class="st">'dimmed'</span><span class="sc">}</span><span class="vs">"&gt;</span></span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span></span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a><span class="vs">          &lt;svg width="12" height="12"&gt;&lt;rect width="12" height="12" fill="</span><span class="sc">${</span>dag<span class="op">.</span><span class="at">colorX</span><span class="sc">}</span><span class="vs">"/&gt;&lt;/svg&gt;</span></span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;/td&gt;</span></span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;Unconfounded &lt;span class="node node-x"&gt;X&lt;/span&gt; → &lt;span class="node node-y"&gt;Y&lt;/span&gt; effect&lt;/td&gt;</span></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a><span class="vs">        &lt;td&gt;</span><span class="sc">${</span>pctPure<span class="sc">}</span><span class="vs">%&lt;/td&gt;</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a><span class="vs">      &lt;/tr&gt;</span></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a><span class="vs">    &lt;/table&gt;</span></span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a><span class="vs">  &lt;/div&gt;`</span><span class="op">;</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-4" data-nodetype="expression">
 
@@ -325,14 +355,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="g-col-12 g-col-md-8">
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="127" data-source-offset="-37"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 126;"><span id="cb5-127"><a href="#cb5-127" aria-hidden="true" tabindex="-1"></a>yMax <span class="op">=</span> <span class="dv">150</span></span>
-<span id="cb5-128"><a href="#cb5-128" aria-hidden="true" tabindex="-1"></a>baseVal <span class="op">=</span> <span class="dv">50</span></span>
-<span id="cb5-129"><a href="#cb5-129" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-130"><a href="#cb5-130" aria-hidden="true" tabindex="-1"></a>x_from_z <span class="op">=</span> adjust_z <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> strength_zx <span class="op">*</span> baseVal</span>
-<span id="cb5-131"><a href="#cb5-131" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-132"><a href="#cb5-132" aria-hidden="true" tabindex="-1"></a>y_pure_x <span class="op">=</span> strength_xy <span class="op">*</span> baseVal</span>
-<span id="cb5-133"><a href="#cb5-133" aria-hidden="true" tabindex="-1"></a>y_confounded <span class="op">=</span> adjust_z <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> strength_xy <span class="op">*</span> x_from_z</span>
-<span id="cb5-134"><a href="#cb5-134" aria-hidden="true" tabindex="-1"></a>y_direct_z <span class="op">=</span> adjust_z <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> strength_zy <span class="op">*</span> baseVal</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb5" data-startfrom="155" data-source-offset="-37"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 154;"><span id="cb5-155"><a href="#cb5-155" aria-hidden="true" tabindex="-1"></a>yMax <span class="op">=</span> <span class="dv">150</span></span>
+<span id="cb5-156"><a href="#cb5-156" aria-hidden="true" tabindex="-1"></a>baseVal <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb5-157"><a href="#cb5-157" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-158"><a href="#cb5-158" aria-hidden="true" tabindex="-1"></a>x_from_z <span class="op">=</span> adjust_z <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> strength_zx <span class="op">*</span> baseVal</span>
+<span id="cb5-159"><a href="#cb5-159" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-160"><a href="#cb5-160" aria-hidden="true" tabindex="-1"></a>y_pure_x <span class="op">=</span> strength_xy <span class="op">*</span> baseVal</span>
+<span id="cb5-161"><a href="#cb5-161" aria-hidden="true" tabindex="-1"></a>y_confounded <span class="op">=</span> adjust_z <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> strength_xy <span class="op">*</span> x_from_z</span>
+<span id="cb5-162"><a href="#cb5-162" aria-hidden="true" tabindex="-1"></a>y_direct_z <span class="op">=</span> adjust_z <span class="op">?</span> <span class="dv">0</span> <span class="op">:</span> strength_zy <span class="op">*</span> baseVal</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div>
 <div id="ojs-cell-5-1" data-nodetype="declaration">
@@ -377,93 +407,93 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="138" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 137;"><span id="cb6-138"><a href="#cb6-138" aria-hidden="true" tabindex="-1"></a><span class="co">// -----------------</span></span>
-<span id="cb6-139"><a href="#cb6-139" aria-hidden="true" tabindex="-1"></a><span class="co">// Interactive DAG</span></span>
-<span id="cb6-140"><a href="#cb6-140" aria-hidden="true" tabindex="-1"></a><span class="co">// -----------------</span></span>
-<span id="cb6-141"><a href="#cb6-141" aria-hidden="true" tabindex="-1"></a>{</span>
-<span id="cb6-142"><a href="#cb6-142" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">600</span><span class="op">;</span></span>
-<span id="cb6-143"><a href="#cb6-143" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">250</span><span class="op">;</span></span>
-<span id="cb6-144"><a href="#cb6-144" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> nodeRadius <span class="op">=</span> <span class="dv">36</span><span class="op">;</span></span>
-<span id="cb6-145"><a href="#cb6-145" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-146"><a href="#cb6-146" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> nodes <span class="op">=</span> {</span>
-<span id="cb6-147"><a href="#cb6-147" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Z</span><span class="op">:</span> { <span class="dt">x</span><span class="op">:</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Z"</span> }<span class="op">,</span></span>
-<span id="cb6-148"><a href="#cb6-148" aria-hidden="true" tabindex="-1"></a>    <span class="dt">X</span><span class="op">:</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">130</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"X"</span> }<span class="op">,</span></span>
-<span id="cb6-149"><a href="#cb6-149" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Y</span><span class="op">:</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">470</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Y"</span> }</span>
-<span id="cb6-150"><a href="#cb6-150" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
-<span id="cb6-151"><a href="#cb6-151" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-152"><a href="#cb6-152" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
-<span id="cb6-153"><a href="#cb6-153" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"viewBox"</span><span class="op">,</span> <span class="vs">`0 0 </span><span class="sc">${</span>width<span class="sc">}</span><span class="vs"> </span><span class="sc">${</span>height<span class="sc">}</span><span class="vs">`</span>)</span>
-<span id="cb6-154"><a href="#cb6-154" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
-<span id="cb6-155"><a href="#cb6-155" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
-<span id="cb6-156"><a href="#cb6-156" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"max-width"</span><span class="op">,</span> <span class="st">"100%"</span>)<span class="op">;</span></span>
-<span id="cb6-157"><a href="#cb6-157" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-158"><a href="#cb6-158" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> defs <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"defs"</span>)<span class="op">;</span></span>
-<span id="cb6-159"><a href="#cb6-159" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-160"><a href="#cb6-160" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addArrowMarkers</span>(defs)<span class="op">;</span></span>
-<span id="cb6-161"><a href="#cb6-161" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addHatchPattern</span>(</span>
-<span id="cb6-162"><a href="#cb6-162" aria-hidden="true" tabindex="-1"></a>    defs<span class="op">,</span> <span class="st">"hatch-confounded"</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorZ</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorX</span><span class="op">,</span> <span class="dv">45</span></span>
-<span id="cb6-163"><a href="#cb6-163" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb6-164"><a href="#cb6-164" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addCircleClip</span>(</span>
-<span id="cb6-165"><a href="#cb6-165" aria-hidden="true" tabindex="-1"></a>    defs<span class="op">,</span> <span class="st">"x-clip"</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius</span>
-<span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addCircleClip</span>(</span>
-<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a>    defs<span class="op">,</span> <span class="st">"y-clip"</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius</span>
-<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Arrows</span></span>
-<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> edges <span class="op">=</span> [</span>
-<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>      <span class="dt">id</span><span class="op">:</span> <span class="st">"zx"</span><span class="op">,</span> <span class="dt">from</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">,</span> <span class="dt">to</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">,</span></span>
-<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strength</span><span class="op">:</span> strength_zx<span class="op">,</span> <span class="dt">blocked</span><span class="op">:</span> adjust_z</span>
-<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>      <span class="dt">id</span><span class="op">:</span> <span class="st">"zy"</span><span class="op">,</span> <span class="dt">from</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">,</span> <span class="dt">to</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">,</span></span>
-<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strength</span><span class="op">:</span> strength_zy<span class="op">,</span> <span class="dt">blocked</span><span class="op">:</span> adjust_z</span>
-<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
-<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>    {</span>
-<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>      <span class="dt">id</span><span class="op">:</span> <span class="st">"xy"</span><span class="op">,</span> <span class="dt">from</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">,</span> <span class="dt">to</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">,</span></span>
-<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strength</span><span class="op">:</span> strength_xy<span class="op">,</span> <span class="dt">blocked</span><span class="op">:</span> <span class="kw">false</span></span>
-<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>    }</span>
-<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">;</span></span>
-<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> edge <span class="kw">of</span> edges) {</span>
-<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a>    dag<span class="op">.</span><span class="fu">drawEdge</span>(svg<span class="op">,</span> edge<span class="op">,</span> nodeRadius)<span class="op">;</span></span>
-<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Nodes</span></span>
-<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a>  <span class="co">// X: strength directly controls fill proportion</span></span>
-<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">drawNode</span>(svg<span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius<span class="op">,</span> <span class="st">"x-clip"</span><span class="op">,</span> {</span>
-<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bottomUp</span><span class="op">:</span> []<span class="op">,</span></span>
-<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a>    <span class="dt">topDown</span><span class="op">:</span> [</span>
-<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">prop</span><span class="op">:</span> strength_zx<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> dag<span class="op">.</span><span class="at">colorZ</span> }</span>
-<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="kw">undefined</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorX</span>)<span class="op">;</span></span>
-<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Y: blue base, incoming effects overlay</span></span>
-<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">drawNode</span>(svg<span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius<span class="op">,</span> <span class="st">"y-clip"</span><span class="op">,</span> {</span>
-<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bottomUp</span><span class="op">:</span> [</span>
-<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">prop</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(y_pure_x <span class="op">/</span> yMax<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> dag<span class="op">.</span><span class="at">colorX</span> }<span class="op">,</span></span>
-<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a>      {</span>
-<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a>        <span class="dt">prop</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(y_confounded <span class="op">/</span> yMax<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
-<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fill</span><span class="op">:</span> <span class="st">"url(#hatch-confounded)"</span></span>
-<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a>      }</span>
-<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
-<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a>    <span class="dt">topDown</span><span class="op">:</span> [</span>
-<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">prop</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(y_direct_z <span class="op">/</span> yMax<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> dag<span class="op">.</span><span class="at">colorZ</span> }</span>
-<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a>    ]</span>
-<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="kw">undefined</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorY</span>)<span class="op">;</span></span>
-<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">drawSolidNode</span>(</span>
-<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>    svg<span class="op">,</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius<span class="op">,</span> dag<span class="op">.</span><span class="at">colorZ</span></span>
-<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
-<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Labels</span></span>
-<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> n <span class="kw">of</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">values</span>(nodes)) {</span>
-<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>    dag<span class="op">.</span><span class="fu">drawLabel</span>(svg<span class="op">,</span> n<span class="op">.</span><span class="at">x</span><span class="op">,</span> n<span class="op">.</span><span class="at">y</span><span class="op">,</span> n<span class="op">.</span><span class="at">label</span>)<span class="op">;</span></span>
-<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>  }</span>
-<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> svg<span class="op">.</span><span class="fu">node</span>()<span class="op">;</span></span>
-<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code hidden" id="cb6" data-startfrom="166" data-source-offset="0"><pre class="sourceCode js code-with-copy"><code class="sourceCode javascript" style="counter-reset: source-line 165;"><span id="cb6-166"><a href="#cb6-166" aria-hidden="true" tabindex="-1"></a><span class="co">// -----------------</span></span>
+<span id="cb6-167"><a href="#cb6-167" aria-hidden="true" tabindex="-1"></a><span class="co">// Interactive DAG</span></span>
+<span id="cb6-168"><a href="#cb6-168" aria-hidden="true" tabindex="-1"></a><span class="co">// -----------------</span></span>
+<span id="cb6-169"><a href="#cb6-169" aria-hidden="true" tabindex="-1"></a>{</span>
+<span id="cb6-170"><a href="#cb6-170" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> width <span class="op">=</span> <span class="dv">600</span><span class="op">;</span></span>
+<span id="cb6-171"><a href="#cb6-171" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> height <span class="op">=</span> <span class="dv">250</span><span class="op">;</span></span>
+<span id="cb6-172"><a href="#cb6-172" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> nodeRadius <span class="op">=</span> <span class="dv">36</span><span class="op">;</span></span>
+<span id="cb6-173"><a href="#cb6-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-174"><a href="#cb6-174" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> nodes <span class="op">=</span> {</span>
+<span id="cb6-175"><a href="#cb6-175" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Z</span><span class="op">:</span> { <span class="dt">x</span><span class="op">:</span> width <span class="op">/</span> <span class="dv">2</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">60</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Z"</span> }<span class="op">,</span></span>
+<span id="cb6-176"><a href="#cb6-176" aria-hidden="true" tabindex="-1"></a>    <span class="dt">X</span><span class="op">:</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">130</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"X"</span> }<span class="op">,</span></span>
+<span id="cb6-177"><a href="#cb6-177" aria-hidden="true" tabindex="-1"></a>    <span class="dt">Y</span><span class="op">:</span> { <span class="dt">x</span><span class="op">:</span> <span class="dv">470</span><span class="op">,</span> <span class="dt">y</span><span class="op">:</span> <span class="dv">200</span><span class="op">,</span> <span class="dt">label</span><span class="op">:</span> <span class="st">"Y"</span> }</span>
+<span id="cb6-178"><a href="#cb6-178" aria-hidden="true" tabindex="-1"></a>  }<span class="op">;</span></span>
+<span id="cb6-179"><a href="#cb6-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-180"><a href="#cb6-180" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> svg <span class="op">=</span> d3<span class="op">.</span><span class="fu">create</span>(<span class="st">"svg"</span>)</span>
+<span id="cb6-181"><a href="#cb6-181" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"viewBox"</span><span class="op">,</span> <span class="vs">`0 0 </span><span class="sc">${</span>width<span class="sc">}</span><span class="vs"> </span><span class="sc">${</span>height<span class="sc">}</span><span class="vs">`</span>)</span>
+<span id="cb6-182"><a href="#cb6-182" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"width"</span><span class="op">,</span> width)</span>
+<span id="cb6-183"><a href="#cb6-183" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">attr</span>(<span class="st">"height"</span><span class="op">,</span> height)</span>
+<span id="cb6-184"><a href="#cb6-184" aria-hidden="true" tabindex="-1"></a>    <span class="op">.</span><span class="fu">style</span>(<span class="st">"max-width"</span><span class="op">,</span> <span class="st">"100%"</span>)<span class="op">;</span></span>
+<span id="cb6-185"><a href="#cb6-185" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-186"><a href="#cb6-186" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> defs <span class="op">=</span> svg<span class="op">.</span><span class="fu">append</span>(<span class="st">"defs"</span>)<span class="op">;</span></span>
+<span id="cb6-187"><a href="#cb6-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-188"><a href="#cb6-188" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addArrowMarkers</span>(defs)<span class="op">;</span></span>
+<span id="cb6-189"><a href="#cb6-189" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addHatchPattern</span>(</span>
+<span id="cb6-190"><a href="#cb6-190" aria-hidden="true" tabindex="-1"></a>    defs<span class="op">,</span> <span class="st">"hatch-confounded"</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorZ</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorX</span><span class="op">,</span> <span class="dv">45</span></span>
+<span id="cb6-191"><a href="#cb6-191" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb6-192"><a href="#cb6-192" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addCircleClip</span>(</span>
+<span id="cb6-193"><a href="#cb6-193" aria-hidden="true" tabindex="-1"></a>    defs<span class="op">,</span> <span class="st">"x-clip"</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius</span>
+<span id="cb6-194"><a href="#cb6-194" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb6-195"><a href="#cb6-195" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">addCircleClip</span>(</span>
+<span id="cb6-196"><a href="#cb6-196" aria-hidden="true" tabindex="-1"></a>    defs<span class="op">,</span> <span class="st">"y-clip"</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius</span>
+<span id="cb6-197"><a href="#cb6-197" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb6-198"><a href="#cb6-198" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-199"><a href="#cb6-199" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Arrows</span></span>
+<span id="cb6-200"><a href="#cb6-200" aria-hidden="true" tabindex="-1"></a>  <span class="kw">const</span> edges <span class="op">=</span> [</span>
+<span id="cb6-201"><a href="#cb6-201" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-202"><a href="#cb6-202" aria-hidden="true" tabindex="-1"></a>      <span class="dt">id</span><span class="op">:</span> <span class="st">"zx"</span><span class="op">,</span> <span class="dt">from</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">,</span> <span class="dt">to</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">,</span></span>
+<span id="cb6-203"><a href="#cb6-203" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strength</span><span class="op">:</span> strength_zx<span class="op">,</span> <span class="dt">blocked</span><span class="op">:</span> adjust_z</span>
+<span id="cb6-204"><a href="#cb6-204" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb6-205"><a href="#cb6-205" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-206"><a href="#cb6-206" aria-hidden="true" tabindex="-1"></a>      <span class="dt">id</span><span class="op">:</span> <span class="st">"zy"</span><span class="op">,</span> <span class="dt">from</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">,</span> <span class="dt">to</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">,</span></span>
+<span id="cb6-207"><a href="#cb6-207" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strength</span><span class="op">:</span> strength_zy<span class="op">,</span> <span class="dt">blocked</span><span class="op">:</span> adjust_z</span>
+<span id="cb6-208"><a href="#cb6-208" aria-hidden="true" tabindex="-1"></a>    }<span class="op">,</span></span>
+<span id="cb6-209"><a href="#cb6-209" aria-hidden="true" tabindex="-1"></a>    {</span>
+<span id="cb6-210"><a href="#cb6-210" aria-hidden="true" tabindex="-1"></a>      <span class="dt">id</span><span class="op">:</span> <span class="st">"xy"</span><span class="op">,</span> <span class="dt">from</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">,</span> <span class="dt">to</span><span class="op">:</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">,</span></span>
+<span id="cb6-211"><a href="#cb6-211" aria-hidden="true" tabindex="-1"></a>      <span class="dt">strength</span><span class="op">:</span> strength_xy<span class="op">,</span> <span class="dt">blocked</span><span class="op">:</span> <span class="kw">false</span></span>
+<span id="cb6-212"><a href="#cb6-212" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb6-213"><a href="#cb6-213" aria-hidden="true" tabindex="-1"></a>  ]<span class="op">;</span></span>
+<span id="cb6-214"><a href="#cb6-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-215"><a href="#cb6-215" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> edge <span class="kw">of</span> edges) {</span>
+<span id="cb6-216"><a href="#cb6-216" aria-hidden="true" tabindex="-1"></a>    dag<span class="op">.</span><span class="fu">drawEdge</span>(svg<span class="op">,</span> edge<span class="op">,</span> nodeRadius)<span class="op">;</span></span>
+<span id="cb6-217"><a href="#cb6-217" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-218"><a href="#cb6-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-219"><a href="#cb6-219" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Nodes</span></span>
+<span id="cb6-220"><a href="#cb6-220" aria-hidden="true" tabindex="-1"></a>  <span class="co">// X: strength directly controls fill proportion</span></span>
+<span id="cb6-221"><a href="#cb6-221" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">drawNode</span>(svg<span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">X</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius<span class="op">,</span> <span class="st">"x-clip"</span><span class="op">,</span> {</span>
+<span id="cb6-222"><a href="#cb6-222" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bottomUp</span><span class="op">:</span> []<span class="op">,</span></span>
+<span id="cb6-223"><a href="#cb6-223" aria-hidden="true" tabindex="-1"></a>    <span class="dt">topDown</span><span class="op">:</span> [</span>
+<span id="cb6-224"><a href="#cb6-224" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">prop</span><span class="op">:</span> strength_zx<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> dag<span class="op">.</span><span class="at">colorZ</span> }</span>
+<span id="cb6-225"><a href="#cb6-225" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb6-226"><a href="#cb6-226" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="kw">undefined</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorX</span>)<span class="op">;</span></span>
+<span id="cb6-227"><a href="#cb6-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-228"><a href="#cb6-228" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Y: blue base, incoming effects overlay</span></span>
+<span id="cb6-229"><a href="#cb6-229" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">drawNode</span>(svg<span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Y</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius<span class="op">,</span> <span class="st">"y-clip"</span><span class="op">,</span> {</span>
+<span id="cb6-230"><a href="#cb6-230" aria-hidden="true" tabindex="-1"></a>    <span class="dt">bottomUp</span><span class="op">:</span> [</span>
+<span id="cb6-231"><a href="#cb6-231" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">prop</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(y_pure_x <span class="op">/</span> yMax<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> dag<span class="op">.</span><span class="at">colorX</span> }<span class="op">,</span></span>
+<span id="cb6-232"><a href="#cb6-232" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb6-233"><a href="#cb6-233" aria-hidden="true" tabindex="-1"></a>        <span class="dt">prop</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(y_confounded <span class="op">/</span> yMax<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span></span>
+<span id="cb6-234"><a href="#cb6-234" aria-hidden="true" tabindex="-1"></a>        <span class="dt">fill</span><span class="op">:</span> <span class="st">"url(#hatch-confounded)"</span></span>
+<span id="cb6-235"><a href="#cb6-235" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb6-236"><a href="#cb6-236" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">,</span></span>
+<span id="cb6-237"><a href="#cb6-237" aria-hidden="true" tabindex="-1"></a>    <span class="dt">topDown</span><span class="op">:</span> [</span>
+<span id="cb6-238"><a href="#cb6-238" aria-hidden="true" tabindex="-1"></a>      { <span class="dt">prop</span><span class="op">:</span> <span class="bu">Math</span><span class="op">.</span><span class="fu">min</span>(y_direct_z <span class="op">/</span> yMax<span class="op">,</span> <span class="dv">1</span>)<span class="op">,</span> <span class="dt">fill</span><span class="op">:</span> dag<span class="op">.</span><span class="at">colorZ</span> }</span>
+<span id="cb6-239"><a href="#cb6-239" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb6-240"><a href="#cb6-240" aria-hidden="true" tabindex="-1"></a>  }<span class="op">,</span> <span class="kw">undefined</span><span class="op">,</span> dag<span class="op">.</span><span class="at">colorY</span>)<span class="op">;</span></span>
+<span id="cb6-241"><a href="#cb6-241" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-242"><a href="#cb6-242" aria-hidden="true" tabindex="-1"></a>  dag<span class="op">.</span><span class="fu">drawSolidNode</span>(</span>
+<span id="cb6-243"><a href="#cb6-243" aria-hidden="true" tabindex="-1"></a>    svg<span class="op">,</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">.</span><span class="at">x</span><span class="op">,</span> nodes<span class="op">.</span><span class="at">Z</span><span class="op">.</span><span class="at">y</span><span class="op">,</span> nodeRadius<span class="op">,</span> dag<span class="op">.</span><span class="at">colorZ</span></span>
+<span id="cb6-244"><a href="#cb6-244" aria-hidden="true" tabindex="-1"></a>  )<span class="op">;</span></span>
+<span id="cb6-245"><a href="#cb6-245" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-246"><a href="#cb6-246" aria-hidden="true" tabindex="-1"></a>  <span class="co">// Labels</span></span>
+<span id="cb6-247"><a href="#cb6-247" aria-hidden="true" tabindex="-1"></a>  <span class="cf">for</span> (<span class="kw">const</span> n <span class="kw">of</span> <span class="bu">Object</span><span class="op">.</span><span class="fu">values</span>(nodes)) {</span>
+<span id="cb6-248"><a href="#cb6-248" aria-hidden="true" tabindex="-1"></a>    dag<span class="op">.</span><span class="fu">drawLabel</span>(svg<span class="op">,</span> n<span class="op">.</span><span class="at">x</span><span class="op">,</span> n<span class="op">.</span><span class="at">y</span><span class="op">,</span> n<span class="op">.</span><span class="at">label</span>)<span class="op">;</span></span>
+<span id="cb6-249"><a href="#cb6-249" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb6-250"><a href="#cb6-250" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-251"><a href="#cb6-251" aria-hidden="true" tabindex="-1"></a>  <span class="cf">return</span> svg<span class="op">.</span><span class="fu">node</span>()<span class="op">;</span></span>
+<span id="cb6-252"><a href="#cb6-252" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display">
 <div id="ojs-cell-6" data-nodetype="expression">
 
@@ -472,10 +502,281 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</div>
+<section id="how-to-adjust" class="level2">
+<h2 class="anchored" data-anchor-id="how-to-adjust">How to adjust</h2>
+<p>TODO</p>
+<ul>
+<li>stratify with binary confounder and find weighted average across levels?</li>
+<li>control for things</li>
+<li>ipw</li>
+<li>matching</li>
+<li>g-computation?</li>
+</ul>
+</section>
+<section id="backdoor-adjustment-more-formally" class="level2">
+<h2 class="anchored" data-anchor-id="backdoor-adjustment-more-formally">Backdoor adjustment more formally</h2>
+<p>Let’s say that we’re interested in the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, but we have a confounder <span class="math inline">\(Z\)</span> that opens a backdoor path <span class="math inline">\(X \leftarrow Z \rightarrow Y\)</span>, creating a DAG that looks like this:</p>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-dag" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="confounders_files/figure-html/fig-dag-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: DAG with a confounder
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Our target estimand is <span class="math inline">\(P(y \mid \operatorname{do}(x))\)</span>,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> or the distribution of <span class="math inline">\(Y\)</span> in a world where we intervene to set <span class="math inline">\(X = x\)</span>. However, that <span class="math inline">\(\operatorname{do}(\cdot)\)</span> operator represents a hypothetical intervention where we can set <span class="math inline">\(X = x\)</span> directly, breaking its usual causes. In an experimental setting, that works fine—we can randomly assign people to get assigned to different values of <span class="math inline">\(x\)</span>. But in observational data, we don’t have control over treatment assignment and we cannot intervene.</p>
+<p>To get around this, we can use Judea Pearl’s <em>do</em>-calculus to eliminate the <span class="math inline">\(\operatorname{do}(x)\)</span> from <span class="math inline">\(P(y \mid \operatorname{do} (x))\)</span> and estimate the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> using observational, non-experimental data.</p>
+<p>To get there, we need to look at the idea of modifying graphs and define the three rules of <em>do</em>-calculus. We can then use those tools to derive a <span class="math inline">\(\operatorname{do}(\cdot)\)</span>-free formula for our main estimand.</p>
+<section id="graph-surgery" class="level3">
+<h3 class="anchored" data-anchor-id="graph-surgery">Graph surgery</h3>
+<p><em>do</em>-calculus consists of three rules that let you remove causal interventions like <span class="math inline">\(\operatorname{do}(\cdot)\)</span> from causal estimands, allowing you to estimate causal effects from observational data.</p>
+<p>Each rule works by checking if specific nodes are d-separated in one of two specially modified versions of the original DAG (see <a href="#fig-modified-dags" class="quarto-xref">Figure&nbsp;2</a>). We essentially perform surgery on these modified DAGs to remove arrows into or out of target nodes. These modified DAGs use a special kind of notation:</p>
+<ul>
+<li><span class="math inline">\(G\)</span>: This is the original DAG; see <a href="#fig-dag-original" class="quarto-xref">Figure&nbsp;2 (a)</a></li>
+<li><span class="math inline">\(G_{\overline{X}}\)</span>: This is <span class="math inline">\(G\)</span>, but with all arrows going <em>into</em> <span class="math inline">\(X\)</span> deleted; see <a href="#fig-dag-overbar" class="quarto-xref">Figure&nbsp;2 (b)</a></li>
+<li><span class="math inline">\(G_{\underline{X}}\)</span>: This is <span class="math inline">\(G\)</span>, but with all arrows going <em>out of</em> <span class="math inline">\(X\)</span> deleted; see <a href="#fig-dag-underbar" class="quarto-xref">Figure&nbsp;2 (c)</a></li>
+</ul>
+<div id="fig-modified-dags" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-modified-dags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-modified-dags" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-modified-dags">
+<div id="fig-dag-original" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dag-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="confounders_files/figure-html/fig-dag-original-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-modified-dags">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dag-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Original DAG, <span class="math inline">\(G\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-modified-dags" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-modified-dags">
+<div id="fig-dag-overbar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dag-overbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="confounders_files/figure-html/fig-dag-overbar-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-modified-dags">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dag-overbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">\(G_{\overline{X}}\)</span> with arrows <em>into</em> X removed
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-modified-dags" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-modified-dags">
+<div id="fig-dag-underbar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dag-underbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="confounders_files/figure-html/fig-dag-underbar-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-modified-dags">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dag-underbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) <span class="math inline">\(G_{\underline{X}}\)</span> with arrows <em>out of</em> X removed
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modified-dags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: <span class="math inline">\(G\)</span>, <span class="math inline">\(G_{\overline{X}}\)</span>, and <span class="math inline">\(G_{\underline{X}}\)</span>
+</figcaption>
+</figure>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Notation help!
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>I like to imagine this line notation as a wall:</p>
+<ul>
+<li>If the wall is on top of X like <span class="math inline">\(\overline{X}\)</span>, you can’t draw any arrows going into it, so you delete anything going in</li>
+<li>If the wall is on the bottom of X like <span class="math inline">\(\underline{X}\)</span>, you can’t draw any arrows going out of it, so you delete anything going out</li>
+</ul>
+</div>
+</div>
+</section>
+<section id="the-rules-of-do-calculus" class="level3">
+<h3 class="anchored" data-anchor-id="the-rules-of-do-calculus">The rules of <em>do</em>-calculus</h3>
+<p>Pearl’s do-calculus provides three rules for eliminating <span class="math inline">\(\operatorname{do}(\cdot)\)</span> operators from causal expressions. Each rule works by checking for d-separation in either <span class="math inline">\(G_{\overline{X}}\)</span> or <span class="math inline">\(G_{\underline{X}}\)</span>:</p>
+<div id="def-rule1" class="theorem definition">
+<p><span class="theorem-title"><strong>Rule 1 (Ignore an observation)</strong></span> We can ignore an extra observed variable <span class="math inline">\(Z\)</span> if it is d-separated from <span class="math inline">\(Y\)</span> in <span class="math inline">\(G_{\overline{X}}\)</span> (the graph with arrows into <span class="math inline">\(X\)</span> removed):</p>
+<p><span class="math display">\[
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(x)) \quad \text{if } (Y \perp Z \mid X)_{G_{\overline{X}}}
+\]</span></p>
+</div>
+<div id="def-rule2" class="theorem definition">
+<p><span class="theorem-title"><strong>Rule 2 (Treat an intervention as an observation)</strong></span> We can replace <span class="math inline">\(\operatorname{do}(x)\)</span> with simply observing <span class="math inline">\(x\)</span> if, after removing X’s outgoing edges, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are d-separated given the covariates:</p>
+<p><span class="math display">\[
+P(y \mid \operatorname{do}(x), z) = P(y \mid x, z) \quad \text{if } (Y \perp X \mid Z)_{G_{\underline{X}}}
+\]</span></p>
+</div>
+<div id="def-rule3" class="theorem definition">
+<p><span class="theorem-title"><strong>Rule 3 (Ignore an intervention)</strong></span> We can drop <span class="math inline">\(\operatorname{do}(x)\)</span> entirely if, after removing X’s incoming edges, <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> are d-separated given the covariates:</p>
+<p><span class="math display">\[
+P(y \mid \operatorname{do}(x), z) = P(y \mid z) \quad \text{if } (Y \perp X \mid Z)_{G_{\overline{X}}}
+\]</span></p>
+</div>
+<div id="tip-flexible" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note&nbsp;1: These formulas are flexible
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With all three of these rules, the variables names are interchangeable depending on the relationships in the DAG: <span class="math inline">\(X\)</span>, <span class="math inline">\(Y\)</span>, and <span class="math inline">\(Z\)</span> can stand for any sets of variables. Additionally, the conditioning set (the <span class="math inline">\(z\)</span> term) could be empty (e.g.&nbsp;<span class="math inline">\(Z \rightarrow Y\)</span> with no other nodes involved).</p>
+</div>
+</div>
+</section>
+<section id="deriving-the-backdoor-formula" class="level3">
+<h3 class="anchored" data-anchor-id="deriving-the-backdoor-formula">Deriving the backdoor formula</h3>
+<p>With the rules of <em>do</em>-calculus, we can take our estimand of interest—the effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span>, or <span class="math inline">\(P(y \mid \operatorname{do}(x))\)</span>—and transform it into a <em>do</em>-free statement that deals with the confounding from <span class="math inline">\(Z\)</span>.</p>
+<section id="step-1-incorporate-z-into-py-mid-operatornamedox" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-incorporate-z-into-py-mid-operatornamedox">Step 1: Incorporate <span class="math inline">\(Z\)</span> into <span class="math inline">\(P(y \mid \operatorname{do}(x))\)</span></h4>
+<p>To adjust for the confounder <span class="math inline">\(Z\)</span>, we need to incorporate it into the formula for our estimand. We do this by considering the joint distribution of <span class="math inline">\(Y\)</span> and <span class="math inline">\(Z\)</span> in a world where <span class="math inline">\(X\)</span> occurs through an intervention, or <span class="math inline">\(P(y, z \mid \operatorname{do}(x))\)</span>. This gives us the probability that <span class="math inline">\(Y = y\)</span> and <span class="math inline">\(Z = z\)</span> simultaneously when we force <span class="math inline">\(X = x\)</span>.</p>
+<p>To get our target <span class="math inline">\(P(y \mid \operatorname{do}(x))\)</span> from this joint distribution, we marginalize over <span class="math inline">\(Z\)</span>, or sum over all possible values of <span class="math inline">\(Z\)</span>:</p>
+<p><span id="eq-marginalized"><span class="math display">\[
+{\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{red} P(y, z \mid \operatorname{do}(x))}
+\tag{1}\]</span></span></p>
+<p>Our estimand now includes <span class="math inline">\(Z\)</span>, but this joint distribution equation is complex. We need to break it smaller, more manageable pieces. Using the chain rule of probability (which applies to interventional distributions just as it does to observational ones), we can expand out <a href="#eq-marginalized" class="quarto-xref">Equation&nbsp;1</a>:</p>
+<p><span id="eq-expanded"><span class="math display">\[
+{\color{red} P(y, z \mid \operatorname{do}(x))} = {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
+\tag{2}\]</span></span></p>
+<p>We can substitute that expanded version back into <a href="#eq-marginalized" class="quarto-xref">Equation&nbsp;1</a>:</p>
+<p><span id="eq-marginalized-expanded"><span class="math display">\[
+{\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
+\tag{3}\]</span></span></p>
+<p>Or without colors:</p>
+<p><span id="eq-marginalized-expanded-final"><span class="math display">\[
+P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))
+\tag{4}\]</span></span></p>
+<p>Now we have two <span class="math inline">\(\operatorname{do}(\cdot)\)</span>-based quantities that we cannot directly estimate from data:</p>
+<ul>
+<li><span class="math inline">\(P(y \mid \operatorname{do}(x), z)\)</span>: “Given that we intervene on <span class="math inline">\(X\)</span> and observe <span class="math inline">\(Z = z\)</span>, what’s the probability of <span class="math inline">\(Y = y\)</span>?”</li>
+<li><span class="math inline">\(P(z \mid \operatorname{do}(x))\)</span>: “In a world where we intervene on <span class="math inline">\(X\)</span>, what’s the probability that <span class="math inline">\(Z = z\)</span>?”</li>
+</ul>
+<p>Our next job is to use the rules of <em>do</em>-calculus to remove those <span class="math inline">\(\operatorname{do}(\cdot)\)</span> interventions.</p>
+</section>
+<section id="step-2-applying-rule-2-to-py-mid-operatornamedox-z" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-applying-rule-2-to-py-mid-operatornamedox-z">Step 2: Applying Rule 2 to <span class="math inline">\(P(y \mid \operatorname{do}(x), z)\)</span></h4>
+<p>According to <a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a>, we can replace an interventional <span class="math inline">\(\operatorname{do}(x)\)</span> with a regular observed <span class="math inline">\(x\)</span> if we meet specific conditions in <span class="math inline">\(G_{\underline{X}}\)</span>, or the graph with all arrows out of <span class="math inline">\(X\)</span> deleted: <span class="math inline">\(Y\)</span> must be d-separated from <span class="math inline">\(X\)</span>, given the covariates <span class="math inline">\(Z\)</span>. Here’s what <span class="math inline">\(G_{\underline{X}}\)</span> looks like:</p>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-rule2-check" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rule2-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="confounders_files/figure-html/fig-rule2-check-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rule2-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: Check d-separation of <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> given <span class="math inline">\(Z\)</span> in <span class="math inline">\(G_{\underline{X}}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The only path between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span> in <span class="math inline">\(G_{\underline{X}}\)</span> is <span class="math inline">\(X \leftarrow Z \rightarrow Y\)</span>. Adjusting for <span class="math inline">\(Z\)</span> blocks this path, so <span class="math inline">\((Y \perp X \mid Z)_{G_{\underline{X}}}\)</span> holds. That means that we can swap out <span class="math inline">\(\operatorname{do}(x)\)</span> for a regular observed <span class="math inline">\(x\)</span>:</p>
+<p><span class="math display">\[
+P(y \mid \operatorname{do}(x), z) = P(y \mid x, z)
+\]</span></p>
+</section>
+<section id="step-3-applying-rule-3-to-pz-mid-operatornamedox" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-applying-rule-3-to-pz-mid-operatornamedox">Step 3: Applying Rule 3 to <span class="math inline">\(P(z \mid \operatorname{do}(x))\)</span></h4>
+<p>According to <a href="#def-rule3" class="quarto-xref">Rule&nbsp;3</a>, we can remove a <span class="math inline">\(\operatorname{do}(\cdot)\)</span> operator if we meet specific conditions in <span class="math inline">\(G_{\overline{X}}\)</span>, or the graph with all arrows into <span class="math inline">\(X\)</span> deleted: <span class="math inline">\(Z\)</span> must be d-separated from <span class="math inline">\(X\)</span> in <span class="math inline">\(G_{\overline{X}}\)</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Wait, this doesn’t exactly match Rule 3??
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="#def-rule3" class="quarto-xref">Rule&nbsp;3</a> officially talks about independence between <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>, but here we’re talking about <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span>. What gives?</p>
+<p>Remember from <a href="#tip-flexible" class="quarto-xref">Tip&nbsp;1</a> that these variable names are flexible. We don’t have to look only at <span class="math inline">\(X\)</span> and <span class="math inline">\(Y\)</span>—any nodes can stand in for those. In this case, we care about the relationship between <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span>, where the “outcome” variable is <span class="math inline">\(Z\)</span> instead of <span class="math inline">\(Y\)</span>.</p>
+<p>Additionally, <em>technically</em> <a href="#def-rule3" class="quarto-xref">Rule&nbsp;3</a> includes conditioning set <span class="math inline">\(z\)</span>: <span class="math inline">\(P(y \mid \operatorname{do}(x), z)\)</span>. However, the <span class="math inline">\(z\)</span> term in the formula can be empty. In this case, <span class="math inline">\(Y\)</span> is related to <span class="math inline">\(X\)</span> and <span class="math inline">\(Z\)</span> as a collider and, accordingly, we don’t adjust for it, so we can leave it out of the equation. Thus, we can take this official expression from Rule 3:</p>
+<p><span class="math display">\[
+P(y \mid \operatorname{do}(x), z)
+\]</span></p>
+<p>and modify it by</p>
+<ul>
+<li>switching the “outcome” variable to <span class="math inline">\(Z\)</span>, so <span class="math inline">\(y\)</span> becomes <span class="math inline">\(z\)</span>, and</li>
+<li>using an empty conditioning set, so the “<span class="math inline">\(z\)</span>” in <span class="math inline">\(P(y \mid \operatorname{do}(x), z)\)</span> disappears</li>
+</ul>
+<p>…resulting in</p>
+<p><span class="math display">\[
+P(z \mid \operatorname{do}(x))
+\]</span></p>
+<p>for this special case.</p>
+</div>
+</div>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-rule3-check" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rule3-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="confounders_files/figure-html/fig-rule3-check-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rule3-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: Check d-separation of <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> in <span class="math inline">\(G_{\overline{X}}\)</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The only path between <span class="math inline">\(Z\)</span> and <span class="math inline">\(X\)</span> in <span class="math inline">\(G_{\overline{X}}\)</span> is <span class="math inline">\(Z \rightarrow Y \leftarrow X\)</span>. In this case, <span class="math inline">\(Y\)</span> is a collider and since we don’t adjust for or condition on colliders, that pathway is blocked and <span class="math inline">\((Z \perp X)_{G_{\overline{X}}}\)</span> holds. That means that we can completely eliminate <span class="math inline">\(\operatorname{do}(x)\)</span>:</p>
+<p><span class="math display">\[
+P(z \mid \operatorname{do}(x)) = P(z)
+\]</span></p>
+</section>
+<section id="step-4-final-formula" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-final-formula">Step 4: Final formula</h4>
+<p>Finally we can substitute both <em>do</em>-free results back into our original expression from <a href="#eq-marginalized-expanded-final" class="quarto-xref">Equation&nbsp;4</a>:</p>
+<p><span class="math display">\[
+\begin{aligned}
+P(y \mid \operatorname{do}(x)) &amp;= \sum_z \underbrace{P(y \mid \operatorname{do}(x), z)}_{\text{Rule 2}} \times \underbrace{P(z \mid \operatorname{do}(x))}_{\text{Rule 3}} \\
+&amp;= \sum_z \underbrace{P(y \mid x, z)}_{\text{Rule 2}} \times \underbrace{P(z)}_{\text{Rule 3}}
+\end{aligned}
+\]</span></p>
+<p>This gives us the official backdoor adjustment formula:</p>
+<p><span class="math display">\[
+\boxed{\rule{0pt}{1.5em}\;\; P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid x, z) \times P(z) \;\;}
+\]</span></p>
+<p>All <span class="math inline">\(\operatorname{do}(\cdot)\)</span> operators are gone and every term on the right-hand side is an ordinary observational value. This means that we can estimate the causal effect of <span class="math inline">\(X\)</span> on <span class="math inline">\(Y\)</span> from observational data as long as we measure and adjust for <span class="math inline">\(Z\)</span>.</p>
 
 
+</section>
+</section>
+</section>
 
-</main> <!-- /main -->
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><em>Strictly</em> speaking, that’s not actually true! <span class="math inline">\(P(y \mid \operatorname{do}(x))\)</span> is an interventional distribution, while causal effects or estimands are contrasts of that distribution, like <span class="math inline">\(E[Y \mid \operatorname{do}(x = 1)] - E[Y \mid \operatorname{do}(x = 0)]\)</span>. But for the sake of simplicity, we’ll pretend.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script type="ojs-module-contents">
 eyJjb250ZW50cyI6W3sibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuZDMgPSByZXF1aXJlKFwiZDNAN1wiKVxuZGFnID0gaW1wb3J0KG5ldyBVUkwoXCJqcy9kYWctdXRpbHMuanNcIiwgZG9jdW1lbnQuYmFzZVVSSSkuaHJlZilcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMiIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIHN0cmVuZ3RoX3p4ID0gSW5wdXRzLnJhbmdlKFswLCAxXSwge1xuICB2YWx1ZTogMC41LCBcbiAgc3RlcDogMC4wNSwgXG4gIGxhYmVsOiBodG1sYDxzcGFuIGNsYXNzPVwibm9kZSBub2RlLXpcIj5aPC9zcGFuPiDihpIgPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteFwiPlg8L3NwYW4+IHN0cmVuZ3RoYFxufSlcblxudmlld29mIHN0cmVuZ3RoX3p5ID0gSW5wdXRzLnJhbmdlKFswLCAxXSwge1xuICB2YWx1ZTogMC41LCBcbiAgc3RlcDogMC4wNSwgXG4gIGxhYmVsOiBodG1sYDxzcGFuIGNsYXNzPVwibm9kZSBub2RlLXpcIj5aPC9zcGFuPiDihpIgPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteVwiPlk8L3NwYW4+IHN0cmVuZ3RoYFxufSlcblxudmlld29mIHN0cmVuZ3RoX3h5ID0gSW5wdXRzLnJhbmdlKFswLCAxXSwge1xuICB2YWx1ZTogMC43LCBcbiAgc3RlcDogMC4wNSwgXG4gIGxhYmVsOiBodG1sYDxzcGFuIGNsYXNzPVwibm9kZSBub2RlLXhcIj5YPC9zcGFuPiDihpIgPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteVwiPlk8L3NwYW4+IHN0cmVuZ3RoYFxufSlcbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtMyIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6Ilxudmlld29mIGFkanVzdF96ID0gSW5wdXRzLnRvZ2dsZSh7XG4gIGxhYmVsOiBodG1sYDxzcGFuIGNsYXNzPVwibm9kZSBub2RlLXpcIj5BZGp1c3QgZm9yIFo8L3NwYW4+ICg8ZW0+YmxvY2sgYmFja2Rvb3IgcGF0aDwvZW0+KWBcbn0pXG4ifSx7Im1ldGhvZE5hbWUiOiJpbnRlcnByZXQiLCJjZWxsTmFtZSI6Im9qcy1jZWxsLTQiLCJpbmxpbmUiOmZhbHNlLCJzb3VyY2UiOiJcbi8vIC0tLS0tLS0tLS0tLS0tLS1cbi8vIFN0YXR1cyByZWFkb3V0XG4vLyAtLS0tLS0tLS0tLS0tLS0tXG57XG4gIGNvbnN0IHBjdFB1cmUgPSBNYXRoLnJvdW5kKHlfcHVyZV94IC8geU1heCAqIDEwMCk7XG4gIGNvbnN0IHBjdENvbmYgPSBNYXRoLnJvdW5kKHlfY29uZm91bmRlZCAvIHlNYXggKiAxMDApO1xuICBjb25zdCBwY3RaID0gTWF0aC5yb3VuZCh5X2RpcmVjdF96IC8geU1heCAqIDEwMCk7XG4gIGNvbnN0IHBjdE93biA9IE1hdGgubWF4KDAsIDEwMCAtIHBjdFB1cmUgLSBwY3RDb25mIC0gcGN0Wik7XG5cbiAgcmV0dXJuIGh0bWxgPGRpdiBjbGFzcz1cImFsZXJ0IGFsZXJ0LXNlY29uZGFyeSBzdGF0dXMtcmVhZG91dFwiPlxuICAgIDxoNSBjbGFzcz1cImFsZXJ0LWhlYWRpbmdcIj5XaGF0IFkgY29udGFpbnM8L2g1PlxuICAgIDx0YWJsZT5cbiAgICAgIDx0cj5cbiAgICAgICAgPHRkPjxzdmcgd2lkdGg9XCIxMlwiIGhlaWdodD1cIjEyXCI+PHJlY3Qgd2lkdGg9XCIxMlwiIGhlaWdodD1cIjEyXCIgZmlsbD1cIiR7ZGFnLmNvbG9yWH1cIi8+PC9zdmc+PC90ZD5cbiAgICAgICAgPHRkPjxzcGFuIGNsYXNzPVwibm9kZSBub2RlLXhcIj5YPC9zcGFuPidzIGRpcmVjdCBpbmZsdWVuY2Ugb24gPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteVwiPlk8L3NwYW4+PC90ZD5cbiAgICAgICAgPHRkPiR7cGN0UHVyZX0lPC90ZD5cbiAgICAgIDwvdHI+XG4gICAgICA8dHI+XG4gICAgICAgIDx0ZD48c3ZnIHdpZHRoPVwiMTJcIiBoZWlnaHQ9XCIxMlwiPlxuICAgICAgICAgIDxkZWZzPlxuICAgICAgICAgICAgPHBhdHRlcm4gaWQ9XCJsZWdlbmQtaGF0Y2gtY29uZlwiIHBhdHRlcm5Vbml0cz1cInVzZXJTcGFjZU9uVXNlXCJcbiAgICAgICAgICAgICAgd2lkdGg9XCI2XCIgaGVpZ2h0PVwiNlwiIHBhdHRlcm5UcmFuc2Zvcm09XCJyb3RhdGUoNDUpXCI+XG4gICAgICAgICAgICAgIDxyZWN0IHdpZHRoPVwiNlwiIGhlaWdodD1cIjZcIiBmaWxsPVwiJHtkYWcuY29sb3JafVwiLz5cbiAgICAgICAgICAgICAgPGxpbmUgeDE9XCIwXCIgeTE9XCIwXCIgeDI9XCIwXCIgeTI9XCI2XCJcbiAgICAgICAgICAgICAgICBzdHJva2U9XCIke2RhZy5jb2xvclh9XCIgc3Ryb2tlLXdpZHRoPVwiMi41XCIvPlxuICAgICAgICAgICAgPC9wYXR0ZXJuPlxuICAgICAgICAgIDwvZGVmcz5cbiAgICAgICAgICA8cmVjdCB3aWR0aD1cIjEyXCIgaGVpZ2h0PVwiMTJcIiBmaWxsPVwidXJsKCNsZWdlbmQtaGF0Y2gtY29uZilcIi8+XG4gICAgICAgIDwvc3ZnPjwvdGQ+XG4gICAgICAgIDx0ZD48c3BhbiBjbGFzcz1cIm5vZGUgbm9kZS16XCI+Wjwvc3Bhbj4ncyBpbmZsdWVuY2Ugb24gPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteVwiPlk8L3NwYW4+IHZpYSA8c3BhbiBjbGFzcz1cIm5vZGUgbm9kZS14XCI+WDwvc3Bhbj48L3RkPlxuICAgICAgICA8dGQ+JHtwY3RDb25mfSU8L3RkPlxuICAgICAgPC90cj5cbiAgICAgIDx0cj5cbiAgICAgICAgPHRkPjxzdmcgd2lkdGg9XCIxMlwiIGhlaWdodD1cIjEyXCI+PHJlY3Qgd2lkdGg9XCIxMlwiIGhlaWdodD1cIjEyXCIgZmlsbD1cIiR7ZGFnLmNvbG9yWn1cIi8+PC9zdmc+PC90ZD5cbiAgICAgICAgPHRkPjxzcGFuIGNsYXNzPVwibm9kZSBub2RlLXpcIj5aPC9zcGFuPidzIGRpcmVjdCBpbmZsdWVuY2Ugb24gPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteVwiPlk8L3NwYW4+PC90ZD5cbiAgICAgICAgPHRkPiR7cGN0Wn0lPC90ZD5cbiAgICAgIDwvdHI+XG4gICAgICA8dHI+XG4gICAgICAgIDx0ZD48c3ZnIHdpZHRoPVwiMTJcIiBoZWlnaHQ9XCIxMlwiPjxyZWN0IHdpZHRoPVwiMTJcIiBoZWlnaHQ9XCIxMlwiIGZpbGw9XCIke2RhZy5jb2xvcll9XCIvPjwvc3ZnPjwvdGQ+XG4gICAgICAgIDx0ZD48c3BhbiBjbGFzcz1cIm5vZGUgbm9kZS15XCI+WTwvc3Bhbj4ncyBvd24gdmFyaWF0aW9uPC90ZD5cbiAgICAgICAgPHRkPiR7cGN0T3dufSU8L3RkPlxuICAgICAgPC90cj5cbiAgICAgIDx0ciBjbGFzcz1cInN1bW1hcnkgJHthZGp1c3RfeiA/ICdkaW1tZWQnIDogJyd9XCI+XG4gICAgICAgIDx0ZD5cbiAgICAgICAgICA8c3ZnIHdpZHRoPVwiMTJcIiBoZWlnaHQ9XCIxMlwiPjxyZWN0IHdpZHRoPVwiMTJcIiBoZWlnaHQ9XCIxMlwiIGZpbGw9XCIke2RhZy5jb2xvclh9XCIvPjwvc3ZnPlxuICAgICAgICAgICtcbiAgICAgICAgICA8c3ZnIHdpZHRoPVwiMTJcIiBoZWlnaHQ9XCIxMlwiPlxuICAgICAgICAgICAgPHJlY3Qgd2lkdGg9XCIxMlwiIGhlaWdodD1cIjEyXCIgZmlsbD1cInVybCgjbGVnZW5kLWhhdGNoLWNvbmYpXCIvPlxuICAgICAgICAgIDwvc3ZnPlxuICAgICAgICA8L3RkPlxuICAgICAgICA8dGQ+QXBwYXJlbnQgPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteFwiPlg8L3NwYW4+IOKGkiA8c3BhbiBjbGFzcz1cIm5vZGUgbm9kZS15XCI+WTwvc3Bhbj4gZWZmZWN0PC90ZD5cbiAgICAgICAgPHRkPiR7cGN0UHVyZSArIHBjdENvbmZ9JTwvdGQ+XG4gICAgICA8L3RyPlxuICAgICAgPHRyIGNsYXNzPVwic3VtbWFyeSAke2FkanVzdF96ID8gJycgOiAnZGltbWVkJ31cIj5cbiAgICAgICAgPHRkPlxuICAgICAgICAgIDxzdmcgd2lkdGg9XCIxMlwiIGhlaWdodD1cIjEyXCI+PHJlY3Qgd2lkdGg9XCIxMlwiIGhlaWdodD1cIjEyXCIgZmlsbD1cIiR7ZGFnLmNvbG9yWH1cIi8+PC9zdmc+XG4gICAgICAgIDwvdGQ+XG4gICAgICAgIDx0ZD5VbmNvbmZvdW5kZWQgPHNwYW4gY2xhc3M9XCJub2RlIG5vZGUteFwiPlg8L3NwYW4+IOKGkiA8c3BhbiBjbGFzcz1cIm5vZGUgbm9kZS15XCI+WTwvc3Bhbj4gZWZmZWN0PC90ZD5cbiAgICAgICAgPHRkPiR7cGN0UHVyZX0lPC90ZD5cbiAgICAgIDwvdHI+XG4gICAgPC90YWJsZT5cbiAgPC9kaXY+YDtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldCIsImNlbGxOYW1lIjoib2pzLWNlbGwtNSIsImlubGluZSI6ZmFsc2UsInNvdXJjZSI6IlxuLy8gVmFsdWVzIGZvciBhbGwgdGhlIHJlbGF0aW9uc2hpcHNcbnlNYXggPSAxNTBcbmJhc2VWYWwgPSA1MFxuXG54X2Zyb21feiA9IGFkanVzdF96ID8gMCA6IHN0cmVuZ3RoX3p4ICogYmFzZVZhbFxuXG55X3B1cmVfeCA9IHN0cmVuZ3RoX3h5ICogYmFzZVZhbFxueV9jb25mb3VuZGVkID0gYWRqdXN0X3ogPyAwIDogc3RyZW5ndGhfeHkgKiB4X2Zyb21felxueV9kaXJlY3RfeiA9IGFkanVzdF96ID8gMCA6IHN0cmVuZ3RoX3p5ICogYmFzZVZhbFxuIn0seyJtZXRob2ROYW1lIjoiaW50ZXJwcmV0IiwiY2VsbE5hbWUiOiJvanMtY2VsbC02IiwiaW5saW5lIjpmYWxzZSwic291cmNlIjoiXG4vLyAtLS0tLS0tLS0tLS0tLS0tLVxuLy8gSW50ZXJhY3RpdmUgREFHXG4vLyAtLS0tLS0tLS0tLS0tLS0tLVxue1xuICBjb25zdCB3aWR0aCA9IDYwMDtcbiAgY29uc3QgaGVpZ2h0ID0gMjUwO1xuICBjb25zdCBub2RlUmFkaXVzID0gMzY7XG5cbiAgY29uc3Qgbm9kZXMgPSB7XG4gICAgWjogeyB4OiB3aWR0aCAvIDIsIHk6IDYwLCBsYWJlbDogXCJaXCIgfSxcbiAgICBYOiB7IHg6IDEzMCwgeTogMjAwLCBsYWJlbDogXCJYXCIgfSxcbiAgICBZOiB7IHg6IDQ3MCwgeTogMjAwLCBsYWJlbDogXCJZXCIgfVxuICB9O1xuXG4gIGNvbnN0IHN2ZyA9IGQzLmNyZWF0ZShcInN2Z1wiKVxuICAgIC5hdHRyKFwidmlld0JveFwiLCBgMCAwICR7d2lkdGh9ICR7aGVpZ2h0fWApXG4gICAgLmF0dHIoXCJ3aWR0aFwiLCB3aWR0aClcbiAgICAuYXR0cihcImhlaWdodFwiLCBoZWlnaHQpXG4gICAgLnN0eWxlKFwibWF4LXdpZHRoXCIsIFwiMTAwJVwiKTtcblxuICBjb25zdCBkZWZzID0gc3ZnLmFwcGVuZChcImRlZnNcIik7XG5cbiAgZGFnLmFkZEFycm93TWFya2VycyhkZWZzKTtcbiAgZGFnLmFkZEhhdGNoUGF0dGVybihcbiAgICBkZWZzLCBcImhhdGNoLWNvbmZvdW5kZWRcIiwgZGFnLmNvbG9yWiwgZGFnLmNvbG9yWCwgNDVcbiAgKTtcbiAgZGFnLmFkZENpcmNsZUNsaXAoXG4gICAgZGVmcywgXCJ4LWNsaXBcIiwgbm9kZXMuWC54LCBub2Rlcy5YLnksIG5vZGVSYWRpdXNcbiAgKTtcbiAgZGFnLmFkZENpcmNsZUNsaXAoXG4gICAgZGVmcywgXCJ5LWNsaXBcIiwgbm9kZXMuWS54LCBub2Rlcy5ZLnksIG5vZGVSYWRpdXNcbiAgKTtcblxuICAvLyBBcnJvd3NcbiAgY29uc3QgZWRnZXMgPSBbXG4gICAge1xuICAgICAgaWQ6IFwienhcIiwgZnJvbTogbm9kZXMuWiwgdG86IG5vZGVzLlgsXG4gICAgICBzdHJlbmd0aDogc3RyZW5ndGhfengsIGJsb2NrZWQ6IGFkanVzdF96XG4gICAgfSxcbiAgICB7XG4gICAgICBpZDogXCJ6eVwiLCBmcm9tOiBub2Rlcy5aLCB0bzogbm9kZXMuWSxcbiAgICAgIHN0cmVuZ3RoOiBzdHJlbmd0aF96eSwgYmxvY2tlZDogYWRqdXN0X3pcbiAgICB9LFxuICAgIHtcbiAgICAgIGlkOiBcInh5XCIsIGZyb206IG5vZGVzLlgsIHRvOiBub2Rlcy5ZLFxuICAgICAgc3RyZW5ndGg6IHN0cmVuZ3RoX3h5LCBibG9ja2VkOiBmYWxzZVxuICAgIH1cbiAgXTtcblxuICBmb3IgKGNvbnN0IGVkZ2Ugb2YgZWRnZXMpIHtcbiAgICBkYWcuZHJhd0VkZ2Uoc3ZnLCBlZGdlLCBub2RlUmFkaXVzKTtcbiAgfVxuXG4gIC8vIE5vZGVzXG4gIC8vIFg6IHN0cmVuZ3RoIGRpcmVjdGx5IGNvbnRyb2xzIGZpbGwgcHJvcG9ydGlvblxuICBkYWcuZHJhd05vZGUoc3ZnLCBub2Rlcy5YLngsIG5vZGVzLlgueSwgbm9kZVJhZGl1cywgXCJ4LWNsaXBcIiwge1xuICAgIGJvdHRvbVVwOiBbXSxcbiAgICB0b3BEb3duOiBbXG4gICAgICB7IHByb3A6IHN0cmVuZ3RoX3p4LCBmaWxsOiBkYWcuY29sb3JaIH1cbiAgICBdXG4gIH0sIHVuZGVmaW5lZCwgZGFnLmNvbG9yWCk7XG5cbiAgLy8gWTogYmx1ZSBiYXNlLCBpbmNvbWluZyBlZmZlY3RzIG92ZXJsYXlcbiAgZGFnLmRyYXdOb2RlKHN2Zywgbm9kZXMuWS54LCBub2Rlcy5ZLnksIG5vZGVSYWRpdXMsIFwieS1jbGlwXCIsIHtcbiAgICBib3R0b21VcDogW1xuICAgICAgeyBwcm9wOiBNYXRoLm1pbih5X3B1cmVfeCAvIHlNYXgsIDEpLCBmaWxsOiBkYWcuY29sb3JYIH0sXG4gICAgICB7XG4gICAgICAgIHByb3A6IE1hdGgubWluKHlfY29uZm91bmRlZCAvIHlNYXgsIDEpLFxuICAgICAgICBmaWxsOiBcInVybCgjaGF0Y2gtY29uZm91bmRlZClcIlxuICAgICAgfVxuICAgIF0sXG4gICAgdG9wRG93bjogW1xuICAgICAgeyBwcm9wOiBNYXRoLm1pbih5X2RpcmVjdF96IC8geU1heCwgMSksIGZpbGw6IGRhZy5jb2xvclogfVxuICAgIF1cbiAgfSwgdW5kZWZpbmVkLCBkYWcuY29sb3JZKTtcblxuICBkYWcuZHJhd1NvbGlkTm9kZShcbiAgICBzdmcsIG5vZGVzLloueCwgbm9kZXMuWi55LCBub2RlUmFkaXVzLCBkYWcuY29sb3JaXG4gICk7XG5cbiAgLy8gTGFiZWxzXG4gIGZvciAoY29uc3QgbiBvZiBPYmplY3QudmFsdWVzKG5vZGVzKSkge1xuICAgIGRhZy5kcmF3TGFiZWwoc3ZnLCBuLngsIG4ueSwgbi5sYWJlbCk7XG4gIH1cblxuICByZXR1cm4gc3ZnLm5vZGUoKTtcbn1cbiJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc3RyZW5ndGhfengnKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc3RyZW5ndGhfenknKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnc3RyZW5ndGhfeHknKSJ9LHsibWV0aG9kTmFtZSI6ImludGVycHJldFF1aWV0Iiwic291cmNlIjoic2hpbnlJbnB1dCgnYWRqdXN0X3onKSJ9XX0=
 </script>
