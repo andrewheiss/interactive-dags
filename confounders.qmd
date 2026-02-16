@@ -381,7 +381,7 @@ I like to imagine this line notation as a wall:
 
 ### The rules of *do*-calculus
 
-Pearl's do-calculus provides three rules for eliminating $\operatorname{do}(\cdot)$ operators from causal expressions. Each rule works by checking for d-separation in either $G_{\overline{X}}$ or $G_{\underline{X}}$:
+Pearl's *do*-calculus provides three rules for eliminating $\operatorname{do}(\cdot)$ operators from causal expressions. Each rule works by checking for d-separation in either $G_{\overline{X}}$ or $G_{\underline{X}}$:
 
 ::: {#def-rule1}
 
