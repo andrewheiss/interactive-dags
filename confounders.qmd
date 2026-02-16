@@ -440,7 +440,7 @@ $$
 {\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{red} P(y, z \mid \operatorname{do}(x))}
 $$ {#eq-marginalized}
 
-Our estimand now includes $Z$, but this joint distribution equation is complex. We need to break it smaller, more manageable pieces. Using the chain rule of probability (which applies to interventional distributions just as it does to observational ones), we can expand out @eq-marginalized:
+Our estimand now includes $Z$, but this joint distribution equation is hard to work with. We need to break it smaller, more manageable pieces and separate $y$ and $x$. Using the chain rule of probability (which applies to interventional distributions just as it does to observational ones), we can expand out @eq-marginalized:
 
 $$
 {\color{red} P(y, z \mid \operatorname{do}(x))} = {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
