@@ -659,7 +659,7 @@ Note&nbsp;1: These formulas are flexible
 <p><span id="eq-marginalized"><span class="math display">\[
 {\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{red} P(y, z \mid \operatorname{do}(x))}
 \tag{1}\]</span></span></p>
-<p>Our estimand now includes <span class="math inline">\(Z\)</span>, but this joint distribution equation is complex. We need to break it smaller, more manageable pieces. Using the chain rule of probability (which applies to interventional distributions just as it does to observational ones), we can expand out <a href="#eq-marginalized" class="quarto-xref">Equation&nbsp;1</a>:</p>
+<p>Our estimand now includes <span class="math inline">\(Z\)</span>, but this joint distribution equation is hard to work with. We need to break it smaller, more manageable pieces and separate <span class="math inline">\(y\)</span> and <span class="math inline">\(x\)</span>. Using the chain rule of probability (which applies to interventional distributions just as it does to observational ones), we can expand out <a href="#eq-marginalized" class="quarto-xref">Equation&nbsp;1</a>:</p>
 <p><span id="eq-expanded"><span class="math display">\[
 {\color{red} P(y, z \mid \operatorname{do}(x))} = {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
 \tag{2}\]</span></span></p>
