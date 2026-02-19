@@ -4,11 +4,13 @@ project:
     - "*.qmd"
   resources:
     - js/dag-utils.js
+    - img/
   preview:
     port: 7777
 
 website:
-  title: "Interactive DAGs"
+  title: "DAGs"
+  favicon: img/favicon.png
   navbar:
     left:
       - text: Confounders
