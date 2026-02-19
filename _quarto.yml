@@ -20,6 +20,7 @@ website:
 
 format:
   html:
+    html-math-method: katex
     theme:
       - zephyr
       - css/styles.scss
