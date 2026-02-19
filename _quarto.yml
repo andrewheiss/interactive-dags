@@ -8,6 +8,9 @@ project:
   preview:
     port: 7777
 
+execute:
+  freeze: auto
+
 website:
   title: "DAGs"
   favicon: img/favicon.png
@@ -19,6 +22,11 @@ website:
         href: mediators.qmd
       - text: Colliders
         href: colliders.qmd
+    right:
+      - text: "*do*-calculus"
+        href: do-calculus.qmd
+      - text: How to adjust
+        href: adjustment.qmd
 
 format:
   html:

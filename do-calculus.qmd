@@ -1,0 +1,742 @@
+---
+title: "*do*-calculus"
+toc: true
+toc-depth: 4
+crossref:
+  def-title: Rule
+  def-prefix: Rule
+  lem-title: Simplified Rule
+  lem-prefix: Simplified Rule
+---
+
+::: {.column-screen .hero-banner-mini}
+
+# *do*-calculus
+
+do(•)
+
+:::
+
+```{r}
+#| label: tikz-setup
+#| include: false
+
+if (Sys.info()["sysname"] == "Darwin") {
+  # Necessary for using dvisvgm on macOS
+  # See https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/
+  Sys.setenv(LIBGS = "/opt/homebrew/opt/ghostscript/lib/libgs.dylib")
+}
+
+knitr::opts_template$set(
+  tikz_settings = list(
+    fig.ext = "svg",
+    fig.align = "center",
+    extra.preamble = c(
+      "\\usepackage{libertine}",
+      "\\usepackage{libertinust1math}",
+      "\\usepackage{positioning}"
+    ),
+    engine.opts = list(dvisvgm.opts = "--no-fonts")
+  )
+)
+```
+
+
+TODO: Add citations to Pearl and others from my blog post
+
+
+Pearl's *do*-calculus provides a set of algebraic rules for eliminating interventional $\operatorname{do}(\cdot)$ operators from causal expressions, allowing us to estimate causal effects from observational data.
+
+## Important notation for graph surgery
+
+Each *do*-calculus rule works by checking if specific nodes are d-separated in modified versions of the original DAG. 
+
+There's a whole set of special notation that gets used to make these temporarily modified graphs. I like to think of these as surgical instructions that tell us to cut specific arrows into or out of nodes.
+
+### Graphs
+
+The first bit of notation is easy. A DAG is defined as a graph $G$. Phew. See @fig-dag-original for an example DAG.
+
+### Overlines and underlines
+
+The next bit of notation is new and involves adding lines above and below node names, like $\overline{X}$ and $\underline{X}$.
+
+I imagine this line notation like a wall:
+
+- If the wall is on top of X like $\overline{X}$, you can't draw any arrows going into it, so you delete any arrows going in to it
+- If the wall is on the bottom of X like $\underline{X}$, you can't draw any arrows going out of it, so you delete any arrows going out of it
+
+This line notation is added as a subscript to $G$:
+
+- $G_{\overline{X}}$: $G$ with all arrows going *into* $X$ deleted; see @fig-dag-overbar
+- $G_{\underline{X}}$: $G$ with all arrows going *out of* $X$ deleted; see @fig-dag-underbar
+
+::: {#fig-modified-dags layout-ncol=3}
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-dag-original
+#| fig-cap: 'Original DAG, $G$'
+#| echo: false
+#| out-width: 100%
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (y) at (2,0) {Y};
+  \node (z) at (1,1) {Z};
+  \path[->] (z) edge (x);
+  \path[->] (z) edge (y);
+  \path[->] (x) edge (y);
+\end{tikzpicture}
+```
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-dag-overbar
+#| fig-cap: '$G_{\overline{X}}$ with arrows *into* $X$ removed'
+#| echo: false
+#| out-width: 100%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (y) at (2,0) {Y};
+  \node (z) at (1,1) {Z};
+  \path[->, densely dotted, gray!40, thin] (z) edge (x);
+  \draw[cutcolor, thick] (0.4,0.6) -- (0.6,0.4);
+  \path[->] (z) edge (y);
+  \path[->] (x) edge (y);
+\end{tikzpicture}
+```
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-dag-underbar
+#| fig-cap: '$G_{\underline{X}}$ with arrows *out of* $X$ removed'
+#| echo: false
+#| out-width: 100%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (y) at (2,0) {Y};
+  \node (z) at (1,1) {Z};
+  \path[->] (z) edge (x);
+  \path[->] (z) edge (y);
+  \path[->, densely dotted, gray!40, thin] (x) edge (y);
+  \draw[cutcolor, thick] (0.9,-0.1) -- (1.1,0.1);
+\end{tikzpicture}
+```
+
+$G$, $G_{\overline{X}}$, and $G_{\underline{X}}$
+
+:::
+
+These modifications can also be combined. The full rules of *do*-calculus use graphs like $G_{\overline{X}\underline{Z}}$ (arrows *into* $X$ and *out of* $Z$ both removed) and $G_{\overline{X}\overline{Z}}$ (arrows *into* $X$ and *into* $Z$ both removed). @fig-combined-mods shows these with a four-node DAG:
+
+::: {#fig-combined-mods layout-ncol=3}
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-combined-original
+#| fig-cap: 'Original DAG, $G$'
+#| echo: false
+#| out-width: 100%
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (z) at (2,0) {Z};
+  \node (y) at (4,0) {Y};
+  \node (w) at (2,1.5) {W};
+  \path[->] (w) edge (x);
+  \path[->] (w) edge (y);
+  \path[->] (x) edge (z);
+  \path[->] (z) edge (y);
+\end{tikzpicture}
+```
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-combined-overunder
+#| fig-cap: '$G_{\overline{X}\underline{Z}}$: arrows into $X$ and out of $Z$ removed'
+#| echo: false
+#| out-width: 100%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (z) at (2,0) {Z};
+  \node (y) at (4,0) {Y};
+  \node (w) at (2,1.5) {W};
+  \path[->, densely dotted, gray!40, thin] (w) edge (x);
+  \draw[cutcolor, thick] (1.1,1.0) -- (1.3,0.8);
+  \path[->] (w) edge (y);
+  \path[->] (x) edge (z);
+  \path[->, densely dotted, gray!40, thin] (z) edge (y);
+  \draw[cutcolor, thick] (2.9,-0.15) -- (3.1,0.15);
+\end{tikzpicture}
+```
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-combined-overover
+#| fig-cap: '$G_{\overline{X}\overline{Z}}$: arrows into $X$ and into $Z$ removed'
+#| echo: false
+#| out-width: 100%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (z) at (2,0) {Z};
+  \node (y) at (4,0) {Y};
+  \node (w) at (2,1.5) {W};
+  \path[->, densely dotted, gray!40, thin] (w) edge (x);
+  \draw[cutcolor, thick] (1.1,1.0) -- (1.3,0.8);
+  \path[->] (w) edge (y);
+  \path[->, densely dotted, gray!40, thin] (x) edge (z);
+  \draw[cutcolor, thick] (0.9,-0.15) -- (1.1,0.15);
+  \path[->] (z) edge (y);
+\end{tikzpicture}
+```
+
+Combined graph modifications with a four-node DAG
+
+:::
+
+### Ancestors
+
+There's one final bit of notation that lets us refer to ancestors of nodes—like in $A \rightarrow B$, $A$ is an ancestor or predecessor of $B$. 
+
+We use $Z(W)$ to refer to any $Z$ nodes that aren't ancestors of $W$ in $G_{\overline{X}}$. In some applications of *do*-calculus rules, we need to look at a modified graph like $G_{\overline{X}\overline{Z(W)}}$. Instead of removing incoming arrows to *every* node in $Z$ like we would with something like $G_{\overline{Z}}$, we only cut arrows for $Z$ nodes that are not ancestors of any $W$ node in $G_{\overline{X}}$. Nodes in $Z$ that *are* ancestors of $W$ in $G_{\overline{X}}$ keep their incoming arrows intact—severing them would alter the distribution of $W$, distorting the conditional we depend on.
+
+@fig-zw illustrates this with two $Z$ nodes. $Z_1$ causes $W$ directly, so in $G_{\overline{X}}$ it is an ancestor of $W$ and is excluded from $Z(W)$. $Z_2$ has no path to $W$ in $G_{\overline{X}}$, so it is included in $Z(W)$ and its incoming arrows are removed.
+
+::: {#fig-zw layout-ncol=2}
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-zw-original
+#| fig-cap: 'Original DAG, $G$'
+#| echo: false
+#| out-width: 100%
+
+\begin{tikzpicture}[>={stealth}]
+  \node (a) at (2,2) {A};
+  \node (z1) at (0.5,1) {$Z_1$};
+  \node (z2) at (3.5,1) {$Z_2$};
+  \node (x) at (0,0) {X};
+  \node (w) at (2,0) {W};
+  \node (y) at (4,0) {Y};
+  \path[->] (a) edge (z1);
+  \path[->] (a) edge (z2);
+  \path[->] (z1) edge (x);
+  \path[->] (z1) edge (w);
+  \path[->] (z2) edge (y);
+  \path[->] (x) edge (w);
+  \path[->] (w) edge (y);
+\end{tikzpicture}
+```
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-zw-modified
+#| fig-cap: '$G_{\overline{X}\overline{Z(W)}}$ with $Z(W) = \{Z_2\}$: incoming arrows to $X$ and $Z_2$ removed, but $Z_1$''s incoming arrows stay'
+#| echo: false
+#| out-width: 100%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (a) at (2,2) {A};
+  \node (z1) at (0.5,1) {$Z_1$};
+  \node (z2) at (3.5,1) {$Z_2$};
+  \node (x) at (0,0) {X};
+  \node (w) at (2,0) {W};
+  \node (y) at (4,0) {Y};
+  \path[->] (a) edge (z1);
+  \path[->, densely dotted, gray!40, thin] (a) edge (z2);
+  \draw[cutcolor, thick] (2.7,1.4) -- (2.8,1.6);
+  \path[->, densely dotted, gray!40, thin] (z1) edge (x);
+  \draw[cutcolor, thick] (0.15,0.55) -- (0.35,0.45);
+  \path[->] (z1) edge (w);
+  \path[->] (z2) edge (y);
+  \path[->] (x) edge (w);
+  \path[->] (w) edge (y);
+\end{tikzpicture}
+```
+
+$Z_1$ is an ancestor of $W$ in $G_{\overline{X}}$ (via $Z_1 \rightarrow W$), so $Z_1 \notin Z(W)$ and $A \rightarrow Z_1$ stays. $Z_2$ has no path to $W$, so $Z_2 \in Z(W)$ and $A \rightarrow Z_2$ is removed.
+
+:::
+
+## The rules of *do*-calculus
+
+### Formal rules
+
+With this special notation for graph analysis, we can finally look at the three rules of *do*-calculus. In their most general form, they apply to any disjoint sets of variables $X$, $Y$, $Z$, and $W$ in a causal DAG $G$:
+
+::: {#def-rule1}
+
+#### Insertion/deletion of observations
+
+An observed variable $Z$ can be added to or removed from a conditional if $Y$ and $Z$ are d-separated given $X$ and $W$ in $G_{\overline{X}}$:
+
+$$
+P(y \mid \operatorname{do}(x), z, w) = P(y \mid \operatorname{do}(x), w) \quad \text{if } (Y \perp Z \mid X, W)_{G_{\overline{X}}}
+$$
+
+:::
+
+::: {#def-rule2}
+
+#### Action/observation exchange
+
+An intervention $\operatorname{do}(z)$ can be replaced with an observation $z$ (or vice versa) if $Y$ and $Z$ are d-separated given $X$ and $W$ in $G_{\overline{X}\underline{Z}}$:
+
+$$
+P(y \mid \operatorname{do}(x), \operatorname{do}(z), w) = P(y \mid \operatorname{do}(x), z, w) \quad \text{if } (Y \perp Z \mid X, W)_{G_{\overline{X}\underline{Z}}}
+$$
+
+:::
+
+::: {#def-rule3}
+
+#### Insertion/deletion of actions
+
+An intervention $\operatorname{do}(z)$ can be dropped entirely if $Y$ and $Z$ are d-separated given $X$ and $W$ in $G_{\overline{X}\overline{Z(W)}}$:
+
+$$
+P(y \mid \operatorname{do}(x), \operatorname{do}(z), w) = P(y \mid \operatorname{do}(x), w) \quad \text{if } (Y \perp Z \mid X, W)_{G_{\overline{X}\overline{Z(W)}}}
+$$
+
+where $Z(W)$ is the set of $Z$ nodes that are not ancestors of any node in $W$ in $G_{\overline{X}}$.
+
+:::
+
+In all three rules, $X$, $Y$, $Z$, and $W$ are generic placeholders for any disjoint sets of variables—$X$ represents existing interventions, $Z$ is the variable being added, removed, or exchanged, $Y$ is the outcome, and $W$ is an optional conditioning set. Any of these sets may be empty.
+
+### Simplified rules for single-confounder DAGs
+
+For the common case of a single intervention on $X$ with a single outcome $Y$ and no additional conditioning ($W = \varnothing$), Rules 1–3 can reduce to simpler forms. In these versions, the variable names refer to specific nodes in the DAG rather than generic placeholders:
+
+::: {#lem-rule1}
+
+#### Ignore an observation
+
+We can ignore an extra observed variable $Z$ if it is d-separated from $Y$ in $G_{\overline{X}}$ (the graph with arrows into $X$ removed):
+
+$$
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(x)) \quad \text{if } (Y \perp Z \mid X)_{G_{\overline{X}}}
+$$
+
+:::
+
+::: {#lem-rule2}
+
+#### Treat an intervention as an observation
+
+We can replace $\operatorname{do}(x)$ with simply observing $x$ if, after removing $X$'s outgoing edges, $X$ and $Y$ are d-separated given the covariates $Z$:
+
+$$
+P(y \mid \operatorname{do}(x), z) = P(y \mid x, z) \quad \text{if } (Y \perp X \mid Z)_{G_{\underline{X}}}
+$$
+
+:::
+
+::: {#lem-rule3}
+
+#### Ignore an intervention
+
+We can drop $\operatorname{do}(x)$ entirely if, after removing $X$'s incoming edges, $X$ and $Y$ are d-separated given the covariates:
+
+$$
+P(y \mid \operatorname{do}(x), z) = P(y \mid z) \quad \text{if } (Y \perp X \mid Z)_{G_{\overline{X}}}
+$$
+
+:::
+
+::: {#tip-flexible .callout-note}
+#### These formulas are flexible
+
+With all three of these rules, the variables names are interchangeable depending on the relationships in the DAG: $X$, $Y$, and $Z$ can stand for any sets of variables. Additionally, the conditioning set (the $z$ term) could be empty (e.g. $Z \rightarrow Y$ with no other nodes involved).
+
+Similarly, notice how the $(Y \perp X \mid Z)_{G_{\underline{X}}}$ in @lem-rule2 looks slightly different than the $(Y \perp Z \mid X, W)_{G_{\overline{X}\underline{Z}}}$ in @def-rule2. That's because the variable names swap roles. In the general rule, $Z$ is a placeholder for whatever variable is being exchanged, but in the simplified version, we're exchanging $\operatorname{do}(x)$, so we use $X$. Additionally, $Z$ (the confounder) replaces the general $W$ conditioning set, and there are no other existing interventions, so the $G_{\overline{X}}$ modification disappears.
+:::
+
+
+## Backdoor adjustment
+
+Let's say that we're interested in the causal effect of $X$ on $Y$, but we have a confounder $Z$ that opens a backdoor path $X \leftarrow Z \rightarrow Y$, creating a DAG that looks like this:
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-dag
+#| fig-cap: 'DAG with a confounder'
+#| echo: false
+#| out-width: 30%
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (y) at (2,0) {Y};
+  \node (z) at (1,1) {Z};
+  \path[->] (z) edge (x);
+  \path[->] (z) edge (y);
+  \path[->] (x) edge (y);
+\end{tikzpicture}
+```
+
+Our target estimand is $P(y \mid \operatorname{do}(x))$,[^caveat] or the distribution of $Y$ in a world where we intervene to set $X = x$. However, that $\operatorname{do}(\cdot)$ operator represents a hypothetical intervention where we can set $X = x$ directly, breaking its usual causes. In an experimental setting, that works fine—we can randomly assign people to get assigned to different values of $x$. But in observational data, we don't have control over treatment assignment and we cannot intervene.
+
+[^caveat]: *Strictly* speaking, that's not actually true! $P(y \mid \operatorname{do}(x))$ is an interventional distribution, while causal effects or estimands are contrasts of that distribution, like $E[Y \mid \operatorname{do}(x = 1)] - E[Y \mid \operatorname{do}(x = 0)]$. But for the sake of simplicity, we'll pretend.
+
+We can use the simplified rules of *do*-calculus to eliminate the $\operatorname{do}(x)$ and estimate the causal effect from observational data.
+
+### Deriving the backdoor formula
+
+With the rules of *do*-calculus, we can take our estimand of interest—the effect of $X$ on $Y$, or $P(y \mid \operatorname{do}(x))$—and transform it into a *do*-free statement that deals with the confounding from $Z$.
+
+#### Step 1: Incorporate $Z$ into $P(y \mid \operatorname{do}(x))$
+
+To adjust for the confounder $Z$, we need to incorporate it into the formula for our estimand. We do this by considering the joint distribution of $Y$ and $Z$ in a world where $X$ occurs through an intervention, or $P(y, z \mid \operatorname{do}(x))$. This gives us the probability that $Y = y$ and $Z = z$ simultaneously when we force $X = x$.
+
+To get our target $P(y \mid \operatorname{do}(x))$ from this joint distribution, we marginalize over $Z$, or sum over all possible values of $Z$:
+
+$$
+{\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{red} P(y, z \mid \operatorname{do}(x))}
+$$ {#eq-marginalized}
+
+Our estimand now includes $Z$, but this joint distribution equation is hard to work with. We need to break it smaller, more manageable pieces and separate $y$ and $x$. Using the chain rule of probability (which applies to interventional distributions just as it does to observational ones), we can expand out @eq-marginalized:
+
+$$
+{\color{red} P(y, z \mid \operatorname{do}(x))} = {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
+$$ {#eq-expanded}
+
+We can substitute that expanded version back into @eq-marginalized:
+
+$$
+{\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
+$$ {#eq-marginalized-expanded}
+
+Or without colors:
+
+$$
+P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))
+$$ {#eq-marginalized-expanded-final}
+
+Now we have two $\operatorname{do}(\cdot)$-based quantities that we cannot directly estimate from data:
+
+- $P(y \mid \operatorname{do}(x), z)$: "Given that we intervene on $X$ and observe $Z = z$, what's the probability of $Y = y$?"
+- $P(z \mid \operatorname{do}(x))$: "In a world where we intervene on $X$, what's the probability that $Z = z$?"
+
+Our next job is to use the rules of *do*-calculus to remove those $\operatorname{do}(\cdot)$ interventions.
+
+#### Step 2: Applying Rule 2 to $P(y \mid \operatorname{do}(x), z)$
+
+According to @lem-rule2, we can replace an interventional $\operatorname{do}(x)$ with a regular observed $x$ if we meet specific conditions in $G_{\underline{X}}$, or the graph with all arrows out of $X$ deleted: $Y$ must be d-separated from $X$, given the covariates $Z$. Here's what $G_{\underline{X}}$ looks like:
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-rule2-check
+#| fig-cap: 'Check d-separation of $X$ and $Y$ given $Z$ in $G_{\underline{X}}$'
+#| echo: false
+#| out-width: 30%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (y) at (2,0) {Y};
+  \node (z) at (1,1) {Z};
+  \path[->] (z) edge (x);
+  \path[->] (z) edge (y);
+  \path[->, densely dotted, gray!40, thin] (x) edge (y);
+  \draw[cutcolor, thick] (0.9,-0.1) -- (1.1,0.1);
+\end{tikzpicture}
+```
+
+The only path between $X$ and $Y$ in $G_{\underline{X}}$ is $X \leftarrow Z \rightarrow Y$. Adjusting for $Z$ blocks this path, so $(Y \perp X \mid Z)_{G_{\underline{X}}}$ holds. That means that we can swap out $\operatorname{do}(x)$ for a regular observed $x$:
+
+$$
+P(y \mid \operatorname{do}(x), z) = P(y \mid x, z)
+$$
+
+#### Step 3: Applying Rule 3 to $P(z \mid \operatorname{do}(x))$
+
+According to @lem-rule3, we can remove a $\operatorname{do}(\cdot)$ operator if we meet specific conditions in $G_{\overline{X}}$, or the graph with all arrows into $X$ deleted: $Z$ must be d-separated from $X$ in $G_{\overline{X}}$.
+
+::: {.callout-note}
+#### Wait, this doesn't exactly match Rule 3??
+
+@lem-rule3 officially talks about independence between $X$ and $Y$, but here we're talking about $X$ and $Z$. What gives?
+
+Remember from @tip-flexible that these variable names are flexible. We don't have to look only at $X$ and $Y$—any nodes can stand in for those. In this case, we care about the relationship between $Z$ and $X$, where the "outcome" variable is $Z$ instead of $Y$.
+
+Additionally, *technically* @lem-rule3 includes conditioning set $z$: $P(y \mid \operatorname{do}(x), z)$. However, the $z$ term in the formula can be empty. In this case, $Y$ is related to $X$ and $Z$ as a collider and, accordingly, we don't adjust for it, so we can leave it out of the equation. Thus, we can take this official expression from Rule 3:
+
+$$
+P(y \mid \operatorname{do}(x), z)
+$$
+
+and modify it by
+
+- switching the "outcome" variable to $Z$, so $y$ becomes $z$, and
+- using an empty conditioning set, so the "$z$" in $P(y \mid \operatorname{do}(x), z)$ disappears
+
+…resulting in
+
+$$
+P(z \mid \operatorname{do}(x))
+$$
+
+for this special case.
+:::
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-rule3-check
+#| fig-cap: 'Check d-separation of $Z$ and $X$ in $G_{\overline{X}}$'
+#| echo: false
+#| out-width: 30%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (y) at (2,0) {Y};
+  \node (z) at (1,1) {Z};
+  \path[->, densely dotted, gray!40, thin] (z) edge (x);
+  \draw[cutcolor, thick] (0.4,0.6) -- (0.6,0.4);
+  \path[->] (z) edge (y);
+  \path[->] (x) edge (y);
+\end{tikzpicture}
+```
+
+The only path between $Z$ and $X$ in $G_{\overline{X}}$ is $Z \rightarrow Y \leftarrow X$. In this case, $Y$ is a collider and since we don't adjust for or condition on colliders, that pathway is blocked and $(Z \perp X)_{G_{\overline{X}}}$ holds. That means that we can completely eliminate $\operatorname{do}(x)$:
+
+$$
+P(z \mid \operatorname{do}(x)) = P(z)
+$$
+
+#### Step 4: Final formula
+
+Finally we can substitute both *do*-free results back into our original expression from @eq-marginalized-expanded-final:
+
+$$
+\begin{aligned}
+P(y \mid \operatorname{do}(x)) &= \sum_z \underbrace{P(y \mid \operatorname{do}(x), z)}_{\text{Rule 2}} \times \underbrace{P(z \mid \operatorname{do}(x))}_{\text{Rule 3}} \\
+&= \sum_z \underbrace{P(y \mid x, z)}_{\text{Rule 2}} \times \underbrace{P(z)}_{\text{Rule 3}}
+\end{aligned}
+$$
+
+This gives us the official backdoor adjustment formula:
+
+$$
+\boxed{\rule{0pt}{1.5em}\;\; P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid x, z) \times P(z) \;\;}
+$$ {#eq-backdoor}
+
+All $\operatorname{do}(\cdot)$ operators are gone and every term on the right-hand side is an ordinary observational value. This means that we can estimate the causal effect of $X$ on $Y$ from observational data as long as we measure and adjust for $Z$.
+
+
+## Front-door adjustment
+
+The backdoor criterion requires that we can observe and adjust for all confounders. But what if the confounder is *unobserved*? It turns out that if we can observe a mediator $Z$ that fully mediates $X$'s effect on $Y$, we can still identify the causal effect using the front-door criterion. This derivation is a little more complex, but still doable with the rules of *do*-calculus.
+
+Consider a DAG where:
+
+- $X$ causes $Y$ entirely through a mediator $Z$ (no direct $X \rightarrow Y$ edge)
+- There is an unobserved confounder $U$ that affects both $X$ and $Y$
+- $U$ does *not* affect $Z$ directly
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-frontdoor-dag
+#| fig-cap: 'Front-door DAG: $X$ affects $Y$ only through $Z$, but an unobserved confounder $U$ creates a backdoor path'
+#| echo: false
+#| out-width: 35%
+
+\definecolor{ucolor}{HTML}{888888}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (z) at (2,0) {Z};
+  \node (y) at (4,0) {Y};
+  \node[ucolor] (u) at (2,1.5) {U};
+  \path[->] (x) edge (z);
+  \path[->] (z) edge (y);
+  \path[->, dashed, ucolor] (u) edge (x);
+  \path[->, dashed, ucolor] (u) edge (y);
+\end{tikzpicture}
+```
+
+Because $U$ is unobserved, we cannot adjust for it—it's a confounder, but we cannot use backdoor adjustment. But we can get around that by using a front-door approach.
+
+### Deriving the front-door formula
+
+Our target estimand is again $P(y \mid \operatorname{do}(x))$. Unlike the backdoor case, the simplified rules are not sufficient here—we need the full rules, which handle multiple simultaneous interventions and combined graph modifications like $G_{\overline{X}\underline{Z}}$.
+
+#### Step 1: Marginalize over $Z$
+
+As with the backdoor derivation, we start by incorporating $Z$ into our estimand. We marginalize over $Z$ and expand using the chain rule:
+
+$$
+P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))
+$$ {#eq-fd-expanded}
+
+We now need to eliminate that interventional $\operatorname{do}(x)$ from both terms.
+
+#### Step 2: Simplify $P(z \mid \operatorname{do}(x))$ with @def-rule2
+
+@def-rule2 says we can replace $\operatorname{do}(x)$ with observing $x$ if $Z$ and $X$ are d-separated in the graph with arrows *out of* $X$ removed.
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-fd-rule2-zx
+#| fig-cap: 'Check d-separation of $Z$ and $X$ in $G_{\\underline{X}}$'
+#| echo: false
+#| out-width: 35%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+\definecolor{ucolor}{HTML}{888888}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (z) at (2,0) {Z};
+  \node (y) at (4,0) {Y};
+  \node[ucolor] (u) at (2,1.5) {U};
+  \path[->, densely dotted, gray!40, thin] (x) edge (z);
+  \draw[cutcolor, thick] (0.9,-0.15) -- (1.1,0.15);
+  \path[->] (z) edge (y);
+  \path[->, dashed, ucolor] (u) edge (x);
+  \path[->, dashed, ucolor] (u) edge (y);
+\end{tikzpicture}
+```
+
+In $G_{\underline{X}}$, the only path between $X$ and $Z$ goes through $U$: $X \leftarrow U \rightarrow Y \leftarrow Z$. But $Y$ is a collider on this path and we don't condition on it, so the path is blocked. Therefore $(Z \perp X)_{G_{\underline{X}}}$ holds, and:
+
+$$
+P(z \mid \operatorname{do}(x)) = P(z \mid x)
+$$
+
+#### Step 3: Simplify $P(y \mid \operatorname{do}(x), z)$
+
+This term is trickier. We need to replace $\operatorname{do}(x)$ with something we can work with. The strategy is to first convert the *observation* of $z$ into an *intervention* $\operatorname{do}(z)$, then drop $\operatorname{do}(x)$, and finally eliminate $\operatorname{do}(z)$ via backdoor adjustment.
+
+**Step 3a: Apply @def-rule2 (in reverse) to convert observation $z$ to $\operatorname{do}(z)$.**
+
+@def-rule2 tells us that an intervention $\operatorname{do}(z)$ can be replaced with an observation $z$ (or vice versa) if a d-separation condition holds. Here we want to go from observing $z$ to intervening $\operatorname{do}(z)$, so we check the condition for the reverse direction (because @def-rule2 is an equality, it's true in either direction, so we can look at it either way):
+
+$$
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(x), \operatorname{do}(z)) \quad \text{if } (Y \perp Z \mid X)_{G_{\overline{X}\underline{Z}}}
+$$
+
+We need to verify that $Y$ and $Z$ are d-separated given $X$ in the graph where we:
+
+- Remove arrows *into* $X$ (the $\overline{X}$ modification)
+- Remove arrows *out of* $Z$ (the $\underline{Z}$ modification)
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-fd-rule2-yz
+#| fig-cap: 'Check d-separation of $Y$ and $Z$ given $X$ in $G_{\\overline{X}\\underline{Z}}$'
+#| echo: false
+#| out-width: 35%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+\definecolor{ucolor}{HTML}{888888}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (z) at (2,0) {Z};
+  \node (y) at (4,0) {Y};
+  \node[ucolor] (u) at (2,1.5) {U};
+  \path[->] (x) edge (z);
+  \path[->, densely dotted, gray!40, thin] (z) edge (y);
+  \draw[cutcolor, thick] (2.9,-0.15) -- (3.1,0.15);
+  \path[->, densely dotted, gray!40, thin] (u) edge (x);
+  \draw[cutcolor, thick] (0.8,0.85) -- (1.05,0.65);
+  \path[->, dashed, ucolor] (u) edge (y);
+\end{tikzpicture}
+```
+
+In $G_{\overline{X}\underline{Z}}$, the remaining edges are $X \rightarrow Z$ and $U \rightarrow Y$ (since $U \rightarrow X$ is removed by $\overline{X}$ and $Z \rightarrow Y$ is removed by $\underline{Z}$). There is no path connecting $Z$ and $Y$ at all, so $(Y \perp Z \mid X)_{G_{\overline{X}\underline{Z}}}$ trivially holds. We can make the exchange:
+
+$$
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(x), \operatorname{do}(z))
+$$
+
+Since Rule 2 is an equivalence ($P(y \mid \operatorname{do}(x), \operatorname{do}(z), w) = P(y \mid \operatorname{do}(x), z, w)$ when the condition holds), it works symmetrically—if the condition holds, we can replace an observation with an intervention just as easily as the other way around.
+
+**Step 3b: Apply @def-rule3 to drop $\operatorname{do}(x)$.**
+
+@def-rule3 says we can remove an intervention $\operatorname{do}(x)$ if a d-separation condition holds in a specially modified graph:
+
+$$
+P(y \mid \operatorname{do}(x), \operatorname{do}(z)) = P(y \mid \operatorname{do}(z)) \quad \text{if } (Y \perp X \mid Z, W)_{G_{\overline{Z}\overline{X(W)}}}
+$$
+
+In our expression $P(y \mid \operatorname{do}(x), \operatorname{do}(z))$, there are no observed conditioning variables, so $W = \varnothing$. Since $W$ is empty, no node in $X$ can be an ancestor of a $W$-node, meaning $X(W) = X$—all nodes in $X$ qualify for having their incoming arrows removed. The graph we check is therefore $G_{\overline{Z}\overline{X}}$, with incoming arrows into *both* $Z$ and $X$ removed:
+
+```{tikz opts.label="tikz_settings"}
+#| label: fig-fd-rule3-gzx
+#| fig-cap: 'Check d-separation of $Y$ and $X$ in $G_{\\overline{Z}\\overline{X}}$'
+#| echo: false
+#| out-width: 35%
+
+\definecolor{cutcolor}{HTML}{5d6174}
+\definecolor{ucolor}{HTML}{888888}
+
+\begin{tikzpicture}[>={stealth}]
+  \node (x) at (0,0) {X};
+  \node (z) at (2,0) {Z};
+  \node (y) at (4,0) {Y};
+  \node[ucolor] (u) at (2,1.5) {U};
+  \path[->, densely dotted, gray!40, thin] (x) edge (z);
+  \path[->] (z) edge (y);
+  \path[->, densely dotted, gray!40, thin] (u) edge (x);
+  \draw[cutcolor, thick] (0.65,1.05) -- (0.9,0.85);
+  \draw[cutcolor, thick] (0.8,0.25) -- (1.05,0.05);
+  \path[->, dashed, ucolor] (u) edge (y);
+\end{tikzpicture}
+```
+
+In $G_{\overline{Z}\overline{X}}$, the edges $U \rightarrow X$ and $X \rightarrow Z$ are both removed. $X$ is completely isolated—no edges connect it to any other node—so $X$ and $Y$ are trivially d-separated regardless of conditioning. Therefore $(Y \perp X \mid Z)_{G_{\overline{Z}\overline{X}}}$ holds, and by @def-rule3:
+
+$$
+P(y \mid \operatorname{do}(x), \operatorname{do}(z)) = P(y \mid \operatorname{do}(z))
+$$
+
+By combining steps 3a and 3b, we get this:
+
+$$
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(z))
+$$
+
+**Step 3c: Eliminate $\operatorname{do}(z)$ via backdoor adjustment.**
+
+Now we need to turn $P(y \mid \operatorname{do}(z))$ into purely observational terms. In the original DAG, there is a backdoor path from $Z$ to $Y$: $Z \leftarrow X \leftarrow U \rightarrow Y$. We can block this by adjusting for $X$ (which is observed). Conditioning on and marginalizing over $X$:
+
+$$
+P(y \mid \operatorname{do}(z)) = \sum_{x'} P(y \mid z, x') \times P(x')
+$$
+
+::: {.callout-note}
+#### Why can we adjust for $X$ here?
+
+When estimating the effect of $Z$ on $Y$, $X$ acts as a confounder (it causes $Z$ and, through $U$, is associated with $Y$). Conditioning on $X$ blocks the backdoor path $Z \leftarrow X \leftarrow U \rightarrow Y$. This works even though $U$ is unobserved—$X$ is sufficient because it intercepts the chain between $U$ and $Z$.
+
+More formally, we apply @def-rule2 to get $P(y \mid \operatorname{do}(z), x') = P(y \mid z, x')$ (since $X$ blocks all backdoor paths from $Z$ to $Y$), and @def-rule3 to get $P(x' \mid \operatorname{do}(z)) = P(x')$ (since there is no directed path from $Z$ to $X$).
+:::
+
+#### Step 4: Final formula
+
+Finally, we can substitute everything back into @eq-fd-expanded:
+
+$$
+\begin{aligned}
+P(y \mid \operatorname{do}(x)) &= \sum_z \underbrace{P(y \mid \operatorname{do}(x), z)}_{\text{Step 3}} \times \underbrace{P(z \mid \operatorname{do}(x))}_{\text{Step 2}} \\
+&= \sum_z \underbrace{\sum_{x'} P(y \mid z, x') \times P(x')}_{\text{Backdoor on } Z \to Y} \times \underbrace{P(z \mid x)}_{\text{Rule 2}}
+\end{aligned}
+$$
+
+This gives us the official front-door adjustment formula:
+
+$$
+\boxed{\rule{0pt}{1.5em}\;\; P(y \mid \operatorname{do}(x)) = \sum_z P(z \mid x) \sum_{x'} P(y \mid x', z) \times P(x') \;\;}
+$$ {#eq-frontdoor}
+
+All $\operatorname{do}(\cdot)$ operators are gone and term on the right-hand side is an ordinary observational quantity. We can then use this in two steps:
+
+1. $P(z \mid x)$: Estimate how $X$ affects $Z$. This is unconfounded because $U$ doesn't directly affect $Z$.
+2. $\sum_{x'} P(y \mid x', z) \times P(x')$: Estimate how $Z$ affects $Y$, adjusting for $X$ to block the backdoor path through $U$.
+
+By chaining these two unconfounded estimates together, we recover the full causal effect of $X$ on $Y$ despite never observing $U$.

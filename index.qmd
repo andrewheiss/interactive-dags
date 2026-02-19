@@ -2,4 +2,8 @@
 title: "Interactive DAGs"
 ---
 
+<hr class="dinkus">
+
 blah blah blah
+
+<hr class="dinkus">
