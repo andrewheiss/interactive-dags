@@ -213,6 +213,8 @@ There are many ways to implement backdoor adjustment, like these common approach
 - Inverse probability weighting
 - G-computation
 
+Each of these methods estimates the distribution of $P(y \mid x, z)$ weighted by $P(z)$, which lets us estimate $P(y \mid \operatorname{do}(x))$ with only observational data.
+
 I'll show a short example of each of these below, and I'll include some extra resources and information about them in each section. There are are different variations and flavors of these different approaches, and there are methods I don't include here[^other-methods]—this is definitely not comprehensive!
 
 [^other-methods]: Like marginal structural models and structural nested mean models [@todo1] or doubly robust augmented inverse probability weighting [@todo2]. You can get really fancy with these techniques.
