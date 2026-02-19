@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.9.16">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>do-calculus – Interactive DAGs</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-82d683e9f830cba069e3fb8cbfbea53b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-7f02591ba1238031d98d2afc9f6cbd7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-8a5a79524d0361beb92d79fa9e3dc012.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-7f02591ba1238031d98d2afc9f6cbd7b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script>window.backupDefine = window.define; window.define = undefined;</script><script src="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.js"></script>
+  <script>document.addEventListener("DOMContentLoaded", function () {
+ var mathElements = document.getElementsByClassName("math");
+ var macros = [];
+ for (var i = 0; i < mathElements.length; i++) {
+  var texText = mathElements[i].firstChild;
+  if (mathElements[i].tagName == "SPAN") {
+   katex.render(texText.data, mathElements[i], {
+    displayMode: mathElements[i].classList.contains('display'),
+    throwOnError: false,
+    macros: macros,
+    fleqn: false
+   });
+}}});
+  </script>
+  <script>window.define = window.backupDefine; window.backupDefine = undefined;</script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@latest/dist/katex.min.css">
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">Interactive DAGs</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./confounders.html"> 
+<span class="menu-text">Confounders</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./mediators.html"> 
+<span class="menu-text">Mediators</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./colliders.html"> 
+<span class="menu-text">Colliders</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="./do-calculus.html" aria-current="page"> 
+<span class="menu-text"><em>do</em>-calculus</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./adjustment.html"> 
+<span class="menu-text">How to adjust</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#do-calculus" id="toc-do-calculus" class="nav-link active" data-scroll-target="#do-calculus"><em>do</em>-calculus</a></li>
+  <li><a href="#important-notation-for-graph-surgery" id="toc-important-notation-for-graph-surgery" class="nav-link" data-scroll-target="#important-notation-for-graph-surgery">Important notation for graph surgery</a>
+  <ul>
+  <li><a href="#graphs" id="toc-graphs" class="nav-link" data-scroll-target="#graphs">Graphs</a></li>
+  <li><a href="#overlines-and-underlines" id="toc-overlines-and-underlines" class="nav-link" data-scroll-target="#overlines-and-underlines">Overlines and underlines</a></li>
+  <li><a href="#ancestors" id="toc-ancestors" class="nav-link" data-scroll-target="#ancestors">Ancestors</a></li>
+  </ul></li>
+  <li><a href="#the-rules-of-do-calculus" id="toc-the-rules-of-do-calculus" class="nav-link" data-scroll-target="#the-rules-of-do-calculus">The rules of <em>do</em>-calculus</a>
+  <ul>
+  <li><a href="#formal-rules" id="toc-formal-rules" class="nav-link" data-scroll-target="#formal-rules">Formal rules</a></li>
+  <li><a href="#simplified-rules-for-single-confounder-dags" id="toc-simplified-rules-for-single-confounder-dags" class="nav-link" data-scroll-target="#simplified-rules-for-single-confounder-dags">Simplified rules for single-confounder DAGs</a></li>
+  </ul></li>
+  <li><a href="#backdoor-adjustment" id="toc-backdoor-adjustment" class="nav-link" data-scroll-target="#backdoor-adjustment">Backdoor adjustment</a>
+  <ul>
+  <li><a href="#deriving-the-backdoor-formula" id="toc-deriving-the-backdoor-formula" class="nav-link" data-scroll-target="#deriving-the-backdoor-formula">Deriving the backdoor formula</a>
+  <ul class="collapse">
+  <li><a href="#step-1-incorporate-z-into-py-mid-operatornamedox" id="toc-step-1-incorporate-z-into-py-mid-operatornamedox" class="nav-link" data-scroll-target="#step-1-incorporate-z-into-py-mid-operatornamedox">Step 1: Incorporate <span class="math inline">Z</span> into <span class="math inline">P(y \mid \operatorname{do}(x))</span></a></li>
+  <li><a href="#step-2-applying-rule-2-to-py-mid-operatornamedox-z" id="toc-step-2-applying-rule-2-to-py-mid-operatornamedox-z" class="nav-link" data-scroll-target="#step-2-applying-rule-2-to-py-mid-operatornamedox-z">Step 2: Applying Rule 2 to <span class="math inline">P(y \mid \operatorname{do}(x), z)</span></a></li>
+  <li><a href="#step-3-applying-rule-3-to-pz-mid-operatornamedox" id="toc-step-3-applying-rule-3-to-pz-mid-operatornamedox" class="nav-link" data-scroll-target="#step-3-applying-rule-3-to-pz-mid-operatornamedox">Step 3: Applying Rule 3 to <span class="math inline">P(z \mid \operatorname{do}(x))</span></a></li>
+  <li><a href="#step-4-final-formula" id="toc-step-4-final-formula" class="nav-link" data-scroll-target="#step-4-final-formula">Step 4: Final formula</a></li>
+  </ul></li>
+  </ul></li>
+  <li><a href="#front-door-adjustment" id="toc-front-door-adjustment" class="nav-link" data-scroll-target="#front-door-adjustment">Front-door adjustment</a>
+  <ul>
+  <li><a href="#deriving-the-front-door-formula" id="toc-deriving-the-front-door-formula" class="nav-link" data-scroll-target="#deriving-the-front-door-formula">Deriving the front-door formula</a>
+  <ul class="collapse">
+  <li><a href="#step-1-marginalize-over-z" id="toc-step-1-marginalize-over-z" class="nav-link" data-scroll-target="#step-1-marginalize-over-z">Step 1: Marginalize over <span class="math inline">Z</span></a></li>
+  <li><a href="#step-2-simplify-pz-mid-operatornamedox-with-def-rule2" id="toc-step-2-simplify-pz-mid-operatornamedox-with-def-rule2" class="nav-link" data-scroll-target="#step-2-simplify-pz-mid-operatornamedox-with-def-rule2">Step 2: Simplify <span class="math inline">P(z \mid \operatorname{do}(x))</span> with Rule&nbsp;2</a></li>
+  <li><a href="#step-3-simplify-py-mid-operatornamedox-z" id="toc-step-3-simplify-py-mid-operatornamedox-z" class="nav-link" data-scroll-target="#step-3-simplify-py-mid-operatornamedox-z">Step 3: Simplify <span class="math inline">P(y \mid \operatorname{do}(x), z)</span></a></li>
+  <li><a href="#step-4-final-formula-1" id="toc-step-4-final-formula-1" class="nav-link" data-scroll-target="#step-4-final-formula-1">Step 4: Final formula</a></li>
+  </ul></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title"><em>do</em>-calculus</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="do-calculus" class="level1 column-screen hero-banner-mini">
+<h1><em>do</em>-calculus</h1>
+<p>do(•)</p>
+</section>
+<p>TODO: Add citations to Pearl and others from my blog post</p>
+<p>Pearl’s <em>do</em>-calculus provides a set of algebraic rules for eliminating interventional <span class="math inline">\operatorname{do}(\cdot)</span> operators from causal expressions, allowing us to estimate causal effects from observational data.</p>
+<section id="important-notation-for-graph-surgery" class="level2">
+<h2 class="anchored" data-anchor-id="important-notation-for-graph-surgery">Important notation for graph surgery</h2>
+<p>Each <em>do</em>-calculus rule works by checking if specific nodes are d-separated in modified versions of the original DAG.</p>
+<p>There’s a whole set of special notation that gets used to make these temporarily modified graphs. I like to think of these as surgical instructions that tell us to cut specific arrows into or out of nodes.</p>
+<section id="graphs" class="level3">
+<h3 class="anchored" data-anchor-id="graphs">Graphs</h3>
+<p>The first bit of notation is easy. A DAG is defined as a graph <span class="math inline">G</span>. Phew. See <a href="#fig-dag-original" class="quarto-xref">Figure&nbsp;1 (a)</a> for an example DAG.</p>
+</section>
+<section id="overlines-and-underlines" class="level3">
+<h3 class="anchored" data-anchor-id="overlines-and-underlines">Overlines and underlines</h3>
+<p>The next bit of notation is new and involves adding lines above and below node names, like <span class="math inline">\overline{X}</span> and <span class="math inline">\underline{X}</span>.</p>
+<p>I imagine this line notation like a wall:</p>
+<ul>
+<li>If the wall is on top of X like <span class="math inline">\overline{X}</span>, you can’t draw any arrows going into it, so you delete any arrows going in to it</li>
+<li>If the wall is on the bottom of X like <span class="math inline">\underline{X}</span>, you can’t draw any arrows going out of it, so you delete any arrows going out of it</li>
+</ul>
+<p>This line notation is added as a subscript to <span class="math inline">G</span>:</p>
+<ul>
+<li><span class="math inline">G_{\overline{X}}</span>: <span class="math inline">G</span> with all arrows going <em>into</em> <span class="math inline">X</span> deleted; see <a href="#fig-dag-overbar" class="quarto-xref">Figure&nbsp;1 (b)</a></li>
+<li><span class="math inline">G_{\underline{X}}</span>: <span class="math inline">G</span> with all arrows going <em>out of</em> <span class="math inline">X</span> deleted; see <a href="#fig-dag-underbar" class="quarto-xref">Figure&nbsp;1 (c)</a></li>
+</ul>
+<div id="fig-modified-dags" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-modified-dags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-modified-dags" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-modified-dags">
+<div id="fig-dag-original" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dag-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-dag-original-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-modified-dags">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dag-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Original DAG, <span class="math inline">G</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-modified-dags" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-modified-dags">
+<div id="fig-dag-overbar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dag-overbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-dag-overbar-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-modified-dags">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dag-overbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">G_{\overline{X}}</span> with arrows <em>into</em> <span class="math inline">X</span> removed
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-modified-dags" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-modified-dags">
+<div id="fig-dag-underbar" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-dag-underbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-dag-underbar-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-modified-dags">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-dag-underbar-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) <span class="math inline">G_{\underline{X}}</span> with arrows <em>out of</em> <span class="math inline">X</span> removed
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-modified-dags-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;1: <span class="math inline">G</span>, <span class="math inline">G_{\overline{X}}</span>, and <span class="math inline">G_{\underline{X}}</span>
+</figcaption>
+</figure>
+</div>
+<p>These modifications can also be combined. The full rules of <em>do</em>-calculus use graphs like <span class="math inline">G_{\overline{X}\underline{Z}}</span> (arrows <em>into</em> <span class="math inline">X</span> and <em>out of</em> <span class="math inline">Z</span> both removed) and <span class="math inline">G_{\overline{X}\overline{Z}}</span> (arrows <em>into</em> <span class="math inline">X</span> and <em>into</em> <span class="math inline">Z</span> both removed). <a href="#fig-combined-mods" class="quarto-xref">Figure&nbsp;2</a> shows these with a four-node DAG:</p>
+<div id="fig-combined-mods" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-combined-mods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-combined-mods" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-combined-mods">
+<div id="fig-combined-original" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-combined-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-combined-original-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-combined-mods">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-combined-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Original DAG, <span class="math inline">G</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-combined-mods" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-combined-mods">
+<div id="fig-combined-overunder" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-combined-overunder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-combined-overunder-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-combined-mods">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-combined-overunder-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">G_{\overline{X}\underline{Z}}</span>: arrows into <span class="math inline">X</span> and out of <span class="math inline">Z</span> removed
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-combined-mods" style="flex-basis: 33.3%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-combined-mods">
+<div id="fig-combined-overover" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-combined-overover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-combined-overover-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-combined-mods">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-combined-overover-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(c) <span class="math inline">G_{\overline{X}\overline{Z}}</span>: arrows into <span class="math inline">X</span> and into <span class="math inline">Z</span> removed
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-combined-mods-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;2: Combined graph modifications with a four-node DAG
+</figcaption>
+</figure>
+</div>
+</section>
+<section id="ancestors" class="level3">
+<h3 class="anchored" data-anchor-id="ancestors">Ancestors</h3>
+<p>There’s one final bit of notation that lets us refer to ancestors of nodes—like in <span class="math inline">A \rightarrow B</span>, <span class="math inline">A</span> is an ancestor or predecessor of <span class="math inline">B</span>.</p>
+<p>We use <span class="math inline">Z(W)</span> to refer to any <span class="math inline">Z</span> nodes that aren’t ancestors of <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}}</span>. In some applications of <em>do</em>-calculus rules, we need to look at a modified graph like <span class="math inline">G_{\overline{X}\overline{Z(W)}}</span>. Instead of removing incoming arrows to <em>every</em> node in <span class="math inline">Z</span> like we would with something like <span class="math inline">G_{\overline{Z}}</span>, we only cut arrows for <span class="math inline">Z</span> nodes that are not ancestors of any <span class="math inline">W</span> node in <span class="math inline">G_{\overline{X}}</span>. Nodes in <span class="math inline">Z</span> that <em>are</em> ancestors of <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}}</span> keep their incoming arrows intact—severing them would alter the distribution of <span class="math inline">W</span>, distorting the conditional we depend on.</p>
+<p><a href="#fig-zw" class="quarto-xref">Figure&nbsp;3</a> illustrates this with two <span class="math inline">Z</span> nodes. <span class="math inline">Z_1</span> causes <span class="math inline">W</span> directly, so in <span class="math inline">G_{\overline{X}}</span> it is an ancestor of <span class="math inline">W</span> and is excluded from <span class="math inline">Z(W)</span>. <span class="math inline">Z_2</span> has no path to <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}}</span>, so it is included in <span class="math inline">Z(W)</span> and its incoming arrows are removed.</p>
+<div id="fig-zw" class="quarto-layout-panel">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-zw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="quarto-layout-row">
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-zw" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-zw">
+<div id="fig-zw-original" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-zw-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-zw-original-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-zw">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-zw-original-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(a) Original DAG, <span class="math inline">G</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-zw" style="flex-basis: 50.0%;justify-content: flex-start;">
+<div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-zw">
+<div id="fig-zw-modified" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-subfloat-fig figure">
+<div aria-describedby="fig-zw-modified-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-zw-modified-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:100.0%" data-ref-parent="fig-zw">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-subfloat-caption quarto-subfloat-fig" id="fig-zw-modified-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+(b) <span class="math inline">G_{\overline{X}\overline{Z(W)}}</span> with <span class="math inline">Z(W) = \{Z_2\}</span>: incoming arrows to <span class="math inline">X</span> and <span class="math inline">Z_2</span> removed, but <span class="math inline">Z_1</span>’s incoming arrows stay
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</div>
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-zw-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: <span class="math inline">Z_1</span> is an ancestor of <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}}</span> (via <span class="math inline">Z_1 \rightarrow W</span>), so <span class="math inline">Z_1 \notin Z(W)</span> and <span class="math inline">A \rightarrow Z_1</span> stays. <span class="math inline">Z_2</span> has no path to <span class="math inline">W</span>, so <span class="math inline">Z_2 \in Z(W)</span> and <span class="math inline">A \rightarrow Z_2</span> is removed.
+</figcaption>
+</figure>
+</div>
+</section>
+</section>
+<section id="the-rules-of-do-calculus" class="level2">
+<h2 class="anchored" data-anchor-id="the-rules-of-do-calculus">The rules of <em>do</em>-calculus</h2>
+<section id="formal-rules" class="level3">
+<h3 class="anchored" data-anchor-id="formal-rules">Formal rules</h3>
+<p>With this special notation for graph analysis, we can finally look at the three rules of <em>do</em>-calculus. In their most general form, they apply to any disjoint sets of variables <span class="math inline">X</span>, <span class="math inline">Y</span>, <span class="math inline">Z</span>, and <span class="math inline">W</span> in a causal DAG <span class="math inline">G</span>:</p>
+<div id="def-rule1" class="theorem definition">
+<p><span class="theorem-title"><strong>Rule 1 (Insertion/deletion of observations)</strong></span> An observed variable <span class="math inline">Z</span> can be added to or removed from a conditional if <span class="math inline">Y</span> and <span class="math inline">Z</span> are d-separated given <span class="math inline">X</span> and <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}}</span>:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z, w) = P(y \mid \operatorname{do}(x), w) \quad \text{if } (Y \perp Z \mid X, W)_{G_{\overline{X}}}
+</span></p>
+</div>
+<div id="def-rule2" class="theorem definition">
+<p><span class="theorem-title"><strong>Rule 2 (Action/observation exchange)</strong></span> An intervention <span class="math inline">\operatorname{do}(z)</span> can be replaced with an observation <span class="math inline">z</span> (or vice versa) if <span class="math inline">Y</span> and <span class="math inline">Z</span> are d-separated given <span class="math inline">X</span> and <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}\underline{Z}}</span>:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), \operatorname{do}(z), w) = P(y \mid \operatorname{do}(x), z, w) \quad \text{if } (Y \perp Z \mid X, W)_{G_{\overline{X}\underline{Z}}}
+</span></p>
+</div>
+<div id="def-rule3" class="theorem definition">
+<p><span class="theorem-title"><strong>Rule 3 (Insertion/deletion of actions)</strong></span> An intervention <span class="math inline">\operatorname{do}(z)</span> can be dropped entirely if <span class="math inline">Y</span> and <span class="math inline">Z</span> are d-separated given <span class="math inline">X</span> and <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}\overline{Z(W)}}</span>:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), \operatorname{do}(z), w) = P(y \mid \operatorname{do}(x), w) \quad \text{if } (Y \perp Z \mid X, W)_{G_{\overline{X}\overline{Z(W)}}}
+</span></p>
+<p>where <span class="math inline">Z(W)</span> is the set of <span class="math inline">Z</span> nodes that are not ancestors of any node in <span class="math inline">W</span> in <span class="math inline">G_{\overline{X}}</span>.</p>
+</div>
+<p>In all three rules, <span class="math inline">X</span>, <span class="math inline">Y</span>, <span class="math inline">Z</span>, and <span class="math inline">W</span> are generic placeholders for any disjoint sets of variables—<span class="math inline">X</span> represents existing interventions, <span class="math inline">Z</span> is the variable being added, removed, or exchanged, <span class="math inline">Y</span> is the outcome, and <span class="math inline">W</span> is an optional conditioning set. Any of these sets may be empty.</p>
+</section>
+<section id="simplified-rules-for-single-confounder-dags" class="level3">
+<h3 class="anchored" data-anchor-id="simplified-rules-for-single-confounder-dags">Simplified rules for single-confounder DAGs</h3>
+<p>For the common case of a single intervention on <span class="math inline">X</span> with a single outcome <span class="math inline">Y</span> and no additional conditioning (<span class="math inline">W = \varnothing</span>), Rules 1–3 can reduce to simpler forms. In these versions, the variable names refer to specific nodes in the DAG rather than generic placeholders:</p>
+<div id="lem-rule1" class="theorem lemma">
+<p><span class="theorem-title"><strong>Simplified Rule 1 (Ignore an observation)</strong></span> We can ignore an extra observed variable <span class="math inline">Z</span> if it is d-separated from <span class="math inline">Y</span> in <span class="math inline">G_{\overline{X}}</span> (the graph with arrows into <span class="math inline">X</span> removed):</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(x)) \quad \text{if } (Y \perp Z \mid X)_{G_{\overline{X}}}
+</span></p>
+</div>
+<div id="lem-rule2" class="theorem lemma">
+<p><span class="theorem-title"><strong>Simplified Rule 2 (Treat an intervention as an observation)</strong></span> We can replace <span class="math inline">\operatorname{do}(x)</span> with simply observing <span class="math inline">x</span> if, after removing <span class="math inline">X</span>’s outgoing edges, <span class="math inline">X</span> and <span class="math inline">Y</span> are d-separated given the covariates <span class="math inline">Z</span>:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z) = P(y \mid x, z) \quad \text{if } (Y \perp X \mid Z)_{G_{\underline{X}}}
+</span></p>
+</div>
+<div id="lem-rule3" class="theorem lemma">
+<p><span class="theorem-title"><strong>Simplified Rule 3 (Ignore an intervention)</strong></span> We can drop <span class="math inline">\operatorname{do}(x)</span> entirely if, after removing <span class="math inline">X</span>’s incoming edges, <span class="math inline">X</span> and <span class="math inline">Y</span> are d-separated given the covariates:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z) = P(y \mid z) \quad \text{if } (Y \perp X \mid Z)_{G_{\overline{X}}}
+</span></p>
+</div>
+<div id="tip-flexible" class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note&nbsp;1: These formulas are flexible
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>With all three of these rules, the variables names are interchangeable depending on the relationships in the DAG: <span class="math inline">X</span>, <span class="math inline">Y</span>, and <span class="math inline">Z</span> can stand for any sets of variables. Additionally, the conditioning set (the <span class="math inline">z</span> term) could be empty (e.g.&nbsp;<span class="math inline">Z \rightarrow Y</span> with no other nodes involved).</p>
+<p>Similarly, notice how the <span class="math inline">(Y \perp X \mid Z)_{G_{\underline{X}}}</span> in <a href="#lem-rule2" class="quarto-xref">Simplified Rule&nbsp;2</a> looks slightly different than the <span class="math inline">(Y \perp Z \mid X, W)_{G_{\overline{X}\underline{Z}}}</span> in <a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a>. That’s because the variable names swap roles. In the general rule, <span class="math inline">Z</span> is a placeholder for whatever variable is being exchanged, but in the simplified version, we’re exchanging <span class="math inline">\operatorname{do}(x)</span>, so we use <span class="math inline">X</span>. Additionally, <span class="math inline">Z</span> (the confounder) replaces the general <span class="math inline">W</span> conditioning set, and there are no other existing interventions, so the <span class="math inline">G_{\overline{X}}</span> modification disappears.</p>
+</div>
+</div>
+</section>
+</section>
+<section id="backdoor-adjustment" class="level2">
+<h2 class="anchored" data-anchor-id="backdoor-adjustment">Backdoor adjustment</h2>
+<p>Let’s say that we’re interested in the causal effect of <span class="math inline">X</span> on <span class="math inline">Y</span>, but we have a confounder <span class="math inline">Z</span> that opens a backdoor path <span class="math inline">X \leftarrow Z \rightarrow Y</span>, creating a DAG that looks like this:</p>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-dag" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-dag-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4: DAG with a confounder
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Our target estimand is <span class="math inline">P(y \mid \operatorname{do}(x))</span>,<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a> or the distribution of <span class="math inline">Y</span> in a world where we intervene to set <span class="math inline">X = x</span>. However, that <span class="math inline">\operatorname{do}(\cdot)</span> operator represents a hypothetical intervention where we can set <span class="math inline">X = x</span> directly, breaking its usual causes. In an experimental setting, that works fine—we can randomly assign people to get assigned to different values of <span class="math inline">x</span>. But in observational data, we don’t have control over treatment assignment and we cannot intervene.</p>
+<p>We can use the simplified rules of <em>do</em>-calculus to eliminate the <span class="math inline">\operatorname{do}(x)</span> and estimate the causal effect from observational data.</p>
+<section id="deriving-the-backdoor-formula" class="level3">
+<h3 class="anchored" data-anchor-id="deriving-the-backdoor-formula">Deriving the backdoor formula</h3>
+<p>With the rules of <em>do</em>-calculus, we can take our estimand of interest—the effect of <span class="math inline">X</span> on <span class="math inline">Y</span>, or <span class="math inline">P(y \mid \operatorname{do}(x))</span>—and transform it into a <em>do</em>-free statement that deals with the confounding from <span class="math inline">Z</span>.</p>
+<section id="step-1-incorporate-z-into-py-mid-operatornamedox" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-incorporate-z-into-py-mid-operatornamedox">Step 1: Incorporate <span class="math inline">Z</span> into <span class="math inline">P(y \mid \operatorname{do}(x))</span></h4>
+<p>To adjust for the confounder <span class="math inline">Z</span>, we need to incorporate it into the formula for our estimand. We do this by considering the joint distribution of <span class="math inline">Y</span> and <span class="math inline">Z</span> in a world where <span class="math inline">X</span> occurs through an intervention, or <span class="math inline">P(y, z \mid \operatorname{do}(x))</span>. This gives us the probability that <span class="math inline">Y = y</span> and <span class="math inline">Z = z</span> simultaneously when we force <span class="math inline">X = x</span>.</p>
+<p>To get our target <span class="math inline">P(y \mid \operatorname{do}(x))</span> from this joint distribution, we marginalize over <span class="math inline">Z</span>, or sum over all possible values of <span class="math inline">Z</span>:</p>
+<p><span id="eq-marginalized"><span class="math display">
+{\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{red} P(y, z \mid \operatorname{do}(x))}
+\tag{1}</span></span></p>
+<p>Our estimand now includes <span class="math inline">Z</span>, but this joint distribution equation is hard to work with. We need to break it smaller, more manageable pieces and separate <span class="math inline">y</span> and <span class="math inline">x</span>. Using the chain rule of probability (which applies to interventional distributions just as it does to observational ones), we can expand out <a href="#eq-marginalized" class="quarto-xref">Equation&nbsp;1</a>:</p>
+<p><span id="eq-expanded"><span class="math display">
+{\color{red} P(y, z \mid \operatorname{do}(x))} = {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
+\tag{2}</span></span></p>
+<p>We can substitute that expanded version back into <a href="#eq-marginalized" class="quarto-xref">Equation&nbsp;1</a>:</p>
+<p><span id="eq-marginalized-expanded"><span class="math display">
+{\color{blue} P(y \mid \operatorname{do}(x))} = \sum_z {\color{orange} P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))}
+\tag{3}</span></span></p>
+<p>Or without colors:</p>
+<p><span id="eq-marginalized-expanded-final"><span class="math display">
+P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))
+\tag{4}</span></span></p>
+<p>Now we have two <span class="math inline">\operatorname{do}(\cdot)</span>-based quantities that we cannot directly estimate from data:</p>
+<ul>
+<li><span class="math inline">P(y \mid \operatorname{do}(x), z)</span>: “Given that we intervene on <span class="math inline">X</span> and observe <span class="math inline">Z = z</span>, what’s the probability of <span class="math inline">Y = y</span>?”</li>
+<li><span class="math inline">P(z \mid \operatorname{do}(x))</span>: “In a world where we intervene on <span class="math inline">X</span>, what’s the probability that <span class="math inline">Z = z</span>?”</li>
+</ul>
+<p>Our next job is to use the rules of <em>do</em>-calculus to remove those <span class="math inline">\operatorname{do}(\cdot)</span> interventions.</p>
+</section>
+<section id="step-2-applying-rule-2-to-py-mid-operatornamedox-z" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-applying-rule-2-to-py-mid-operatornamedox-z">Step 2: Applying Rule 2 to <span class="math inline">P(y \mid \operatorname{do}(x), z)</span></h4>
+<p>According to <a href="#lem-rule2" class="quarto-xref">Simplified Rule&nbsp;2</a>, we can replace an interventional <span class="math inline">\operatorname{do}(x)</span> with a regular observed <span class="math inline">x</span> if we meet specific conditions in <span class="math inline">G_{\underline{X}}</span>, or the graph with all arrows out of <span class="math inline">X</span> deleted: <span class="math inline">Y</span> must be d-separated from <span class="math inline">X</span>, given the covariates <span class="math inline">Z</span>. Here’s what <span class="math inline">G_{\underline{X}}</span> looks like:</p>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-rule2-check" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rule2-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-rule2-check-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rule2-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5: Check d-separation of <span class="math inline">X</span> and <span class="math inline">Y</span> given <span class="math inline">Z</span> in <span class="math inline">G_{\underline{X}}</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The only path between <span class="math inline">X</span> and <span class="math inline">Y</span> in <span class="math inline">G_{\underline{X}}</span> is <span class="math inline">X \leftarrow Z \rightarrow Y</span>. Adjusting for <span class="math inline">Z</span> blocks this path, so <span class="math inline">(Y \perp X \mid Z)_{G_{\underline{X}}}</span> holds. That means that we can swap out <span class="math inline">\operatorname{do}(x)</span> for a regular observed <span class="math inline">x</span>:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z) = P(y \mid x, z)
+</span></p>
+</section>
+<section id="step-3-applying-rule-3-to-pz-mid-operatornamedox" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-applying-rule-3-to-pz-mid-operatornamedox">Step 3: Applying Rule 3 to <span class="math inline">P(z \mid \operatorname{do}(x))</span></h4>
+<p>According to <a href="#lem-rule3" class="quarto-xref">Simplified Rule&nbsp;3</a>, we can remove a <span class="math inline">\operatorname{do}(\cdot)</span> operator if we meet specific conditions in <span class="math inline">G_{\overline{X}}</span>, or the graph with all arrows into <span class="math inline">X</span> deleted: <span class="math inline">Z</span> must be d-separated from <span class="math inline">X</span> in <span class="math inline">G_{\overline{X}}</span>.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Wait, this doesn’t exactly match Rule 3??
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><a href="#lem-rule3" class="quarto-xref">Simplified Rule&nbsp;3</a> officially talks about independence between <span class="math inline">X</span> and <span class="math inline">Y</span>, but here we’re talking about <span class="math inline">X</span> and <span class="math inline">Z</span>. What gives?</p>
+<p>Remember from <a href="#tip-flexible" class="quarto-xref">Tip&nbsp;1</a> that these variable names are flexible. We don’t have to look only at <span class="math inline">X</span> and <span class="math inline">Y</span>—any nodes can stand in for those. In this case, we care about the relationship between <span class="math inline">Z</span> and <span class="math inline">X</span>, where the “outcome” variable is <span class="math inline">Z</span> instead of <span class="math inline">Y</span>.</p>
+<p>Additionally, <em>technically</em> <a href="#lem-rule3" class="quarto-xref">Simplified Rule&nbsp;3</a> includes conditioning set <span class="math inline">z</span>: <span class="math inline">P(y \mid \operatorname{do}(x), z)</span>. However, the <span class="math inline">z</span> term in the formula can be empty. In this case, <span class="math inline">Y</span> is related to <span class="math inline">X</span> and <span class="math inline">Z</span> as a collider and, accordingly, we don’t adjust for it, so we can leave it out of the equation. Thus, we can take this official expression from Rule 3:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z)
+</span></p>
+<p>and modify it by</p>
+<ul>
+<li>switching the “outcome” variable to <span class="math inline">Z</span>, so <span class="math inline">y</span> becomes <span class="math inline">z</span>, and</li>
+<li>using an empty conditioning set, so the “<span class="math inline">z</span>” in <span class="math inline">P(y \mid \operatorname{do}(x), z)</span> disappears</li>
+</ul>
+<p>…resulting in</p>
+<p><span class="math display">
+P(z \mid \operatorname{do}(x))
+</span></p>
+<p>for this special case.</p>
+</div>
+</div>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-rule3-check" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-rule3-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-rule3-check-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:30.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-rule3-check-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;6: Check d-separation of <span class="math inline">Z</span> and <span class="math inline">X</span> in <span class="math inline">G_{\overline{X}}</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>The only path between <span class="math inline">Z</span> and <span class="math inline">X</span> in <span class="math inline">G_{\overline{X}}</span> is <span class="math inline">Z \rightarrow Y \leftarrow X</span>. In this case, <span class="math inline">Y</span> is a collider and since we don’t adjust for or condition on colliders, that pathway is blocked and <span class="math inline">(Z \perp X)_{G_{\overline{X}}}</span> holds. That means that we can completely eliminate <span class="math inline">\operatorname{do}(x)</span>:</p>
+<p><span class="math display">
+P(z \mid \operatorname{do}(x)) = P(z)
+</span></p>
+</section>
+<section id="step-4-final-formula" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-final-formula">Step 4: Final formula</h4>
+<p>Finally we can substitute both <em>do</em>-free results back into our original expression from <a href="#eq-marginalized-expanded-final" class="quarto-xref">Equation&nbsp;4</a>:</p>
+<p><span class="math display">
+\begin{aligned}
+P(y \mid \operatorname{do}(x)) &amp;= \sum_z \underbrace{P(y \mid \operatorname{do}(x), z)}_{\text{Rule 2}} \times \underbrace{P(z \mid \operatorname{do}(x))}_{\text{Rule 3}} \\
+&amp;= \sum_z \underbrace{P(y \mid x, z)}_{\text{Rule 2}} \times \underbrace{P(z)}_{\text{Rule 3}}
+\end{aligned}
+</span></p>
+<p>This gives us the official backdoor adjustment formula:</p>
+<p><span id="eq-backdoor"><span class="math display">
+\boxed{\rule{0pt}{1.5em}\;\; P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid x, z) \times P(z) \;\;}
+\tag{5}</span></span></p>
+<p>All <span class="math inline">\operatorname{do}(\cdot)</span> operators are gone and every term on the right-hand side is an ordinary observational value. This means that we can estimate the causal effect of <span class="math inline">X</span> on <span class="math inline">Y</span> from observational data as long as we measure and adjust for <span class="math inline">Z</span>.</p>
+</section>
+</section>
+</section>
+<section id="front-door-adjustment" class="level2">
+<h2 class="anchored" data-anchor-id="front-door-adjustment">Front-door adjustment</h2>
+<p>The backdoor criterion requires that we can observe and adjust for all confounders. But what if the confounder is <em>unobserved</em>? It turns out that if we can observe a mediator <span class="math inline">Z</span> that fully mediates <span class="math inline">X</span>’s effect on <span class="math inline">Y</span>, we can still identify the causal effect using the front-door criterion. This derivation is a little more complex, but still doable with the rules of <em>do</em>-calculus.</p>
+<p>Consider a DAG where:</p>
+<ul>
+<li><span class="math inline">X</span> causes <span class="math inline">Y</span> entirely through a mediator <span class="math inline">Z</span> (no direct <span class="math inline">X \rightarrow Y</span> edge)</li>
+<li>There is an unobserved confounder <span class="math inline">U</span> that affects both <span class="math inline">X</span> and <span class="math inline">Y</span></li>
+<li><span class="math inline">U</span> does <em>not</em> affect <span class="math inline">Z</span> directly</li>
+</ul>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-frontdoor-dag" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-frontdoor-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-frontdoor-dag-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-frontdoor-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;7: Front-door DAG: <span class="math inline">X</span> affects <span class="math inline">Y</span> only through <span class="math inline">Z</span>, but an unobserved confounder <span class="math inline">U</span> creates a backdoor path
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>Because <span class="math inline">U</span> is unobserved, we cannot adjust for it—it’s a confounder, but we cannot use backdoor adjustment. But we can get around that by using a front-door approach.</p>
+<section id="deriving-the-front-door-formula" class="level3">
+<h3 class="anchored" data-anchor-id="deriving-the-front-door-formula">Deriving the front-door formula</h3>
+<p>Our target estimand is again <span class="math inline">P(y \mid \operatorname{do}(x))</span>. Unlike the backdoor case, the simplified rules are not sufficient here—we need the full rules, which handle multiple simultaneous interventions and combined graph modifications like <span class="math inline">G_{\overline{X}\underline{Z}}</span>.</p>
+<section id="step-1-marginalize-over-z" class="level4">
+<h4 class="anchored" data-anchor-id="step-1-marginalize-over-z">Step 1: Marginalize over <span class="math inline">Z</span></h4>
+<p>As with the backdoor derivation, we start by incorporating <span class="math inline">Z</span> into our estimand. We marginalize over <span class="math inline">Z</span> and expand using the chain rule:</p>
+<p><span id="eq-fd-expanded"><span class="math display">
+P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid \operatorname{do}(x), z) \times P(z \mid \operatorname{do}(x))
+\tag{6}</span></span></p>
+<p>We now need to eliminate that interventional <span class="math inline">\operatorname{do}(x)</span> from both terms.</p>
+</section>
+<section id="step-2-simplify-pz-mid-operatornamedox-with-def-rule2" class="level4">
+<h4 class="anchored" data-anchor-id="step-2-simplify-pz-mid-operatornamedox-with-def-rule2">Step 2: Simplify <span class="math inline">P(z \mid \operatorname{do}(x))</span> with <a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a></h4>
+<p><a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a> says we can replace <span class="math inline">\operatorname{do}(x)</span> with observing <span class="math inline">x</span> if <span class="math inline">Z</span> and <span class="math inline">X</span> are d-separated in the graph with arrows <em>out of</em> <span class="math inline">X</span> removed.</p>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-fd-rule2-zx" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fd-rule2-zx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-fd-rule2-zx-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fd-rule2-zx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;8: Check d-separation of <span class="math inline">Z</span> and <span class="math inline">X</span> in <span class="math inline">G_{\\underline{X}}</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In <span class="math inline">G_{\underline{X}}</span>, the only path between <span class="math inline">X</span> and <span class="math inline">Z</span> goes through <span class="math inline">U</span>: <span class="math inline">X \leftarrow U \rightarrow Y \leftarrow Z</span>. But <span class="math inline">Y</span> is a collider on this path and we don’t condition on it, so the path is blocked. Therefore <span class="math inline">(Z \perp X)_{G_{\underline{X}}}</span> holds, and:</p>
+<p><span class="math display">
+P(z \mid \operatorname{do}(x)) = P(z \mid x)
+</span></p>
+</section>
+<section id="step-3-simplify-py-mid-operatornamedox-z" class="level4">
+<h4 class="anchored" data-anchor-id="step-3-simplify-py-mid-operatornamedox-z">Step 3: Simplify <span class="math inline">P(y \mid \operatorname{do}(x), z)</span></h4>
+<p>This term is trickier. We need to replace <span class="math inline">\operatorname{do}(x)</span> with something we can work with. The strategy is to first convert the <em>observation</em> of <span class="math inline">z</span> into an <em>intervention</em> <span class="math inline">\operatorname{do}(z)</span>, then drop <span class="math inline">\operatorname{do}(x)</span>, and finally eliminate <span class="math inline">\operatorname{do}(z)</span> via backdoor adjustment.</p>
+<p><strong>Step 3a: Apply <a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a> (in reverse) to convert observation <span class="math inline">z</span> to <span class="math inline">\operatorname{do}(z)</span>.</strong></p>
+<p><a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a> tells us that an intervention <span class="math inline">\operatorname{do}(z)</span> can be replaced with an observation <span class="math inline">z</span> (or vice versa) if a d-separation condition holds. Here we want to go from observing <span class="math inline">z</span> to intervening <span class="math inline">\operatorname{do}(z)</span>, so we check the condition for the reverse direction (because <a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a> is an equality, it’s true in either direction, so we can look at it either way):</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(x), \operatorname{do}(z)) \quad \text{if } (Y \perp Z \mid X)_{G_{\overline{X}\underline{Z}}}
+</span></p>
+<p>We need to verify that <span class="math inline">Y</span> and <span class="math inline">Z</span> are d-separated given <span class="math inline">X</span> in the graph where we:</p>
+<ul>
+<li>Remove arrows <em>into</em> <span class="math inline">X</span> (the <span class="math inline">\overline{X}</span> modification)</li>
+<li>Remove arrows <em>out of</em> <span class="math inline">Z</span> (the <span class="math inline">\underline{Z}</span> modification)</li>
+</ul>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-fd-rule2-yz" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fd-rule2-yz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-fd-rule2-yz-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fd-rule2-yz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;9: Check d-separation of <span class="math inline">Y</span> and <span class="math inline">Z</span> given <span class="math inline">X</span> in <span class="math inline">G_{\\overline{X}\\underline{Z}}</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In <span class="math inline">G_{\overline{X}\underline{Z}}</span>, the remaining edges are <span class="math inline">X \rightarrow Z</span> and <span class="math inline">U \rightarrow Y</span> (since <span class="math inline">U \rightarrow X</span> is removed by <span class="math inline">\overline{X}</span> and <span class="math inline">Z \rightarrow Y</span> is removed by <span class="math inline">\underline{Z}</span>). There is no path connecting <span class="math inline">Z</span> and <span class="math inline">Y</span> at all, so <span class="math inline">(Y \perp Z \mid X)_{G_{\overline{X}\underline{Z}}}</span> trivially holds. We can make the exchange:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(x), \operatorname{do}(z))
+</span></p>
+<p>Since Rule 2 is an equivalence (<span class="math inline">P(y \mid \operatorname{do}(x), \operatorname{do}(z), w) = P(y \mid \operatorname{do}(x), z, w)</span> when the condition holds), it works symmetrically—if the condition holds, we can replace an observation with an intervention just as easily as the other way around.</p>
+<p><strong>Step 3b: Apply <a href="#def-rule3" class="quarto-xref">Rule&nbsp;3</a> to drop <span class="math inline">\operatorname{do}(x)</span>.</strong></p>
+<p><a href="#def-rule3" class="quarto-xref">Rule&nbsp;3</a> says we can remove an intervention <span class="math inline">\operatorname{do}(x)</span> if a d-separation condition holds in a specially modified graph:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), \operatorname{do}(z)) = P(y \mid \operatorname{do}(z)) \quad \text{if } (Y \perp X \mid Z, W)_{G_{\overline{Z}\overline{X(W)}}}
+</span></p>
+<p>In our expression <span class="math inline">P(y \mid \operatorname{do}(x), \operatorname{do}(z))</span>, there are no observed conditioning variables, so <span class="math inline">W = \varnothing</span>. Since <span class="math inline">W</span> is empty, no node in <span class="math inline">X</span> can be an ancestor of a <span class="math inline">W</span>-node, meaning <span class="math inline">X(W) = X</span>—all nodes in <span class="math inline">X</span> qualify for having their incoming arrows removed. The graph we check is therefore <span class="math inline">G_{\overline{Z}\overline{X}}</span>, with incoming arrows into <em>both</em> <span class="math inline">Z</span> and <span class="math inline">X</span> removed:</p>
+<div class="cell" data-layout-align="center" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]">
+<div class="cell-output-display">
+<div id="fig-fd-rule3-gzx" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-fd-rule3-gzx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="do-calculus_files/figure-html/fig-fd-rule3-gzx-1.svg" class="img-fluid quarto-figure quarto-figure-center figure-img" style="width:35.0%">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-fd-rule3-gzx-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;10: Check d-separation of <span class="math inline">Y</span> and <span class="math inline">X</span> in <span class="math inline">G_{\\overline{Z}\\overline{X}}</span>
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>In <span class="math inline">G_{\overline{Z}\overline{X}}</span>, the edges <span class="math inline">U \rightarrow X</span> and <span class="math inline">X \rightarrow Z</span> are both removed. <span class="math inline">X</span> is completely isolated—no edges connect it to any other node—so <span class="math inline">X</span> and <span class="math inline">Y</span> are trivially d-separated regardless of conditioning. Therefore <span class="math inline">(Y \perp X \mid Z)_{G_{\overline{Z}\overline{X}}}</span> holds, and by <a href="#def-rule3" class="quarto-xref">Rule&nbsp;3</a>:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), \operatorname{do}(z)) = P(y \mid \operatorname{do}(z))
+</span></p>
+<p>By combining steps 3a and 3b, we get this:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(x), z) = P(y \mid \operatorname{do}(z))
+</span></p>
+<p><strong>Step 3c: Eliminate <span class="math inline">\operatorname{do}(z)</span> via backdoor adjustment.</strong></p>
+<p>Now we need to turn <span class="math inline">P(y \mid \operatorname{do}(z))</span> into purely observational terms. In the original DAG, there is a backdoor path from <span class="math inline">Z</span> to <span class="math inline">Y</span>: <span class="math inline">Z \leftarrow X \leftarrow U \rightarrow Y</span>. We can block this by adjusting for <span class="math inline">X</span> (which is observed). Conditioning on and marginalizing over <span class="math inline">X</span>:</p>
+<p><span class="math display">
+P(y \mid \operatorname{do}(z)) = \sum_{x'} P(y \mid z, x') \times P(x')
+</span></p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>Why can we adjust for <span class="math inline">X</span> here?
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>When estimating the effect of <span class="math inline">Z</span> on <span class="math inline">Y</span>, <span class="math inline">X</span> acts as a confounder (it causes <span class="math inline">Z</span> and, through <span class="math inline">U</span>, is associated with <span class="math inline">Y</span>). Conditioning on <span class="math inline">X</span> blocks the backdoor path <span class="math inline">Z \leftarrow X \leftarrow U \rightarrow Y</span>. This works even though <span class="math inline">U</span> is unobserved—<span class="math inline">X</span> is sufficient because it intercepts the chain between <span class="math inline">U</span> and <span class="math inline">Z</span>.</p>
+<p>More formally, we apply <a href="#def-rule2" class="quarto-xref">Rule&nbsp;2</a> to get <span class="math inline">P(y \mid \operatorname{do}(z), x') = P(y \mid z, x')</span> (since <span class="math inline">X</span> blocks all backdoor paths from <span class="math inline">Z</span> to <span class="math inline">Y</span>), and <a href="#def-rule3" class="quarto-xref">Rule&nbsp;3</a> to get <span class="math inline">P(x' \mid \operatorname{do}(z)) = P(x')</span> (since there is no directed path from <span class="math inline">Z</span> to <span class="math inline">X</span>).</p>
+</div>
+</div>
+</section>
+<section id="step-4-final-formula-1" class="level4">
+<h4 class="anchored" data-anchor-id="step-4-final-formula-1">Step 4: Final formula</h4>
+<p>Finally, we can substitute everything back into <a href="#eq-fd-expanded" class="quarto-xref">Equation&nbsp;6</a>:</p>
+<p><span class="math display">
+\begin{aligned}
+P(y \mid \operatorname{do}(x)) &amp;= \sum_z \underbrace{P(y \mid \operatorname{do}(x), z)}_{\text{Step 3}} \times \underbrace{P(z \mid \operatorname{do}(x))}_{\text{Step 2}} \\
+&amp;= \sum_z \underbrace{\sum_{x'} P(y \mid z, x') \times P(x')}_{\text{Backdoor on } Z \to Y} \times \underbrace{P(z \mid x)}_{\text{Rule 2}}
+\end{aligned}
+</span></p>
+<p>This gives us the official front-door adjustment formula:</p>
+<p><span id="eq-frontdoor"><span class="math display">
+\boxed{\rule{0pt}{1.5em}\;\; P(y \mid \operatorname{do}(x)) = \sum_z P(z \mid x) \sum_{x'} P(y \mid x', z) \times P(x') \;\;}
+\tag{7}</span></span></p>
+<p>All <span class="math inline">\operatorname{do}(\cdot)</span> operators are gone and term on the right-hand side is an ordinary observational quantity. We can then use this in two steps:</p>
+<ol type="1">
+<li><span class="math inline">P(z \mid x)</span>: Estimate how <span class="math inline">X</span> affects <span class="math inline">Z</span>. This is unconfounded because <span class="math inline">U</span> doesn’t directly affect <span class="math inline">Z</span>.</li>
+<li><span class="math inline">\sum_{x'} P(y \mid x', z) \times P(x')</span>: Estimate how <span class="math inline">Z</span> affects <span class="math inline">Y</span>, adjusting for <span class="math inline">X</span> to block the backdoor path through <span class="math inline">U</span>.</li>
+</ol>
+<p>By chaining these two unconfounded estimates together, we recover the full causal effect of <span class="math inline">X</span> on <span class="math inline">Y</span> despite never observing <span class="math inline">U</span>.</p>
+
+
+</section>
+</section>
+</section>
+
+
+<div id="quarto-appendix" class="default"><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p><em>Strictly</em> speaking, that’s not actually true! <span class="math inline">P(y \mid \operatorname{do}(x))</span> is an interventional distribution, while causal effects or estimands are contrasts of that distribution, like <span class="math inline">E[Y \mid \operatorname{do}(x = 1)] - E[Y \mid \operatorname{do}(x = 0)]</span>. But for the sake of simplicity, we’ll pretend.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/dags\.andrewheiss\.com");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>
