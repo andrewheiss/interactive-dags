@@ -3,6 +3,14 @@
 
 /*-- scss:rules --*/
 
+// Bootstrap hardcodes dark text on .btn-secondary and .btn-light regardless of
+// the actual background color. This reapplies Bootstrap's precalculated dark
+// button text color to be used with my dark secondary color (steel: "#5d6174")
+.btn-secondary,
+.btn-outline-secondary {
+  color: var(--bs-btn-color);
+}
+
 // -----------------------------------------------------------------------------
 // Simulation styles
 

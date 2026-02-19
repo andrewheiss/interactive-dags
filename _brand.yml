@@ -22,7 +22,7 @@ color:
   success: olive
   info: steel
   warning: mustard
-  danger: rust
+  danger: burgundy
 
 typography:
   fonts:
