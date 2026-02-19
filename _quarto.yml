@@ -13,7 +13,23 @@ execute:
 
 website:
   title: "DAGs"
-  favicon: img/favicon.png
+
+  site-url: ""
+  favicon: "img/favicon.png"
+  image: ""
+
+  open-graph:
+    image: "/img/preview.png"
+    locale: en_US
+
+  twitter-card:
+    image: "/img/preview.png"
+    card-style: summary_large_image
+
+  repo-url: "https://github.com/andrewheiss/interactive-dags"
+  repo-actions: [source, issue]
+
+
   navbar:
     left:
       - text: "Interactive DAGs"
@@ -28,6 +44,19 @@ website:
         href: do-calculus.qmd
       - text: How to adjust
         href: adjustment.qmd
+    right:
+      - icon: github
+        href: "https://github.com/andrewheiss/interactive-dags"
+  
+  page-footer:
+    border: false
+    background: "#dddddd"
+    left: |
+      {{< fa brands creative-commons >}} 2026 by [Andrew Heiss](https://www.andrewheiss.com) | [CC BY-SA](https://creativecommons.org/licenses/by-sa/4.0/) {{< fa brands creative-commons-by >}} {{< fa brands creative-commons-sa >}}
+    right: |
+      Made with {{< fa brands r-project >}} and [Quarto](https://quarto.org/)
+    center: |
+      ![](img/confounder-xy.svg){width="8%" .dag-footer}
 
 format:
   html:

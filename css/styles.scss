@@ -119,8 +119,8 @@ hr.dinkus {
   width: 32px;
   margin: 2em auto;
   background-color: #454545;
-  mask: url("img/dinkus.svg") no-repeat center / contain;
-  -webkit-mask: url("img/dinkus.svg") no-repeat center / contain;
+  mask: url("img/confounder-xy.svg") no-repeat center / contain;
+  -webkit-mask: url("img/confounder-xy.svg") no-repeat center / contain;
 }
 
 // Modify the colors of the SVG DAG icons
@@ -130,6 +130,11 @@ img.dag-white {
   // filters for other colors hex colors
   filter: invert(1);
   opacity: 0.85;
+}
+
+img.dag-footer {
+  // This filter is #616161 via https://codepen.io/sosuke/pen/Pjoqqp
+  filter: invert(37%) sepia(0%) saturate(0%) hue-rotate(290deg) brightness(100%) contrast(92%);
 }
 
 // Shrink KaTeX math a little so it fits in the text better
@@ -212,5 +217,42 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
     @extend .hero-banner;
     padding: 1rem 1rem;
     margin-bottom: 3rem;
+  }
+}
+
+// Footer stuff
+
+.nav-footer {
+  a:hover {
+    color: $link-hover-color;
+  }
+}
+
+// Footer center section stuff
+.nav-footer .nav-footer-center {
+  // Override Quarto's large margin-top on narrow screens
+  @media (max-width: 767.98px) {
+    margin-top: 0;
+  }
+
+  p {
+    margin-bottom: 0.5em;
+  }
+
+  .toc-actions {
+    padding: 0;
+
+    // Center the GitHub actions links
+    ul {
+      padding-left: 0;
+      margin-bottom: 0;
+      justify-content: center;
+      gap: 0.25em;
+
+      li {
+        margin: 0;
+        padding: 0;
+      }
+    }
   }
 }
