@@ -1,6 +1,8 @@
 ---
 title: "How to adjust"
 toc: true
+toc-depth: 4
+toc-expand: 2
 ---
 
 ::: {.column-screen .hero-banner-mini}
@@ -301,17 +303,17 @@ Practically speaking, this gives more weight to more unusual and unexpected obse
 
 We adjust for confounding with inverse probability weights with this process:
 
-- **Create a treatment model**: Use the confounders to calculate propensity scores—or the probability of being treated—for each observation, typically using logistic regression (if the treatment is binary) or some other regression model (if the treatment is continuous)
+1. **Create a treatment model**: Use the confounders to calculate propensity scores—or the probability of being treated—for each observation, typically using logistic regression (if the treatment is binary) or some other regression model (if the treatment is continuous)
 
-- **Calculate inverse probability weights**: Use the propensity scores and observed treatment status to create weights. There are lots of ways to do this! A common formula for binary treatments looks like this:
+2. **Calculate inverse probability weights**: Use the propensity scores and observed treatment status to create weights. There are lots of ways to do this! A common formula for binary treatments looks like this:
 
-  $$
-  \frac{\text{Treatment}}{\text{Propensity}} + \frac{1 - \text{Treatment}}{1 - \text{Propensity}}
-  $$
+   $$
+   \frac{\text{Treatment}}{\text{Propensity}} + \frac{1 - \text{Treatment}}{1 - \text{Propensity}}
+   $$
 
-  The [{WeightIt}](https://ngreifer.github.io/WeightIt/) package provides many other weighting methods for binary and continuous treatments.
+   The [{WeightIt}](https://ngreifer.github.io/WeightIt/) package provides many other weighting methods for binary and continuous treatments.
 
-- **Use the weights in an outcome model**: Use the inverse probability weights to reweight all the observations in your sample when running your regression model. A common way to do this is with the `weights` argument in `lm()`.
+3. **Use the weights in an outcome model**: Use the inverse probability weights to reweight all the observations in your sample when running your regression model. A common way to do this is with the `weights` argument in `lm()`.
 
 :::: {.panel-tabset}
 ### Manual IPW
@@ -688,7 +690,7 @@ Perfect! The effect of nets on health status is the same as what we built into t
 
 This multiplication works because the relationships are linear. In more complex situations like non-linear models or models with interaction terms, we would need to apply the full front‑door formula by averaging predictions, similar to G‑computation.
 
-### Hic sunt dracones
+### *Hic sunt dracones*
 
 Situations like this are *exceptionally* rare in practice:
 

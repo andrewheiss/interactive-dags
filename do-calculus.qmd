@@ -2,6 +2,7 @@
 title: "*do*-calculus"
 toc: true
 toc-depth: 4
+toc-expand: 2
 crossref:
   def-title: Rule
   def-prefix: Rule
