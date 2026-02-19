@@ -32,6 +32,7 @@ website:
 format:
   html:
     html-math-method: katex
+    include-after-body: html/katex-menu.html
     theme:
       - zephyr
       - css/styles.scss

@@ -1,0 +1,92 @@
+<!-- 
+KaTeX math doesn't have a nice right-click menu for viewing or copying the
+underlying LaTeX commands like MathJax does, but it *does* include it in an
+<annotation> tag in the HTML it generates, like this:
+
+<annotation encoding="application/x-tex">y = mx + b</annotation>
+
+This script grabs the LaTeX from the <annotatation> tag and creates a 
+right-click menu for copying and viewing LaTeX.
+-->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".katex").forEach(el => {
+    el.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      const annotation = el.querySelector("annotation[encoding='application/x-tex']");
+      if (!annotation) return;
+      const latex = annotation.textContent.trim();
+
+      const existing = document.getElementById("katex-menu");
+      if (existing) existing.remove();
+
+      const menu = document.createElement("div");
+      menu.id = "katex-menu";
+      menu.className = "dropdown-menu show";
+      menu.style.cssText = `position: fixed; top: ${e.clientY}px; left: ${e.clientX}px; z-index: 9999;`;
+
+      const makeItem = (label, onClick) => {
+        const item = document.createElement("button");
+        item.innerHTML = label;
+        item.className = "dropdown-item";
+        item.onclick = () => { onClick(); menu.remove(); };
+        return item;
+      };
+
+      menu.appendChild(makeItem('<i class="fa-solid fa-code"></i>&ensp;Show LaTeX', () => {
+        const modalHtml = `
+          <div class="modal fade" id="katex-modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">LaTeX Source</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <pre id="katex-modal-pre" class="p-3 bg-light border rounded" style="white-space: pre-wrap; word-break: break-all; cursor: text;">${latex.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" id="katex-copy-btn">
+                    <i class="fa-solid fa-clipboard"></i>&ensp;Copy to Clipboard
+                  </button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark"></i>&ensp;Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+
+        const existing = document.getElementById("katex-modal");
+        if (existing) existing.remove();
+
+        document.body.insertAdjacentHTML("beforeend", modalHtml);
+        const modalEl = document.getElementById("katex-modal");
+
+        modalEl.querySelector("#katex-copy-btn").onclick = () => {
+          navigator.clipboard.writeText(latex);
+        };
+
+        modalEl.querySelector("#katex-modal-pre").addEventListener("click", function() {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(this);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        });
+
+        modalEl.addEventListener("hidden.bs.modal", () => modalEl.remove());
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      }));
+
+      menu.appendChild(makeItem('<i class="fa-solid fa-clipboard"></i>&ensp;Copy LaTeX', () => {
+        navigator.clipboard.writeText(latex);
+      }));
+
+      document.body.appendChild(menu);
+      document.addEventListener("click", () => menu.remove(), { once: true });
+    });
+  });
+});
+</script>
