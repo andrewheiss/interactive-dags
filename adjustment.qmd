@@ -56,9 +56,9 @@ Conditioning can also be implicit, like collecting data only about one part of t
 
 ## Backdoor adjustment
 
-Backdoor adjusting involves removing the effect of confounders to estimate the average causal effect of a treatment $X$ on an outcome $Y$. 
+Backdoor adjusting involves removing the effect of confounders $Z$ to estimate the average causal effect of a treatment $X$ on an outcome $Y$. 
 
-There are lots of different methods to adjust for variables. Instead of working with abstract Xs, Ys, and Zs, we'll make things more concrete with a more realistic example of the effect of mosquito nets on household health status:[^nets]
+Instead of working with abstract Xs, Ys, and Zs, we'll make things more concrete with a more realistic example of the effect of mosquito nets on household health status:[^nets]
 
 [^nets]: I created this example on a whim back in 2019 when I taught my first causal inference class, and it's proven really useful. I use it all my causal inference classes, in several blog posts, and it's even used as an example throughout [Chapter 2](https://www.r-causal.org/chapters/02-whole-game) of *Causal Inference in R* [@todo].
 
@@ -553,13 +553,17 @@ mosquito_dag_frontdoor <- dagify(
 
 mosquito_dag_frontdoor_plot <- mosquito_dag_frontdoor |>
   tidy_dagitty() |>
-  node_status()
+  node_status() |> 
+  mutate(arrow_color = case_when(
+    name != "U" ~ "black",
+    name == "U" ~ "grey80"
+  ))
 
-ggplot(
+dag_fd <- ggplot(
   mosquito_dag_frontdoor_plot,
   aes(x = x, y = y, xend = xend, yend = yend)
 ) +
-  geom_dag_edges() +
+  geom_dag_edges(aes(edge_color = arrow_color)) +
   geom_dag_point(aes(color = status)) +
   geom_dag_text(family = "Atkinson Hyperlegible") +
   geom_dag_label(
@@ -582,8 +586,9 @@ ggplot(
     na.value = "#d39a2d",
     guide = "none"
   ) +
-  scale_x_continuous(limits = c(0.7, 3.3)) +
+  scale_x_continuous(limits = c(0.69, 3.31)) +
   theme_void()
+dag_fd
 ```
 
 More complex DAG showing that unobserved health behaviors ($U$) confound the relationship between mosquito net use ($X$) and health status ($Y$), which only occurs through the number of mosquitos near a bed ($M$)
@@ -640,7 +645,43 @@ By chaining these two unconfounded estimates together, we can find the full caus
 
 #### Effect of $X$ on $M$
 
-First we need to find $P(m \mid x)$, or the effect of $X$ on $M$. There's no confounding on this path—$U$ doesn't control mosquito access to the bed—so we can use a simple regression model:
+First we need to find $P(m \mid x)$, or the effect of $X$ on $M$. 
+
+```{r}
+#| label: fig-dag-ggdag-fd-xm
+#| warning: false
+#| message: false
+#| fig-width: 4
+#| fig-height: 2.5
+#| code-fold: true
+#| code-summary: "Show code"
+
+# Dig into the guts of a ggplot object to add a new layer and move it to the
+# back - this is needed because I want the annotate() highlight area to
+# appear behind the nodes, not on top
+prepend_layer <- function(plot, ...) {
+  p <- plot + ...
+  n <- length(p$layers)
+  p$layers <- p$layers[c(n, 1:(n - 1))]
+  p
+}
+
+dag_fd |>
+  prepend_layer(
+    annotate(
+      geom = "rect",
+      xmin = 0.795,
+      xmax = 2.205,
+      ymin = 0.775,
+      ymax = 1.225,
+      color = "#41485f",
+      fill = "#f7c267",
+      alpha = 0.5
+    )
+  )
+```
+
+There's no confounding on this path—$U$ doesn't control mosquito access to the bed—so we can use a simple regression model:
 
 ```{r}
 #| label: model-fd-xm
@@ -660,6 +701,30 @@ It looks like using a mosquito net reduces the number of mosquitos near the bed 
 #### Effect of $M$ on $Y$, adjusting for $X$
 
 Next we need to find $\sum_{x'} P(y \mid x', m) \times P(x')$, or the effect of $M$ on $Y$, adjusting for $X$.
+
+```{r}
+#| label: fig-dag-ggdag-fd-my
+#| warning: false
+#| message: false
+#| fig-width: 4
+#| fig-height: 2.5
+#| code-fold: true
+#| code-summary: "Show code"
+
+dag_fd |>
+  prepend_layer(
+    annotate(
+      geom = "rect",
+      xmin = 0.795 + 1,
+      xmax = 2.205 + 1,
+      ymin = 0.775,
+      ymax = 1.225,
+      color = "#41485f",
+      fill = "#f7c267",
+      alpha = 0.5
+    )
+  )
+```
 
 The path $M \leftarrow X \leftarrow U \rightarrow Y$ is a backdoor from $M$ to $Y$, but we can block it by adjusting for $X$. We'll just use regression adjustment here (but we could theoretically use any other method, like IPW, matching, G-computation, etc.)
 
@@ -688,7 +753,31 @@ To find the total causal effect of $X$ on $Y$, we multiply the two effects toget
 coef_xm * coef_my
 ```
 
-Perfect! The effect of nets on health status is the same as what we built into the data, but we estimated it without touching $U$. This works because $M$ fully transmits the causal effect of $X$ and there is no unobserved confounding of the $M \rightarrow Y$ relationship except through $X$, letting us decompose the problem into two identifiable pieces. 
+Perfect! The effect of nets on health status is the same as what we built into the data, but we estimated it without touching $U$. This works because $M$ fully transmits the causal effect of $X$ and there is no unobserved confounding of the $M \rightarrow Y$ relationship except through $X$, letting us decompose the problem into two identifiable pieces.
+
+```{r}
+#| label: fig-dag-ggdag-fd-both
+#| warning: false
+#| message: false
+#| fig-width: 4
+#| fig-height: 2.5
+#| code-fold: true
+#| code-summary: "Show code"
+
+dag_fd |>
+  prepend_layer(
+    annotate(
+      geom = "rect",
+      xmin = 0.795,
+      xmax = 2.205 + 1,
+      ymin = 0.775,
+      ymax = 1.225,
+      color = "#41485f",
+      fill = "#f7c267",
+      alpha = 0.5
+    )
+  )
+```
 
 This multiplication works because the relationships are linear. In more complex situations like non-linear models or models with interaction terms, we would need to apply the full front‑door formula by averaging predictions, similar to G‑computation.
 
