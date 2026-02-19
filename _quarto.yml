@@ -16,13 +16,14 @@ website:
   favicon: img/favicon.png
   navbar:
     left:
-      - text: Confounders
-        href: confounders.qmd
-      - text: Mediators
-        href: mediators.qmd
-      - text: Colliders
-        href: colliders.qmd
-    right:
+      - text: "Interactive DAGs"
+        menu:
+        - text: Confounders
+          href: confounders.qmd
+        - text: Mediators
+          href: mediators.qmd
+        - text: Colliders
+          href: colliders.qmd
       - text: "*do*-calculus"
         href: do-calculus.qmd
       - text: How to adjust
