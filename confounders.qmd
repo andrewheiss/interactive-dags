@@ -138,7 +138,7 @@ baseVal = 50
 
 x_from_z = adjust_z ? 0 : strength_zx * baseVal
 
-y_pure_x = strength_xy * baseVal
+y_pure_x = strength_xy * (adjust_z ? 1 : (1 - strength_zx)) * baseVal
 y_confounded = adjust_z ? 0 : strength_xy * x_from_z
 y_direct_z = adjust_z ? 0 : strength_zy * baseVal
 ```
@@ -204,7 +204,7 @@ y_direct_z = adjust_z ? 0 : strength_zy * baseVal
   dag.drawNode(svg, nodes.X.x, nodes.X.y, nodeRadius, "x-clip", {
     bottomUp: [],
     topDown: [
-      { prop: strength_zx, fill: dag.colorZ }
+      { prop: adjust_z ? 0 : strength_zx, fill: dag.colorZ }
     ]
   }, undefined, dag.colorX);
 

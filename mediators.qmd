@@ -165,7 +165,7 @@ z_from_x = strength_xz * baseVal
 
 y_direct_x = strength_xy * baseVal
 y_mediated = adjust_z ? 0 : strength_zy * z_from_x
-y_from_z_own = adjust_z ? 0 : strength_zy * baseVal
+y_from_z_own = adjust_z ? 0 : strength_zy * (1 - strength_xz) * baseVal
 ```
 
 ```{ojs}
