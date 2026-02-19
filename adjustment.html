@@ -213,23 +213,35 @@ window.Quarto = {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
+        <nav id="TOC" role="doc-toc" class="toc-active" data-toc-expanded="2">
     <h2 id="toc-title">On this page</h2>
    
   <ul>
   <li><a href="#how-to-adjust" id="toc-how-to-adjust" class="nav-link active" data-scroll-target="#how-to-adjust">How to adjust</a></li>
   <li><a href="#backdoor-adjustment" id="toc-backdoor-adjustment" class="nav-link" data-scroll-target="#backdoor-adjustment">Backdoor adjustment</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#simulated-data-and-naive-estimate" id="toc-simulated-data-and-naive-estimate" class="nav-link" data-scroll-target="#simulated-data-and-naive-estimate">Simulated data and naive estimate</a></li>
   <li><a href="#how-do-we-isolate-what-were-looking-for" id="toc-how-do-we-isolate-what-were-looking-for" class="nav-link" data-scroll-target="#how-do-we-isolate-what-were-looking-for">How do we isolate what we’re looking for?</a></li>
-  <li><a href="#how-to-actually-close-backdoors" id="toc-how-to-actually-close-backdoors" class="nav-link" data-scroll-target="#how-to-actually-close-backdoors">How to actually close backdoors</a></li>
+  <li><a href="#how-to-actually-close-backdoors" id="toc-how-to-actually-close-backdoors" class="nav-link" data-scroll-target="#how-to-actually-close-backdoors">How to actually close backdoors</a>
+  <ul class="collapse">
+  <li><a href="#stratification" id="toc-stratification" class="nav-link" data-scroll-target="#stratification">Stratification</a></li>
+  <li><a href="#regression-adjustment" id="toc-regression-adjustment" class="nav-link" data-scroll-target="#regression-adjustment">Regression adjustment</a></li>
+  <li><a href="#matching" id="toc-matching" class="nav-link" data-scroll-target="#matching">Matching</a></li>
+  <li><a href="#inverse-probability-weighting-ipw" id="toc-inverse-probability-weighting-ipw" class="nav-link" data-scroll-target="#inverse-probability-weighting-ipw">Inverse probability weighting (IPW)</a></li>
+  <li><a href="#g-computation" id="toc-g-computation" class="nav-link" data-scroll-target="#g-computation">G-computation</a></li>
+  </ul></li>
   </ul></li>
   <li><a href="#front-door-adjustment" id="toc-front-door-adjustment" class="nav-link" data-scroll-target="#front-door-adjustment">Front-door adjustment</a>
-  <ul class="collapse">
+  <ul>
   <li><a href="#simulated-data-and-naive-estimate-1" id="toc-simulated-data-and-naive-estimate-1" class="nav-link" data-scroll-target="#simulated-data-and-naive-estimate-1">Simulated data and naive estimate</a></li>
   <li><a href="#how-do-we-isolate-what-were-looking-for-1" id="toc-how-do-we-isolate-what-were-looking-for-1" class="nav-link" data-scroll-target="#how-do-we-isolate-what-were-looking-for-1">How do we isolate what we’re looking for?</a></li>
-  <li><a href="#how-to-actually-do-front-door-adjustment" id="toc-how-to-actually-do-front-door-adjustment" class="nav-link" data-scroll-target="#how-to-actually-do-front-door-adjustment">How to actually do front-door adjustment</a></li>
-  <li><a href="#hic-sunt-dracones" id="toc-hic-sunt-dracones" class="nav-link" data-scroll-target="#hic-sunt-dracones">Hic sunt dracones</a></li>
+  <li><a href="#how-to-actually-do-front-door-adjustment" id="toc-how-to-actually-do-front-door-adjustment" class="nav-link" data-scroll-target="#how-to-actually-do-front-door-adjustment">How to actually do front-door adjustment</a>
+  <ul class="collapse">
+  <li><a href="#effect-of-x-on-m" id="toc-effect-of-x-on-m" class="nav-link" data-scroll-target="#effect-of-x-on-m">Effect of <span class="math inline">X</span> on <span class="math inline">M</span></a></li>
+  <li><a href="#effect-of-m-on-y-adjusting-for-x" id="toc-effect-of-m-on-y-adjusting-for-x" class="nav-link" data-scroll-target="#effect-of-m-on-y-adjusting-for-x">Effect of <span class="math inline">M</span> on <span class="math inline">Y</span>, adjusting for <span class="math inline">X</span></a></li>
+  <li><a href="#combined-effect" id="toc-combined-effect" class="nav-link" data-scroll-target="#combined-effect">Combined effect</a></li>
+  </ul></li>
+  <li><a href="#hic-sunt-dracones" id="toc-hic-sunt-dracones" class="nav-link" data-scroll-target="#hic-sunt-dracones"><em>Hic sunt dracones</em></a></li>
   </ul></li>
   </ul>
 </nav>
@@ -333,7 +345,7 @@ window.Quarto = {
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-both-dags" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-both-dags">
-<div id="fig-dag-tikz" class="quarto-float quarto-figure quarto-figure-center anchored" width="95%" data-fig-align="center">
+<div id="fig-dag-tikz" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="95%">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-dag-tikz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="adjustment_files/figure-html/fig-dag-tikz-1.svg" id="fig-dag-tikz" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" style="width:95.0%" data-ref-parent="fig-both-dags">
@@ -534,7 +546,7 @@ x           |       10.18 | 0.56 | [ 9.09, 11.27] |  18.28 | &lt; .001</code></p
 <p>The most common way to do this is to create inverse probability weights, where all treated people get a weight of <span class="math inline">\frac{1}{p_i}</span> and all untreated people get a weight of <span class="math inline">\frac{1}{1 - p_i}</span> (where <span class="math inline">p_i</span> refers to each person’s propensity scores). This creates a “pseudo-population” where treatment is independent of the confounders, mimicking what randomization would have achieved.</p>
 <p>Practically speaking, this gives more weight to more unusual and unexpected observations. For instance, someone with a high predicted probability (90%) of choosing to use a net who then uses a net isn’t really notable and will have a low weight (<span class="math inline">\frac{1}{0.9}</span>, or 1.111). Someone else with a high probability (90% again) of choosing a net who <em>doesn’t</em> use a net will have a high weight (<span class="math inline">\frac{1}{1 - 0.9}</span>, or 10). This makes it so that the should-have-probably-used-a-net person is more comparable to the corresponding treated people.</p>
 <p>We adjust for confounding with inverse probability weights with this process:</p>
-<ul>
+<ol type="1">
 <li><p><strong>Create a treatment model</strong>: Use the confounders to calculate propensity scores—or the probability of being treated—for each observation, typically using logistic regression (if the treatment is binary) or some other regression model (if the treatment is continuous)</p></li>
 <li><p><strong>Calculate inverse probability weights</strong>: Use the propensity scores and observed treatment status to create weights. There are lots of ways to do this! A common formula for binary treatments looks like this:</p>
 <p><span class="math display">
@@ -542,7 +554,7 @@ x           |       10.18 | 0.56 | [ 9.09, 11.27] |  18.28 | &lt; .001</code></p
 </span></p>
 <p>The <a href="https://ngreifer.github.io/WeightIt/">{WeightIt}</a> package provides many other weighting methods for binary and continuous treatments.</p></li>
 <li><p><strong>Use the weights in an outcome model</strong>: Use the inverse probability weights to reweight all the observations in your sample when running your regression model. A common way to do this is with the <code>weights</code> argument in <code>lm()</code>.</p></li>
-</ul>
+</ol>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
 <ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Manual IPW</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">IPW with {WeightIt}</a></li></ul>
 <div class="tab-content">
@@ -838,7 +850,7 @@ Comparison: 1 - 0</code></pre>
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-both-dags-frontdoor" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-both-dags-frontdoor">
-<div id="fig-frontdoor-dag" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
+<div id="fig-frontdoor-dag" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-frontdoor-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="adjustment_files/figure-html/fig-frontdoor-dag-1.svg" id="fig-frontdoor-dag" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" data-ref-parent="fig-both-dags-frontdoor" width="672">
@@ -977,7 +989,7 @@ x           |        3.89 | 0.48 | [ 2.95,  4.82] |   8.15 | &lt; .001</code></p
 </section>
 </section>
 <section id="hic-sunt-dracones" class="level3">
-<h3 class="anchored" data-anchor-id="hic-sunt-dracones">Hic sunt dracones</h3>
+<h3 class="anchored" data-anchor-id="hic-sunt-dracones"><em>Hic sunt dracones</em></h3>
 <p>Situations like this are <em>exceptionally</em> rare in practice:</p>
 <ul>
 <li>The mediator must be <strong>completely unaffected by the unobserved confounder</strong> <span class="math inline">U</span> (i.e., no arrow from <span class="math inline">U \rightarrow M</span>). This is an incredibly strong assumption. In this situation, it means that there cannot be any way that an unobserved confounder could possibly influence the number of mosquitos in the immediate vicinity of someone’s bed—the only possible reason for mosquitos near the bed is the presence or absence of a net. That’s… implausible.</li>
