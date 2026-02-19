@@ -34,12 +34,12 @@ typography:
     family: Atkinson Hyperlegible
     weight: 700
   link:
-    color: steel
+    color: rust
 
 defaults:
   bootstrap:
     defaults:
-      link-hover-color: $brand-clay
+      link-hover-color: $brand-mustard
       code-color: $brand-navy
 
       # Navbar stuff
