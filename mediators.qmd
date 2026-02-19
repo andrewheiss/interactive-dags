@@ -1,7 +1,39 @@
 ---
 title: "Mediators"
-page-layout: full
 ---
+
+::: {.column-screen .hero-banner-mini}
+
+# Mediators
+
+![](img/mediator.svg){width="10%" .dag-white}
+
+:::
+
+```{r}
+#| label: tikz-setup
+#| include: false
+
+if (Sys.info()["sysname"] == "Darwin") {
+  # Necessary for using dvisvgm on macOS
+  # See https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/
+  Sys.setenv(LIBGS = "/opt/homebrew/opt/ghostscript/lib/libgs.dylib")
+}
+
+knitr::opts_template$set(
+  tikz_settings = list(
+    fig.ext = "svg",
+    fig.align = "center",
+    extra.preamble = c(
+      "\\usepackage{libertine}",
+      "\\usepackage{libertinust1math}",
+      "\\usepackage{positioning}",
+      "\\usepackage{amssymb}"
+    ),
+    engine.opts = list(dvisvgm.opts = "--no-fonts")
+  )
+)
+```
 
 ```{ojs}
 //| echo: false
@@ -9,6 +41,8 @@ page-layout: full
 d3 = require("d3@7")
 dag = import(new URL("js/dag-utils.js", document.baseURI).href)
 ```
+
+::::::::: {.column-screen-inset}
 
 ::::: {.grid .interactive}
 
@@ -238,3 +272,5 @@ y_from_z_own = adjust_z ? 0 : strength_zy * baseVal
 ::::
 
 :::::
+
+:::::::::

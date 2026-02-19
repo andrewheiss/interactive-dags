@@ -1,7 +1,39 @@
 ---
 title: "Colliders"
-page-layout: full
 ---
+
+::: {.column-screen .hero-banner-mini}
+
+# Colliders
+
+![](img/collider.svg){width="10%" .dag-white}
+
+:::
+
+```{r}
+#| label: tikz-setup
+#| include: false
+
+if (Sys.info()["sysname"] == "Darwin") {
+  # Necessary for using dvisvgm on macOS
+  # See https://www.andrewheiss.com/blog/2021/08/27/tikz-knitr-html-svg-fun/
+  Sys.setenv(LIBGS = "/opt/homebrew/opt/ghostscript/lib/libgs.dylib")
+}
+
+knitr::opts_template$set(
+  tikz_settings = list(
+    fig.ext = "svg",
+    fig.align = "center",
+    extra.preamble = c(
+      "\\usepackage{libertine}",
+      "\\usepackage{libertinust1math}",
+      "\\usepackage{positioning}",
+      "\\usepackage{amssymb}"
+    ),
+    engine.opts = list(dvisvgm.opts = "--no-fonts")
+  )
+)
+```
 
 ```{ojs}
 //| echo: false
@@ -10,6 +42,8 @@ d3 = require("d3@7")
 jStat = require("jstat@1.9.6")
 dag = import(new URL("js/dag-utils.js", document.baseURI).href)
 ```
+
+::::::::: {.column-screen-inset}
 
 ::::: {.grid .interactive}
 
@@ -340,3 +374,5 @@ Plot.plot({
 ::::
 
 :::::
+
+:::::::::
