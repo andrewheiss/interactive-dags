@@ -726,7 +726,7 @@ dag_fd |>
   )
 ```
 
-The path $M \leftarrow X \leftarrow U \rightarrow Y$ is a backdoor from $M$ to $Y$, but we can block it by adjusting for $X$. We'll just use regression adjustment here (but we could theoretically use any other method, like IPW, matching, G-computation, etc.)
+The path $M \leftarrow X \leftarrow U \rightarrow Y$ is a backdoor from $M$ to $Y$, but we can block it by adjusting for $X$. $U$ is actually the true source of confounding, but since it's unobserved, we can block the path by conditioning on $X$ instead. We'll just use regression adjustment here (but we could theoretically use any other method, like IPW, matching, G-computation, etc.)
 
 ```{r}
 #| label: model-fd-my
