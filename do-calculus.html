@@ -43,9 +43,11 @@ ul.task-list li input[type="checkbox"] {
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5e389d8a3061b26e83b8cffeeb6e99ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-00b43984e2e1f35cf00c0a2bd2de8bea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-5e389d8a3061b26e83b8cffeeb6e99ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6a014bf9148feec6794b68be4e57a80d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-85ca10c6c172a794c0803c8fc2032c5b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6a014bf9148feec6794b68be4e57a80d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
+<link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -118,6 +120,15 @@ window.Quarto = {
 };
 </script>
 
+<meta property="og:title" content="do-calculus – DAGs">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://dags.andrewheiss.com/img/preview.png">
+<meta property="og:site_name" content="DAGs">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="do-calculus – DAGs">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://dags.andrewheiss.com/img/preview.png">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -163,6 +174,13 @@ window.Quarto = {
   <li class="nav-item">
     <a class="nav-link" href="./adjustment.html"> 
 <span class="menu-text">How to adjust</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/andrewheiss/interactive-dags"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
   </li>  
 </ul>
           </div> <!-- /navcollapse -->
@@ -213,7 +231,7 @@ window.Quarto = {
   </ul></li>
   </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/andrewheiss/interactive-dags/blob/main/do-calculus.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/andrewheiss/interactive-dags/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -787,6 +805,98 @@ P(y \mid \operatorname{do}(x)) &amp;= \sum_z \underbrace{P(y \mid \operatorname{
 <li id="fn1"><p><em>Strictly</em> speaking, that’s not actually true! <span class="math inline">P(y \mid \operatorname{do}(x))</span> is an interventional distribution, while causal effects or estimands are contrasts of that distribution, like <span class="math inline">E[Y \mid \operatorname{do}(x = 1)] - E[Y \mid \operatorname{do}(x = 0)]</span>. But for the sake of simplicity, we’ll pretend.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
+<!-- 
+KaTeX math doesn't have a nice right-click menu for viewing or copying the
+underlying LaTeX commands like MathJax does, but it *does* include it in an
+<annotation> tag in the HTML it generates, like this:
+
+<annotation encoding="application/x-tex">y = mx + b</annotation>
+
+This script grabs the LaTeX from the <annotatation> tag and creates a 
+right-click menu for copying and viewing LaTeX.
+-->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".katex").forEach(el => {
+    el.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      const annotation = el.querySelector("annotation[encoding='application/x-tex']");
+      if (!annotation) return;
+      const latex = annotation.textContent.trim();
+
+      const existing = document.getElementById("katex-menu");
+      if (existing) existing.remove();
+
+      const menu = document.createElement("div");
+      menu.id = "katex-menu";
+      menu.className = "dropdown-menu show";
+      menu.style.cssText = `position: fixed; top: ${e.clientY}px; left: ${e.clientX}px; z-index: 9999;`;
+
+      const makeItem = (label, onClick) => {
+        const item = document.createElement("button");
+        item.innerHTML = label;
+        item.className = "dropdown-item";
+        item.onclick = () => { onClick(); menu.remove(); };
+        return item;
+      };
+
+      menu.appendChild(makeItem('<i class="fa-solid fa-code"></i>&ensp;Show LaTeX', () => {
+        const modalHtml = `
+          <div class="modal fade" id="katex-modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">LaTeX Source</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <pre id="katex-modal-pre" class="p-3 bg-light border rounded" style="white-space: pre-wrap; word-break: break-all; cursor: text;">${latex.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" id="katex-copy-btn">
+                    <i class="fa-solid fa-clipboard"></i>&ensp;Copy to clipboard
+                  </button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark"></i>&ensp;Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+
+        const existing = document.getElementById("katex-modal");
+        if (existing) existing.remove();
+
+        document.body.insertAdjacentHTML("beforeend", modalHtml);
+        const modalEl = document.getElementById("katex-modal");
+
+        modalEl.querySelector("#katex-copy-btn").onclick = () => {
+          navigator.clipboard.writeText(latex);
+        };
+
+        modalEl.querySelector("#katex-modal-pre").addEventListener("click", function() {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(this);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        });
+
+        modalEl.addEventListener("hidden.bs.modal", () => modalEl.remove());
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      }));
+
+      menu.appendChild(makeItem('<i class="fa-solid fa-clipboard"></i>&ensp;Copy LaTeX', () => {
+        navigator.clipboard.writeText(latex);
+      }));
+
+      document.body.appendChild(menu);
+      document.addEventListener("click", () => menu.remove(), { once: true });
+    });
+  });
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1188,6 +1298,19 @@ P(y \mid \operatorname{do}(x)) &amp;= \sum_z \underbrace{P(y \mid \operatorname{
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2026 by <a href="https://www.andrewheiss.com">Andrew Heiss</a> | <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i></p>
+</div>   
+    <div class="nav-footer-center">
+<p><img src="img/confounder-xy.svg" class="dag-footer img-fluid" style="width:8.0%"></p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/andrewheiss/interactive-dags/blob/main/do-calculus.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/andrewheiss/interactive-dags/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
 
 
 

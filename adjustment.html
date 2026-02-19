@@ -78,9 +78,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-5e389d8a3061b26e83b8cffeeb6e99ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-00b43984e2e1f35cf00c0a2bd2de8bea.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-5e389d8a3061b26e83b8cffeeb6e99ad.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6a014bf9148feec6794b68be4e57a80d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-85ca10c6c172a794c0803c8fc2032c5b.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6a014bf9148feec6794b68be4e57a80d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -155,6 +155,15 @@ window.Quarto = {
 };
 </script>
 
+<meta property="og:title" content="How to adjust – DAGs">
+<meta property="og:description" content="">
+<meta property="og:image" content="https://dags.andrewheiss.com/img/preview.png">
+<meta property="og:site_name" content="DAGs">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:title" content="How to adjust – DAGs">
+<meta name="twitter:description" content="">
+<meta name="twitter:image" content="https://dags.andrewheiss.com/img/preview.png">
+<meta name="twitter:card" content="summary_large_image">
 </head>
 
 <body class="nav-fixed quarto-light">
@@ -202,6 +211,13 @@ window.Quarto = {
 <span class="menu-text">How to adjust</span></a>
   </li>  
 </ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/andrewheiss/interactive-dags"> <i class="bi bi-github" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
 </div>
@@ -244,7 +260,7 @@ window.Quarto = {
   <li><a href="#hic-sunt-dracones" id="toc-hic-sunt-dracones" class="nav-link" data-scroll-target="#hic-sunt-dracones"><em>Hic sunt dracones</em></a></li>
   </ul></li>
   </ul>
-</nav>
+<div class="toc-actions"><ul><li><a href="https://github.com/andrewheiss/interactive-dags/blob/main/adjustment.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/andrewheiss/interactive-dags/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></nav>
     </div>
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
@@ -279,8 +295,8 @@ window.Quarto = {
 <p>Conditioning can also be implicit, like collecting data only about one part of the population, which sneakily builds it into the data and can create <a href="./colliders.html">collider bias</a>.</p>
 <section id="backdoor-adjustment" class="level2">
 <h2 class="anchored" data-anchor-id="backdoor-adjustment">Backdoor adjustment</h2>
-<p>Backdoor adjusting involves removing the effect of confounders to estimate the average causal effect of a treatment <span class="math inline">X</span> on an outcome <span class="math inline">Y</span>.</p>
-<p>There are lots of different methods to adjust for variables. Instead of working with abstract Xs, Ys, and Zs, we’ll make things more concrete with a more realistic example of the effect of mosquito nets on household health status:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p>Backdoor adjusting involves removing the effect of confounders <span class="math inline">Z</span> to estimate the average causal effect of a treatment <span class="math inline">X</span> on an outcome <span class="math inline">Y</span>.</p>
+<p>Instead of working with abstract Xs, Ys, and Zs, we’ll make things more concrete with a more realistic example of the effect of mosquito nets on household health status:<a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
 <ul>
 <li><span class="math inline">X</span> = mosquito net use (binary: 0 = no net, 1 = uses net)</li>
 <li><span class="math inline">Y</span> = health status (continuous score, roughly 0–100)</li>
@@ -443,6 +459,7 @@ P(y \mid \operatorname{do}(x)) = \sum_z P(y \mid x, z) \times P(z)
 <li>Inverse probability weighting</li>
 <li>G-computation</li>
 </ul>
+<p>Each of these methods estimates the distribution of <span class="math inline">P(y \mid x, z)</span> weighted by <span class="math inline">P(z)</span>, which lets us estimate <span class="math inline">P(y \mid \operatorname{do}(x))</span> with only observational data.</p>
 <p>I’ll show a short example of each of these below, and I’ll include some extra resources and information about them in each section. There are are different variations and flavors of these different approaches, and there are methods I don’t include here<a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a>—this is definitely not comprehensive!</p>
 <section id="stratification" class="level4">
 <h4 class="anchored" data-anchor-id="stratification">Stratification</h4>
@@ -812,37 +829,42 @@ Comparison: 1 - 0</code></pre>
 <span id="cb27-19"><a href="#cb27-19" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb27-20"><a href="#cb27-20" aria-hidden="true" tabindex="-1"></a>mosquito_dag_frontdoor_plot <span class="ot">&lt;-</span> mosquito_dag_frontdoor <span class="sc">|&gt;</span></span>
 <span id="cb27-21"><a href="#cb27-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tidy_dagitty</span>() <span class="sc">|&gt;</span></span>
-<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node_status</span>()</span>
-<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(</span>
-<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>  mosquito_dag_frontdoor_plot,</span>
-<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend)</span>
-<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
-<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_edges</span>() <span class="sc">+</span></span>
-<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> status)) <span class="sc">+</span></span>
-<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_text</span>(<span class="at">family =</span> <span class="st">"Atkinson Hyperlegible"</span>) <span class="sc">+</span></span>
-<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_label</span>(</span>
-<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">filter</span>(</span>
-<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>      mosquito_dag_frontdoor_plot,</span>
-<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>      status <span class="sc">!=</span> <span class="st">"latent"</span> <span class="sc">|</span> <span class="fu">is.na</span>(status)</span>
-<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>    ),</span>
-<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> label),</span>
-<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.35</span>,</span>
-<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Atkinson Hyperlegible"</span></span>
-<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_label</span>(</span>
-<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">filter</span>(mosquito_dag_frontdoor_plot, status <span class="sc">==</span> <span class="st">"latent"</span>),</span>
-<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> label),</span>
-<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.35</span>,</span>
-<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Atkinson Hyperlegible"</span></span>
-<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
-<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#9b332b"</span>, <span class="st">"grey50"</span>, <span class="st">"#262d42"</span>),</span>
-<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">"#d39a2d"</span>,</span>
-<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">guide =</span> <span class="st">"none"</span></span>
-<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">0.7</span>, <span class="fl">3.3</span>)) <span class="sc">+</span></span>
-<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb27-22"><a href="#cb27-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">node_status</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb27-23"><a href="#cb27-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">arrow_color =</span> <span class="fu">case_when</span>(</span>
+<span id="cb27-24"><a href="#cb27-24" aria-hidden="true" tabindex="-1"></a>    name <span class="sc">!=</span> <span class="st">"U"</span> <span class="sc">~</span> <span class="st">"black"</span>,</span>
+<span id="cb27-25"><a href="#cb27-25" aria-hidden="true" tabindex="-1"></a>    name <span class="sc">==</span> <span class="st">"U"</span> <span class="sc">~</span> <span class="st">"grey80"</span></span>
+<span id="cb27-26"><a href="#cb27-26" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb27-27"><a href="#cb27-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-28"><a href="#cb27-28" aria-hidden="true" tabindex="-1"></a>dag_fd <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb27-29"><a href="#cb27-29" aria-hidden="true" tabindex="-1"></a>  mosquito_dag_frontdoor_plot,</span>
+<span id="cb27-30"><a href="#cb27-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> x, <span class="at">y =</span> y, <span class="at">xend =</span> xend, <span class="at">yend =</span> yend)</span>
+<span id="cb27-31"><a href="#cb27-31" aria-hidden="true" tabindex="-1"></a>) <span class="sc">+</span></span>
+<span id="cb27-32"><a href="#cb27-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_edges</span>(<span class="fu">aes</span>(<span class="at">edge_color =</span> arrow_color)) <span class="sc">+</span></span>
+<span id="cb27-33"><a href="#cb27-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> status)) <span class="sc">+</span></span>
+<span id="cb27-34"><a href="#cb27-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_text</span>(<span class="at">family =</span> <span class="st">"Atkinson Hyperlegible"</span>) <span class="sc">+</span></span>
+<span id="cb27-35"><a href="#cb27-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_label</span>(</span>
+<span id="cb27-36"><a href="#cb27-36" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">filter</span>(</span>
+<span id="cb27-37"><a href="#cb27-37" aria-hidden="true" tabindex="-1"></a>      mosquito_dag_frontdoor_plot,</span>
+<span id="cb27-38"><a href="#cb27-38" aria-hidden="true" tabindex="-1"></a>      status <span class="sc">!=</span> <span class="st">"latent"</span> <span class="sc">|</span> <span class="fu">is.na</span>(status)</span>
+<span id="cb27-39"><a href="#cb27-39" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb27-40"><a href="#cb27-40" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> label),</span>
+<span id="cb27-41"><a href="#cb27-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="sc">-</span><span class="fl">0.35</span>,</span>
+<span id="cb27-42"><a href="#cb27-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Atkinson Hyperlegible"</span></span>
+<span id="cb27-43"><a href="#cb27-43" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-44"><a href="#cb27-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dag_label</span>(</span>
+<span id="cb27-45"><a href="#cb27-45" aria-hidden="true" tabindex="-1"></a>    <span class="at">data =</span> <span class="fu">filter</span>(mosquito_dag_frontdoor_plot, status <span class="sc">==</span> <span class="st">"latent"</span>),</span>
+<span id="cb27-46"><a href="#cb27-46" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">label =</span> label),</span>
+<span id="cb27-47"><a href="#cb27-47" aria-hidden="true" tabindex="-1"></a>    <span class="at">nudge_y =</span> <span class="fl">0.35</span>,</span>
+<span id="cb27-48"><a href="#cb27-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">family =</span> <span class="st">"Atkinson Hyperlegible"</span></span>
+<span id="cb27-49"><a href="#cb27-49" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-50"><a href="#cb27-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(</span>
+<span id="cb27-51"><a href="#cb27-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#9b332b"</span>, <span class="st">"grey50"</span>, <span class="st">"#262d42"</span>),</span>
+<span id="cb27-52"><a href="#cb27-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">na.value =</span> <span class="st">"#d39a2d"</span>,</span>
+<span id="cb27-53"><a href="#cb27-53" aria-hidden="true" tabindex="-1"></a>    <span class="at">guide =</span> <span class="st">"none"</span></span>
+<span id="cb27-54"><a href="#cb27-54" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb27-55"><a href="#cb27-55" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="fl">0.69</span>, <span class="fl">3.31</span>)) <span class="sc">+</span></span>
+<span id="cb27-56"><a href="#cb27-56" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_void</span>()</span>
+<span id="cb27-57"><a href="#cb27-57" aria-hidden="true" tabindex="-1"></a>dag_fd</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div id="fig-both-dags-frontdoor" class="quarto-layout-panel">
 <figure class="quarto-float quarto-float-fig figure">
@@ -929,21 +951,62 @@ P(y \mid \operatorname{do}(x)) = \sum_m P(m \mid x) \sum_{x'} P(y \mid x', m) \t
 <h3 class="anchored" data-anchor-id="how-to-actually-do-front-door-adjustment">How to actually do front-door adjustment</h3>
 <section id="effect-of-x-on-m" class="level4">
 <h4 class="anchored" data-anchor-id="effect-of-x-on-m">Effect of <span class="math inline">X</span> on <span class="math inline">M</span></h4>
-<p>First we need to find <span class="math inline">P(m \mid x)</span>, or the effect of <span class="math inline">X</span> on <span class="math inline">M</span>. There’s no confounding on this path—<span class="math inline">U</span> doesn’t control mosquito access to the bed—so we can use a simple regression model:</p>
+<p>First we need to find <span class="math inline">P(m \mid x)</span>, or the effect of <span class="math inline">X</span> on <span class="math inline">M</span>.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>model_fd_xm <span class="ot">&lt;-</span> <span class="fu">lm</span>(m <span class="sc">~</span> x, <span class="at">data =</span> net_data_fd)</span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(model_fd_xm, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dig into the guts of a ggplot object to add a new layer and move it to the</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="co"># back - this is needed because I want the annotate() highlight area to</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="co"># appear behind the nodes, not on top</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>prepend_layer <span class="ot">&lt;-</span> <span class="cf">function</span>(plot, ...) {</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  p <span class="ot">&lt;-</span> plot <span class="sc">+</span> ...</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  n <span class="ot">&lt;-</span> <span class="fu">length</span>(p<span class="sc">$</span>layers)</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  p<span class="sc">$</span>layers <span class="ot">&lt;-</span> p<span class="sc">$</span>layers[<span class="fu">c</span>(n, <span class="dv">1</span><span class="sc">:</span>(n <span class="sc">-</span> <span class="dv">1</span>))]</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  p</span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a>dag_fd <span class="sc">|&gt;</span></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prepend_layer</span>(</span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb31-14"><a href="#cb31-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">geom =</span> <span class="st">"rect"</span>,</span>
+<span id="cb31-15"><a href="#cb31-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmin =</span> <span class="fl">0.795</span>,</span>
+<span id="cb31-16"><a href="#cb31-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmax =</span> <span class="fl">2.205</span>,</span>
+<span id="cb31-17"><a href="#cb31-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> <span class="fl">0.775</span>,</span>
+<span id="cb31-18"><a href="#cb31-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymax =</span> <span class="fl">1.225</span>,</span>
+<span id="cb31-19"><a href="#cb31-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"#41485f"</span>,</span>
+<span id="cb31-20"><a href="#cb31-20" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"#f7c267"</span>,</span>
+<span id="cb31-21"><a href="#cb31-21" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb31-22"><a href="#cb31-22" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb31-23"><a href="#cb31-23" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-dag-ggdag-fd-xm" class="quarto-float quarto-figure quarto-figure-center anchored" width="384">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dag-ggdag-fd-xm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="adjustment_files/figure-html/fig-dag-ggdag-fd-xm-1.png" id="fig-dag-ggdag-fd-xm" class="img-fluid figure-img" width="384">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dag-ggdag-fd-xm-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<p>There’s no confounding on this path—<span class="math inline">U</span> doesn’t control mosquito access to the bed—so we can use a simple regression model:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>model_fd_xm <span class="ot">&lt;-</span> <span class="fu">lm</span>(m <span class="sc">~</span> x, <span class="at">data =</span> net_data_fd)</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(model_fd_xm, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Parameter   | Coefficient |   SE |         95% CI | t(998) |      p
 -------------------------------------------------------------------
 (Intercept) |       10.00 | 0.08 | [ 9.85, 10.16] | 123.14 | &lt; .001
 x           |       -5.07 | 0.13 | [-5.32, -4.81] | -38.58 | &lt; .001</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the coefficient for x:</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>coef_xm <span class="ot">&lt;-</span> model_fd_xm <span class="sc">|&gt;</span> </span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>(<span class="at">keep =</span> <span class="st">"x"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Coefficient)</span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>coef_xm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the coefficient for x:</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>coef_xm <span class="ot">&lt;-</span> model_fd_xm <span class="sc">|&gt;</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>(<span class="at">keep =</span> <span class="st">"x"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Coefficient)</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>coef_xm</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -5.065073</code></pre>
 </div>
@@ -953,10 +1016,40 @@ x           |       -5.07 | 0.13 | [-5.32, -4.81] | -38.58 | &lt; .001</code></p
 <section id="effect-of-m-on-y-adjusting-for-x" class="level4">
 <h4 class="anchored" data-anchor-id="effect-of-m-on-y-adjusting-for-x">Effect of <span class="math inline">M</span> on <span class="math inline">Y</span>, adjusting for <span class="math inline">X</span></h4>
 <p>Next we need to find <span class="math inline">\sum_{x'} P(y \mid x', m) \times P(x')</span>, or the effect of <span class="math inline">M</span> on <span class="math inline">Y</span>, adjusting for <span class="math inline">X</span>.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>dag_fd <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prepend_layer</span>(</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">geom =</span> <span class="st">"rect"</span>,</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmin =</span> <span class="fl">0.795</span> <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmax =</span> <span class="fl">2.205</span> <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> <span class="fl">0.775</span>,</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymax =</span> <span class="fl">1.225</span>,</span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"#41485f"</span>,</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"#f7c267"</span>,</span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-dag-ggdag-fd-my" class="quarto-float quarto-figure quarto-figure-center anchored" width="384">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dag-ggdag-fd-my-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="adjustment_files/figure-html/fig-dag-ggdag-fd-my-1.png" id="fig-dag-ggdag-fd-my" class="img-fluid figure-img" width="384">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dag-ggdag-fd-my-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;4
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>The path <span class="math inline">M \leftarrow X \leftarrow U \rightarrow Y</span> is a backdoor from <span class="math inline">M</span> to <span class="math inline">Y</span>, but we can block it by adjusting for <span class="math inline">X</span>. We’ll just use regression adjustment here (but we could theoretically use any other method, like IPW, matching, G-computation, etc.)</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>model_fd_my <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> m <span class="sc">+</span> x, <span class="at">data =</span> net_data_fd)</span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(model_fd_my, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>model_fd_my <span class="ot">&lt;-</span> <span class="fu">lm</span>(y <span class="sc">~</span> m <span class="sc">+</span> x, <span class="at">data =</span> net_data_fd)</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a><span class="fu">model_parameters</span>(model_fd_my, <span class="at">verbose =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Parameter   | Coefficient |   SE |         95% CI | t(997) |      p
 -------------------------------------------------------------------
@@ -964,11 +1057,11 @@ x           |       -5.07 | 0.13 | [-5.32, -4.81] | -38.58 | &lt; .001</code></p
 m           |       -2.00 | 0.07 | [-2.14, -1.85] | -27.40 | &lt; .001
 x           |        3.89 | 0.48 | [ 2.95,  4.82] |   8.15 | &lt; .001</code></pre>
 </div>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the coefficient for m:</span></span>
-<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>coef_my <span class="ot">&lt;-</span> model_fd_my <span class="sc">|&gt;</span> </span>
-<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>(<span class="at">keep =</span> <span class="st">"m"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Coefficient)</span>
-<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>coef_my</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Extract the coefficient for m:</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>coef_my <span class="ot">&lt;-</span> model_fd_my <span class="sc">|&gt;</span> </span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">model_parameters</span>(<span class="at">keep =</span> <span class="st">"m"</span>, <span class="at">verbose =</span> <span class="cn">FALSE</span>) <span class="sc">|&gt;</span> </span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pull</span>(Coefficient)</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>coef_my</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] -1.996825</code></pre>
 </div>
@@ -979,12 +1072,42 @@ x           |        3.89 | 0.48 | [ 2.95,  4.82] |   8.15 | &lt; .001</code></p
 <h4 class="anchored" data-anchor-id="combined-effect">Combined effect</h4>
 <p>To find the total causal effect of <span class="math inline">X</span> on <span class="math inline">Y</span>, we multiply the two effects together:</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>coef_xm <span class="sc">*</span> coef_my</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>coef_xm <span class="sc">*</span> coef_my</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 10.11407</code></pre>
 </div>
 </div>
 <p>Perfect! The effect of nets on health status is the same as what we built into the data, but we estimated it without touching <span class="math inline">U</span>. This works because <span class="math inline">M</span> fully transmits the causal effect of <span class="math inline">X</span> and there is no unobserved confounding of the <span class="math inline">M \rightarrow Y</span> relationship except through <span class="math inline">X</span>, letting us decompose the problem into two identifiable pieces.</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>dag_fd <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">prepend_layer</span>(</span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a>    <span class="fu">annotate</span>(</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">geom =</span> <span class="st">"rect"</span>,</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmin =</span> <span class="fl">0.795</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">xmax =</span> <span class="fl">2.205</span> <span class="sc">+</span> <span class="dv">1</span>,</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymin =</span> <span class="fl">0.775</span>,</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">ymax =</span> <span class="fl">1.225</span>,</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">color =</span> <span class="st">"#41485f"</span>,</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">fill =</span> <span class="st">"#f7c267"</span>,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">alpha =</span> <span class="fl">0.5</span></span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div id="fig-dag-ggdag-fd-both" class="quarto-float quarto-figure quarto-figure-center anchored" width="384">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-dag-ggdag-fd-both-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="adjustment_files/figure-html/fig-dag-ggdag-fd-both-1.png" id="fig-dag-ggdag-fd-both" class="img-fluid figure-img" width="384">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig quarto-uncaptioned" id="fig-dag-ggdag-fd-both-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;5
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
 <p>This multiplication works because the relationships are linear. In more complex situations like non-linear models or models with interaction terms, we would need to apply the full front‑door formula by averaging predictions, similar to G‑computation.</p>
 </section>
 </section>
@@ -1009,6 +1132,98 @@ x           |        3.89 | 0.48 | [ 2.95,  4.82] |   8.15 | &lt; .001</code></p
 <li id="fn2"><p>Like marginal structural models and structural nested mean models <span class="citation" data-cites="todo1">[@todo1]</span> or doubly robust augmented inverse probability weighting <span class="citation" data-cites="todo2">[@todo2]</span>. You can get really fancy with these techniques.<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
 </ol>
 </section></div></main> <!-- /main -->
+<!-- 
+KaTeX math doesn't have a nice right-click menu for viewing or copying the
+underlying LaTeX commands like MathJax does, but it *does* include it in an
+<annotation> tag in the HTML it generates, like this:
+
+<annotation encoding="application/x-tex">y = mx + b</annotation>
+
+This script grabs the LaTeX from the <annotatation> tag and creates a 
+right-click menu for copying and viewing LaTeX.
+-->
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".katex").forEach(el => {
+    el.addEventListener("contextmenu", e => {
+      e.preventDefault();
+      const annotation = el.querySelector("annotation[encoding='application/x-tex']");
+      if (!annotation) return;
+      const latex = annotation.textContent.trim();
+
+      const existing = document.getElementById("katex-menu");
+      if (existing) existing.remove();
+
+      const menu = document.createElement("div");
+      menu.id = "katex-menu";
+      menu.className = "dropdown-menu show";
+      menu.style.cssText = `position: fixed; top: ${e.clientY}px; left: ${e.clientX}px; z-index: 9999;`;
+
+      const makeItem = (label, onClick) => {
+        const item = document.createElement("button");
+        item.innerHTML = label;
+        item.className = "dropdown-item";
+        item.onclick = () => { onClick(); menu.remove(); };
+        return item;
+      };
+
+      menu.appendChild(makeItem('<i class="fa-solid fa-code"></i>&ensp;Show LaTeX', () => {
+        const modalHtml = `
+          <div class="modal fade" id="katex-modal" tabindex="-1">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">LaTeX Source</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                  <pre id="katex-modal-pre" class="p-3 bg-light border rounded" style="white-space: pre-wrap; word-break: break-all; cursor: text;">${latex.replace(/</g, "&lt;").replace(/>/g, "&gt;")}</pre>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-secondary" id="katex-copy-btn">
+                    <i class="fa-solid fa-clipboard"></i>&ensp;Copy to clipboard
+                  </button>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fa-solid fa-xmark"></i>&ensp;Close
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>`;
+
+        const existing = document.getElementById("katex-modal");
+        if (existing) existing.remove();
+
+        document.body.insertAdjacentHTML("beforeend", modalHtml);
+        const modalEl = document.getElementById("katex-modal");
+
+        modalEl.querySelector("#katex-copy-btn").onclick = () => {
+          navigator.clipboard.writeText(latex);
+        };
+
+        modalEl.querySelector("#katex-modal-pre").addEventListener("click", function() {
+          const selection = window.getSelection();
+          const range = document.createRange();
+          range.selectNodeContents(this);
+          selection.removeAllRanges();
+          selection.addRange(range);
+        });
+
+        modalEl.addEventListener("hidden.bs.modal", () => modalEl.remove());
+        bootstrap.Modal.getOrCreateInstance(modalEl).show();
+      }));
+
+      menu.appendChild(makeItem('<i class="fa-solid fa-clipboard"></i>&ensp;Copy LaTeX', () => {
+        navigator.clipboard.writeText(latex);
+      }));
+
+      document.body.appendChild(menu);
+      document.addEventListener("click", () => menu.remove(), { once: true });
+    });
+  });
+});
+</script>
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";
@@ -1410,6 +1625,19 @@ x           |        3.89 | 0.48 | [ 2.95,  4.82] |   8.15 | &lt; .001</code></p
   });
   </script>
 </div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p><i class="fa-brands fa-creative-commons" aria-label="creative-commons"></i> 2026 by <a href="https://www.andrewheiss.com">Andrew Heiss</a> | <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA</a> <i class="fa-brands fa-creative-commons-by" aria-label="creative-commons-by"></i> <i class="fa-brands fa-creative-commons-sa" aria-label="creative-commons-sa"></i></p>
+</div>   
+    <div class="nav-footer-center">
+<p><img src="img/confounder-xy.svg" class="dag-footer img-fluid" style="width:8.0%"></p>
+<div class="toc-actions d-sm-block d-md-none"><ul><li><a href="https://github.com/andrewheiss/interactive-dags/blob/main/adjustment.qmd" class="toc-action"><i class="bi bi-github"></i>View source</a></li><li><a href="https://github.com/andrewheiss/interactive-dags/issues/new" class="toc-action"><i class="bi empty"></i>Report an issue</a></li></ul></div></div>
+    <div class="nav-footer-right">
+<p>Made with <i class="fa-brands fa-r-project" aria-label="r-project"></i> and <a href="https://quarto.org/">Quarto</a></p>
+</div>
+  </div>
+</footer>
 
 
 
