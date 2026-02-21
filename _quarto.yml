@@ -12,7 +12,7 @@ execute:
   freeze: auto
 
 website:
-  title: "DAGs"
+  title: "The DAG Almanac"
 
   site-url: ""
   favicon: "img/favicon.png"

@@ -166,6 +166,7 @@ img.dag-footer {
   }
 }
 
+// -----------------------------------------------------------------------------
 // Hero stuff
 
 // Remove top spacing so hero sits flush against navbar
@@ -180,7 +181,7 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
   }
 }
 
-// Hero image section
+// Hero image section (standalone image, not the banner)
 .hero-image {
   margin: 0;
   padding: 0;
@@ -200,25 +201,56 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
   }
 }
 
-// Dark hero banner with page title
+// Banner with page title
 .hero-banner {
-  background-color: $brand-burgundy;
+  position: relative;
+  background: linear-gradient(to bottom, $brand-rust, $brand-burgundy);
   color: #ffffff;
   text-align: center;
-  padding: 4rem 1rem;
+  padding: 3rem 1rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("img/banner-transparent.svg") center / cover;
+    mask-image: linear-gradient(to bottom, transparent 5%, #000000 35%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 5%, #000000 35%);
+    pointer-events: none;
+  }
 
   h1 {
+    position: relative;
     font-weight: 700;
-    margin-bottom: 1rem;
+    font-size: 2em;
+    margin-bottom: 1em;
     color: #ffffff;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 1);
   }
 
   p {
-    font-size: 1.4rem;
-    color: rgba(255, 255, 255, 0.85);
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
+    font-size: 1.7em;
+    line-height: 1.3;
+    color: $brand-silver;
+  }
+
+  &.main-title {
+    h1 {
+      font-size: 2.8em;
+    }
+
+    p {
+      position: relative;
+      box-shadow: 0 0 10px #000;
+      background-color: $brand-burgundy;
+      border-radius: 0.25rem;
+      padding: 0.25em;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 
   &-mini {

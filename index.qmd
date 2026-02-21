@@ -1,9 +1,15 @@
 ---
-title: "Interactive DAGs"
+title: "The DAG Lab"
 ---
 
+:::: {.column-screen .hero-banner .main-title}
+
+# The DAG Almanac
+
+A practical field guide to causal graphs, *do*&#8209;calculus, and identification
+
+::::
+
 <hr class="dinkus">
 
-blah blah blah
-
-<hr class="dinkus">
+blah blah blah put general intro stuff here eventually
