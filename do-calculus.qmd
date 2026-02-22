@@ -14,7 +14,7 @@ crossref:
 
 # *do*-calculus
 
-$P(y \mid do(x)) \;\leadsto\; P(y \mid x)$
+$P(y \mid \operatorname{do}(x)) \;\leadsto\; P(y \mid x)$
 
 ::: {.banner-description}
 How to convert interventions to observations with the rules of *do*&#8209;calculus

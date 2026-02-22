@@ -77,7 +77,9 @@ When we can't do experiments with social phenomena, **directed acyclic graphs (D
 ::: {.card-body}
 [*do*-calculus](do-calculus.qmd){.btn .btn-primary .btn-lg}
 
-How to convert interventions to observations with the rules of *do*&#8209;calculus
+**How to convert interventions to observations with the rules of *do*&#8209;calculus**
+
+Learn how to derive the backdoor and front-door adjustment formulas and understand the logic behind converting $\operatorname{do}(\cdot)$ terms to regular observational variables
 :::
 
 ::::
@@ -89,7 +91,10 @@ How to convert interventions to observations with the rules of *do*&#8209;calcul
 ::: {.card-body}
 [How to adjust](adjustment.qmd){.btn .btn-primary .btn-lg}
 
-How to implement backdoor and front-door adjustment with R
+**How to implement backdoor and front-door adjustment with R**
+
+- Learn how to use stratification, regression adjustment, matching, inverse probability weighting, and G-computation to close backdoor paths
+- See how to use front-door adjustment to combine intermediate causal estimates to get around unobserved confounding
 :::
 
 ::::
