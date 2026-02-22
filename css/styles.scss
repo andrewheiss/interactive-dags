@@ -1,6 +1,5 @@
 /*-- scss:defaults --*/
 
-
 /*-- scss:rules --*/
 
 // Bootstrap hardcodes dark text on .btn-secondary and .btn-light regardless of
@@ -9,6 +8,40 @@
 .btn-secondary,
 .btn-outline-secondary {
   color: var(--bs-btn-color);
+}
+
+// Better hover contrast for .btn-primary - shift to mustard instead of slightly
+// darker rust, which is hardly visible
+.btn-primary {
+  &:hover,
+  &:active,
+  &:focus-visible {
+    background-color: $brand-mustard;
+    border-color: $brand-mustard;
+  }
+}
+
+body.home {
+  h2 {
+    text-align: center;
+
+    // The little anchored link icon messes with the centered alignment; 
+    // this makes the icon not get included in the heading text block
+    &.anchored {
+      .anchorjs-link {
+        display: inline-block;
+        position: absolute;
+      }
+    }
+  }
+
+  .epigraph {
+    blockquote {
+      border-left: 0;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
 }
 
 // -----------------------------------------------------------------------------
@@ -34,7 +67,7 @@ form:has(input[type="checkbox"]) {
   }
 }
 
-// Hide the code-copy button when the code itself is hidden (OJS inputs like 
+// Hide the code-copy button when the code itself is hidden (OJS inputs like
 // to include the copy button??)
 .code-copy-outer-scaffold:has(.cell-code.hidden) .code-copy-button {
   display: none;
@@ -134,7 +167,7 @@ hr.dinkus {
 // Modify the colors of the SVG DAG icons
 img.dag-white {
   // invert(1) switches the black SVG to white
-  // Use something like https://codepen.io/sosuke/pen/Pjoqqp to create 
+  // Use something like https://codepen.io/sosuke/pen/Pjoqqp to create
   // filters for other colors hex colors
   filter: invert(1);
   opacity: 0.85;
@@ -143,6 +176,10 @@ img.dag-white {
 img.dag-footer {
   // This filter is #616161 via https://codepen.io/sosuke/pen/Pjoqqp
   filter: invert(37%) sepia(0%) saturate(0%) hue-rotate(290deg) brightness(100%) contrast(92%);
+}
+
+img.dag-steel {
+  filter: invert(36%) sepia(14%) saturate(562%) hue-rotate(192deg) brightness(98%) contrast(85%);
 }
 
 // Shrink KaTeX math a little so it fits in the text better
@@ -160,7 +197,7 @@ img.dag-footer {
 .general-note {
   @extend .alert;
   @extend .alert-danger;
-  
+
   p:last-child {
     margin-bottom: 0;
   }
@@ -210,7 +247,7 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
   padding: 3rem 1rem;
 
   &::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: 0;
     background: url("img/banner-transparent.svg") center / cover;
@@ -241,8 +278,9 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
       font-size: 2.8em;
     }
 
-    p {
+    .banner-subtitle p {
       position: relative;
+      color: #ffffff;
       box-shadow: 0 0 10px #000;
       background-color: $brand-burgundy;
       border-radius: 0.25rem;
@@ -257,6 +295,17 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
     @extend .hero-banner;
     padding: 1rem 1rem;
     margin-bottom: 3rem;
+
+    .banner-description p {
+      position: relative;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 1);
+      font-size: 1.4em;
+      padding: 0.25em;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
   }
 }
 
@@ -270,6 +319,7 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
 
 // Footer center section stuff
 .nav-footer .nav-footer-center {
+
   // Override Quarto's large margin-top on narrow screens
   @media (max-width: 767.98px) {
     margin-top: 0;
@@ -293,6 +343,18 @@ body:has(.hero-banner, .hero-banner-mini) #quarto-content main.content {
         margin: 0;
         padding: 0;
       }
+    }
+  }
+}
+
+.home-cards {
+  // Responsive DAG thumbnail size: smaller when cards are full-width (xs),
+  // larger when they're in a 3-column grid (sm+)
+  img.card-dag {
+    width: 28%;
+
+    @include media-breakpoint-up(sm) {
+      width: 50%;
     }
   }
 }

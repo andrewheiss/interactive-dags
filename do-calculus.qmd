@@ -10,13 +10,17 @@ crossref:
   lem-prefix: Simplified Rule
 ---
 
-::: {.column-screen .hero-banner-mini}
+:::: {.column-screen .hero-banner-mini}
 
 # *do*-calculus
 
-do(•)
+$P(y \mid do(x)) \;\leadsto\; P(y \mid x)$
 
+::: {.banner-description}
+How to convert interventions to observations with the rules of *do*&#8209;calculus
 :::
+
+::::
 
 ```{r}
 #| label: tikz-setup
@@ -47,6 +51,41 @@ TODO: Add citations to Pearl and others from my blog post
 
 
 Pearl's *do*-calculus provides a set of algebraic rules for eliminating interventional $\operatorname{do}(\cdot)$ operators from causal expressions, allowing us to estimate causal effects from observational data.
+
+
+$$
+{\large
+  {\color{gray}
+    \overbrace{
+      \underset{
+        \substack{\textbf{Interventional} \\[3pt] \text{``Causation"}}
+      }{{\color{black}\mathbf{E}(y \mid \operatorname{do}(x))\vphantom{\frac{1}{1}}}}
+    }^{
+      \mathclap{\small\substack{
+        \text{The average} \\
+        \text{population-level} \\
+        \text{change in } y \text{ when} \\
+        \textit{directly setting } x
+      }}
+    }
+  }
+  \quad \underset{\color{gray}\textit{\footnotesize(usually)}}{\neq} \quad
+  {\color{gray}
+    \overbrace{
+      \underset{
+        \substack{\textbf{Observational} \\[3pt] \text{``Correlation"}}
+      }{{\color{black}\mathbf{E}(y \mid x)\vphantom{\frac{1}{1}}}}
+    }^{
+      \mathclap{\small\substack{
+        \text{The average} \\
+        \text{population-level} \\
+        \text{change in } y \text{ when} \\
+        \textit{passively observing } x
+      }}
+    }
+  }
+}
+$$
 
 ## Important notation for graph surgery
 

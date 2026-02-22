@@ -5,13 +5,17 @@ toc-depth: 4
 toc-expand: 2
 ---
 
-::: {.column-screen .hero-banner-mini}
+:::: {.column-screen .hero-banner-mini}
 
 # How to adjust
 
-{{< fa door-open >}} 
+{{< fa door-open >}}
 
+::: {.banner-description}
+How to implement backdoor and front-door adjustment with R
 :::
+
+::::
 
 ```{r}
 #| label: tikz-setup

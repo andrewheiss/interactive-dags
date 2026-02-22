@@ -1,15 +1,97 @@
 ---
-title: "The DAG Lab"
+title: "The DAG Almanac"
+body-classes: "home"
 ---
 
 :::: {.column-screen .hero-banner .main-title}
 
 # The DAG Almanac
 
+
+::: {.banner-subtitle}
 A practical field guide to causal graphs, *do*&#8209;calculus, and identification
+:::
 
 ::::
 
 <hr class="dinkus">
 
-blah blah blah put general intro stuff here eventually
+::::: {.grid}
+
+:::: {.g-col-12 .g-col-sm-8 .g-start-sm-3}
+
+```{=html}
+<figure class="epigraph">
+  <blockquote class="blockquote fs-3">
+    <p>“Correlation ≠ causation”</p>
+  </blockquote>
+  <figcaption class="blockquote-footer text-end fs-5">
+    Every introductory statistics class ever
+  </figcaption>
+</figure>
+```
+
+::::
+
+:::::
+
+We all know that correlation isn't causation. But in practice, we actually really care about causal effects! Does a social program work? Does a vaccine improve public health? Does a policy have an effect on poverty?
+
+When we can't do experiments with social phenomena, **directed acyclic graphs (DAGs)** let us visually map out the causal path between a treatment and an outcome, and ***do*-calculus** provides logic for extracting causal estimates from observational data.
+
+<hr class="dinkus">
+
+
+## Interactive visualizations
+
+:::: {.grid .home-cards}
+
+::: {.g-col-12 .g-col-sm-4 .card .text-center .p-2}
+[![](img/confounder-xy.svg){.card-dag .dag-steel fig-align="center"}](confounders.qmd)
+
+[Confounders](confounders.qmd){.btn .btn-primary .btn-lg}
+:::
+
+::: {.g-col-12 .g-col-sm-4 .card .text-center .p-2}
+[![](img/mediator-xy.svg){.card-dag .dag-steel fig-align="center"}](mediators.qmd)
+
+[Mediators](mediators.qmd){.btn .btn-primary .btn-lg}
+:::
+
+::: {.g-col-12 .g-col-sm-4 .card .text-center .p-2}
+[![](img/collider-xy.svg){.card-dag .dag-steel fig-align="center"}](colliders.qmd)
+
+[Colliders](colliders.qmd){.btn .btn-primary .btn-lg}
+:::
+
+::::
+
+## Guides
+
+::::: {.grid}
+
+:::: {.card .text-center .g-col-12 .g-col-sm-6}
+
+[![](img/card_do-calculus.svg){.card-img-top}](do-calculus.qmd)
+
+::: {.card-body}
+[*do*-calculus](do-calculus.qmd){.btn .btn-primary .btn-lg}
+
+How to convert interventions to observations with the rules of *do*&#8209;calculus
+:::
+
+::::
+
+:::: {.card .text-center .g-col-12 .g-col-sm-6}
+
+[![](img/card_adjustment.svg){.card-img-top}](adjustment.qmd)
+
+::: {.card-body}
+[How to adjust](adjustment.qmd){.btn .btn-primary .btn-lg}
+
+How to implement backdoor and front-door adjustment with R
+:::
+
+::::
+
+:::::
