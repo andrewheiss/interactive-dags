@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.16">
+<meta name="generator" content="quarto-1.9.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>The DAG Lab – The DAG Almanac</title>
+<title>The DAG Almanac</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -38,14 +41,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-82d683e9f830cba069e3fb8cbfbea53b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-076ecbd647e1f0418c5051713cd9b730.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-cc61759d1eeca397c1a23a1a0b7213e3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-076ecbd647e1f0418c5051713cd9b730.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1cc2a55063363f12fe07793da04d685d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-615b82b81c0e606c91a4e702e3543cca.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-1cc2a55063363f12fe07793da04d685d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6c9f825ed49533ae910cafafb5e3e0a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-d41c9e44dc5e425401db68ccc3928cfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6c9f825ed49533ae910cafafb5e3e0a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -77,18 +80,18 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<meta property="og:title" content="The DAG Lab – The DAG Almanac">
+<meta property="og:title" content="The DAG Almanac">
 <meta property="og:description" content="">
 <meta property="og:image" content="https://dags.andrewheiss.com/img/preview.png">
 <meta property="og:site_name" content="The DAG Almanac">
 <meta property="og:locale" content="en_US">
-<meta name="twitter:title" content="The DAG Lab – The DAG Almanac">
+<meta name="twitter:title" content="The DAG Almanac">
 <meta name="twitter:description" content="">
 <meta name="twitter:image" content="https://dags.andrewheiss.com/img/preview.png">
 <meta name="twitter:card" content="summary_large_image">
 </head>
 
-<body class="nav-fixed fullcontent quarto-light">
+<body class="nav-fixed home fullcontent quarto-light">
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -156,7 +159,7 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">The DAG Lab</h1>
+<h1 class="title">The DAG Almanac</h1>
 </div>
 
 
@@ -175,12 +178,76 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="the-dag-almanac" class="level1 column-screen hero-banner main-title">
 <h1>The DAG Almanac</h1>
+<div class="banner-subtitle">
 <p>A practical field guide to causal graphs, <em>do</em>‑calculus, and identification</p>
+</div>
 </section>
 <hr class="dinkus">
-<p>blah blah blah put general intro stuff here eventually</p>
+<div class="grid">
+<div class="g-col-12 g-col-sm-8 g-start-sm-3">
+<figure class="epigraph figure">
+  <blockquote class="blockquote fs-3">
+    <p>“Correlation ≠ causation”</p>
+  </blockquote>
+  <figcaption class="blockquote-footer text-end fs-5">
+    Every introductory statistics class ever
+  </figcaption>
+</figure>
+</div>
+</div>
+<p>We all know that correlation isn’t causation. But in practice, we actually really care about causal effects! Does a social program work? Does a vaccine improve public health? Does a policy have an effect on poverty?</p>
+<p>When we can’t do experiments with social phenomena, <strong>directed acyclic graphs (DAGs)</strong> let us visually map out the causal path between a treatment and an outcome, and <strong><em>do</em>-calculus</strong> provides logic for extracting causal estimates from observational data.</p>
+<hr class="dinkus">
+<section id="interactive-visualizations" class="level2">
+<h2 class="anchored" data-anchor-id="interactive-visualizations">Interactive visualizations</h2>
+<div class="grid home-cards">
+<div class="g-col-12 g-col-sm-4 card text-center p-2">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./confounders.html"><img src="img/confounder-xy.svg" class="card-dag dag-steel img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p><a href="./confounders.html" class="btn btn-primary btn-lg">Confounders</a></p>
+</div>
+<div class="g-col-12 g-col-sm-4 card text-center p-2">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./mediators.html"><img src="img/mediator-xy.svg" class="card-dag dag-steel img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p><a href="./mediators.html" class="btn btn-primary btn-lg">Mediators</a></p>
+</div>
+<div class="g-col-12 g-col-sm-4 card text-center p-2">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="./colliders.html"><img src="img/collider-xy.svg" class="card-dag dag-steel img-fluid quarto-figure quarto-figure-center figure-img"></a></p>
+</figure>
+</div>
+<p><a href="./colliders.html" class="btn btn-primary btn-lg">Colliders</a></p>
+</div>
+</div>
+</section>
+<section id="guides" class="level2">
+<h2 class="anchored" data-anchor-id="guides">Guides</h2>
+<div class="grid">
+<div class="card text-center g-col-12 g-col-sm-6">
+<p><a href="./do-calculus.html"><img src="img/card_do-calculus.svg" class="card-img-top img-fluid"></a></p>
+<div class="card-body">
+<p><a href="./do-calculus.html" class="btn btn-primary btn-lg"><em>do</em>-calculus</a></p>
+<p>How to convert interventions to observations with the rules of <em>do</em>‑calculus</p>
+</div>
+</div>
+<div class="card text-center g-col-12 g-col-sm-6">
+<p><a href="./adjustment.html"><img src="img/card_adjustment.svg" class="card-img-top img-fluid"></a></p>
+<div class="card-body">
+<p><a href="./adjustment.html" class="btn btn-primary btn-lg">How to adjust</a></p>
+<p>How to implement backdoor and front-door adjustment with R</p>
+</div>
+</div>
+</div>
 
 
+</section>
 
 </main> <!-- /main -->
 <!-- 

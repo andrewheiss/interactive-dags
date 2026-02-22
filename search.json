@@ -11,7 +11,7 @@
     "href": "do-calculus.html",
     "title": "do-calculus",
     "section": "",
-    "text": "do(•)\nTODO: Add citations to Pearl and others from my blog post\nPearl’s do-calculus provides a set of algebraic rules for eliminating interventional \\operatorname{do}(\\cdot) operators from causal expressions, allowing us to estimate causal effects from observational data."
+    "text": "P(y \\mid do(x)) \\;\\leadsto\\; P(y \\mid x)\n\nHow to convert interventions to observations with the rules of do‑calculus\nTODO: Add citations to Pearl and others from my blog post\nPearl’s do-calculus provides a set of algebraic rules for eliminating interventional \\operatorname{do}(\\cdot) operators from causal expressions, allowing us to estimate causal effects from observational data.\n{\\large\n  {\\color{gray}\n    \\overbrace{\n      \\underset{\n        \\substack{\\textbf{Interventional} \\\\[3pt] \\text{``Causation\"}}\n      }{{\\color{black}\\mathbf{E}(y \\mid \\operatorname{do}(x))\\vphantom{\\frac{1}{1}}}}\n    }^{\n      \\mathclap{\\small\\substack{\n        \\text{The average} \\\\\n        \\text{population-level} \\\\\n        \\text{change in } y \\text{ when} \\\\\n        \\textit{directly setting } x\n      }}\n    }\n  }\n  \\quad \\underset{\\color{gray}\\textit{\\footnotesize(usually)}}{\\neq} \\quad\n  {\\color{gray}\n    \\overbrace{\n      \\underset{\n        \\substack{\\textbf{Observational} \\\\[3pt] \\text{``Correlation\"}}\n      }{{\\color{black}\\mathbf{E}(y \\mid x)\\vphantom{\\frac{1}{1}}}}\n    }^{\n      \\mathclap{\\small\\substack{\n        \\text{The average} \\\\\n        \\text{population-level} \\\\\n        \\text{change in } y \\text{ when} \\\\\n        \\textit{passively observing } x\n      }}\n    }\n  }\n}"
   },
   {
     "objectID": "do-calculus.html#important-notation-for-graph-surgery",
@@ -60,7 +60,7 @@
     "href": "adjustment.html",
     "title": "How to adjust",
     "section": "",
-    "text": "Conditioning can be explicit, like including a variable in a model. This is often called “adjusting.”\nConditioning can also be implicit, like collecting data only about one part of the population, which sneakily builds it into the data and can create collider bias."
+    "text": "How to implement backdoor and front-door adjustment with R\nConditioning can be explicit, like including a variable in a model. This is often called “adjusting.”\nConditioning can also be implicit, like collecting data only about one part of the population, which sneakily builds it into the data and can create collider bias."
   },
   {
     "objectID": "adjustment.html#backdoor-adjustment",
@@ -93,8 +93,22 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "The DAG Lab",
+    "title": "The DAG Almanac",
     "section": "",
-    "text": "The DAG Almanac\nA practical field guide to causal graphs, do‑calculus, and identification\n\n\nblah blah blah put general intro stuff here eventually"
+    "text": "A practical field guide to causal graphs, do‑calculus, and identification\nWe all know that correlation isn’t causation. But in practice, we actually really care about causal effects! Does a social program work? Does a vaccine improve public health? Does a policy have an effect on poverty?\nWhen we can’t do experiments with social phenomena, directed acyclic graphs (DAGs) let us visually map out the causal path between a treatment and an outcome, and do-calculus provides logic for extracting causal estimates from observational data."
+  },
+  {
+    "objectID": "index.html#interactive-visualizations",
+    "href": "index.html#interactive-visualizations",
+    "title": "The DAG Almanac",
+    "section": "Interactive visualizations",
+    "text": "Interactive visualizations\n\n\n\n\n\n\n\nConfounders\n\n\n\n\n\n\n\nMediators\n\n\n\n\n\n\n\nColliders"
+  },
+  {
+    "objectID": "index.html#guides",
+    "href": "index.html#guides",
+    "title": "The DAG Almanac",
+    "section": "Guides",
+    "text": "Guides\n\n\n\n\ndo-calculus\nHow to convert interventions to observations with the rules of do‑calculus\n\n\n\n\n\nHow to adjust\nHow to implement backdoor and front-door adjustment with R"
   }
 ]

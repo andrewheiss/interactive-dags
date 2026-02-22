@@ -2,13 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.16">
+<meta name="generator" content="quarto-1.9.23">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
 <title>How to adjust – The DAG Almanac</title>
 <style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
 div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -73,14 +76,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-82d683e9f830cba069e3fb8cbfbea53b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-a67ac2868200dddf7a4f0e3ae403775c.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-076ecbd647e1f0418c5051713cd9b730.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-cc61759d1eeca397c1a23a1a0b7213e3.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-076ecbd647e1f0418c5051713cd9b730.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-1cc2a55063363f12fe07793da04d685d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-615b82b81c0e606c91a4e702e3543cca.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-1cc2a55063363f12fe07793da04d685d.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6c9f825ed49533ae910cafafb5e3e0a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-d41c9e44dc5e425401db68ccc3928cfb.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-6c9f825ed49533ae910cafafb5e3e0a0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/all.min.css" rel="stylesheet">
 <link href="site_libs/quarto-contrib/fontawesome6-6.7.2/latex-fontsize.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
@@ -287,6 +290,9 @@ window.Quarto = {
 <section id="how-to-adjust" class="level1 column-screen hero-banner-mini">
 <h1>How to adjust</h1>
 <p><i class="fa-solid fa-door-open" aria-label="door-open"></i></p>
+<div class="banner-description">
+<p>How to implement backdoor and front-door adjustment with R</p>
+</div>
 </section>
 <div class="general-note fs-5">
 <p>In general “conditioning on” a variable means somehow considering it in the estimate of the relationship between X and Y.</p>
@@ -361,7 +367,7 @@ window.Quarto = {
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-both-dags" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-both-dags">
-<div id="fig-dag-tikz" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="95%">
+<div id="fig-dag-tikz" class="quarto-float quarto-figure quarto-figure-center anchored" width="95%" data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-dag-tikz-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="adjustment_files/figure-html/fig-dag-tikz-1.svg" id="fig-dag-tikz" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" style="width:95.0%" data-ref-parent="fig-both-dags">
@@ -872,7 +878,7 @@ Comparison: 1 - 0</code></pre>
 <div class="quarto-layout-row quarto-layout-valign-center">
 <div class="cell quarto-layout-cell-subref quarto-layout-cell" data-extra.preamble="[&quot;\usepackage{libertine}&quot;,&quot;\usepackage{libertinust1math}&quot;,&quot;\usepackage{positioning}&quot;]" data-ref-parent="fig-both-dags-frontdoor" style="flex-basis: 50.0%;justify-content: flex-start;">
 <div class="cell-output-display quarto-layout-cell-subref" data-ref-parent="fig-both-dags-frontdoor">
-<div id="fig-frontdoor-dag" class="quarto-float quarto-figure quarto-figure-center anchored" data-fig-align="center" width="672">
+<div id="fig-frontdoor-dag" class="quarto-float quarto-figure quarto-figure-center anchored" width="672" data-fig-align="center">
 <figure class="quarto-float quarto-subfloat-fig figure">
 <div aria-describedby="fig-frontdoor-dag-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <img src="adjustment_files/figure-html/fig-frontdoor-dag-1.svg" id="fig-frontdoor-dag" class="img-fluid quarto-figure quarto-figure-center anchored figure-img" data-ref-parent="fig-both-dags-frontdoor" width="672">
